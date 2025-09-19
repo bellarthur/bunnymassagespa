@@ -1299,8 +1299,8 @@ useEffect(() => {
       timeError = "Please enter a preferred time."
     } else if (selectedDate) {
       const dayOfWeek = selectedDate.getDay()
-      const [openHour, openMinute] = dayOfWeek === 5 || dayOfWeek === 6 ? [8, 30] : [7, 0]
-      const [closeHour, closeMinute] = [22, 0]
+      const [openHour, openMinute] = [7, 0];   // Opens at 7:00 AM every day
+      const [closeHour, closeMinute] = [24, 0]; // Closes at 12:00 AM (midnight)
 
       const [hour, minute] = formData.time.split(":").map(Number)
 
@@ -1311,6 +1311,7 @@ useEffect(() => {
       if (chosenMinutes < openMinutes || chosenMinutes > closeMinutes) {
         timeError = `Please select a time between ${String(openHour).padStart(2, "0")}:${String(
           openMinute
+
         ).padStart(2, "0")} and ${String(closeHour).padStart(2, "0")}:${String(closeMinute).padStart(2, "0")}.`
       }
     }
@@ -1509,8 +1510,12 @@ useEffect(() => {
                         name="time"
                         value={formData.time}
                         onChange={handleInputChange}
+                        step="900" // 15-minute intervals
+                        min="07:00"
+                        max="24:00"
                         className="w-full px-4 py-3 bg-white/10 rounded-xl text-white border border-white/20 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/40 transition"
                       />
+
                       {errors.time && (
                         <p className="text-xs text-destructive mt-2">{errors.time}</p>
                       )}
@@ -1630,8 +1635,14 @@ useEffect(() => {
                             service: formData.service,
                           }))
                         }
+                        const formattedTime = new Date(`1970-01-01T${formData.time}`).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        });
 
-                          const message = `Hi, I'd like to book a session for ${formData.service} on ${formData.date} at ${formData.time}.
+                        const message = `Hi, I'd like to book a session for ${formData.service} on ${formData.date} at ${formattedTime}.
+
                         
           Name: ${formData.name}
           Email: ${formData.email}
@@ -1665,8 +1676,13 @@ useEffect(() => {
                   <div className="bg-primary/20 text-primary-foreground p-6 rounded-xl space-y-2">
                     <p className="text-lg">Your booking is confirmed!</p>
                     <p className="text-sm">
-                      Date: {formData.date} at {formData.time}
+                      Date: {formData.date} at {new Date(`1970-01-01T${formData.time}`).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
                     </p>
+
                     <p className="text-sm">Service: {formData.service}</p>
                     <p className="text-sm">Name: {formData.name}</p>
                     <p className="text-sm">Email: {formData.email}</p>
