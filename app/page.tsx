@@ -4,7 +4,6 @@ export default function BunnySpaLanding() {
 
   return (
     <div className="min-h-screen bg-background">
-      <StickyNav />
       <HeroSection />
       <ServicesSection />
       <DiscountSection />
@@ -12,7 +11,6 @@ export default function BunnySpaLanding() {
       <BookingSection />
       <AboutSection />
       <FAQSection />
-      <Footer />
     </div>
   )
 }

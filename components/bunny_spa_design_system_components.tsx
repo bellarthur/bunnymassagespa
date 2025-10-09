@@ -1660,9 +1660,9 @@ useEffect(() => {
                         </div>
                       </ActionButton>
                     </div>
-                    <p className="text-center md:text-left text-sm text-accent">
+                    {/* <p className="text-center md:text-left text-sm text-">
                       Other booking options coming soon
-                    </p>
+                    </p> */}
                   </form>
                 </div>
               )}
