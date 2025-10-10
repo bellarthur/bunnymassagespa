@@ -504,13 +504,12 @@ export function HeroSection() {
             </p>
 
             <div className="flex gap-4 items-center mt-6 justify-center lg:justify-start">
-              <ElegantButton
-                className="!px-4 !py-2 !text-sm"
-                onClick={() => scrollToSection("booking")}
-              >
-                Book Now
-                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[sheen_3s_infinite]" />
+              <Link href="/appointment">
+              <ElegantButton className="!px-4 !py-2 !text-sm">
+              Book Now
+              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[sheen_3s_infinite]" />
               </ElegantButton>
+              </Link>
               <Link href="#services" className="text-white/90 underline-offset-4 hover:underline">
                 View Services
               </Link>
