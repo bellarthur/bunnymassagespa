@@ -1211,34 +1211,33 @@ function ActionButton({
 // ---- TODO: add a subtle red glow pulse around invalid inputs (so they gently attract attention even after the shake stops)-----
 export function BookingSection() {
   const [step, setStep] = useState(1)
-const [rememberMe, setRememberMe] = useState(true)
+  const [rememberMe, setRememberMe] = useState(true)
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    const storedService = localStorage.getItem("selectedService")
-    if (storedService) {
-      setFormData((prev) => ({ ...prev, service: storedService }))
-      localStorage.removeItem("selectedService") // optional: clear after prefill
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedService = localStorage.getItem("selectedService")
+      if (storedService) {
+        setFormData((prev) => ({ ...prev, service: storedService }))
+        localStorage.removeItem("selectedService") // optional: clear after prefill
+      }
     }
-  }
-}, [])
+  }, [])
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    const savedUser = localStorage.getItem("bookingUser")
-    if (savedUser) {
-      const user = JSON.parse(savedUser)
-      setFormData((prev) => ({
-        ...prev,
-        name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        service: user.service || "",
-      }))
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedUser = localStorage.getItem("bookingUser")
+      if (savedUser) {
+        const user = JSON.parse(savedUser)
+        setFormData((prev) => ({
+          ...prev,
+          name: user.name || "",
+          email: user.email || "",
+          phone: user.phone || "",
+          service: user.service || "",
+        }))
+      }
     }
-  }
-}, [])
-
+  }, [])
 
   interface FormData {
     name: string;
@@ -1324,23 +1323,15 @@ useEffect(() => {
 
   // ---------------- Validation for Step 2 ----------------
   const validateStep2 = () => {
-    let nameError = ""
-    let emailError = ""
     let serviceError = ""
 
-    if (!formData.name.trim()) nameError = "Please enter your full name."
-    if (!formData.email.trim()) {
-      emailError = "Please enter your email."
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      emailError = "Please enter a valid email address."
-    }
     if (!formData.service) serviceError = "Please select a service."
 
-    setErrors((prev) => ({ ...prev, name: nameError, email: emailError, service: serviceError }))
-    if (nameError || emailError || serviceError) {
+    setErrors((prev) => ({ ...prev, service: serviceError }))
+    if (serviceError) {
       triggerShake()
     }
-    return !nameError && !emailError && !serviceError
+    return !serviceError
   }
 
   // ---------------- Step Handlers ----------------
@@ -1534,7 +1525,7 @@ useEffect(() => {
                     {[
                       {
                         name: "name",
-                        label: "Full Name",
+                        label: "Name",
                         type: "text",
                         placeholder: "Jane Doe",
                       },
@@ -1548,7 +1539,7 @@ useEffect(() => {
                         name: "phone",
                         label: "Phone",
                         type: "tel",
-                        placeholder: "+1 234 567 8900",
+                        placeholder: "+233 55 000 0000",
                       },
                     ].map((field) => (
                       <div key={field.name}>
@@ -1640,17 +1631,25 @@ useEffect(() => {
                           hour12: true,
                         });
 
-                        const message = `Hi, I'd like to book a session for ${formData.service} on ${formData.date} at ${formattedTime}.
+                        let message = `Hi, I'd like to book a session for ${formData.service} on ${formData.date} at ${formattedTime}.\n\n`;
 
-                        
-          Name: ${formData.name}
-          Email: ${formData.email}
-          Phone: ${formData.phone}
-          Notes: ${formData.notes}`
-                          window.open(
-                            `https://wa.me/233247932681?text=${encodeURIComponent(message)}`,
-                            "_blank"
-                          )
+                        if (formData.name.trim()) {
+                          message += `Name: ${formData.name}\n`;
+                        }
+                        if (formData.email.trim()) {
+                          message += `Email: ${formData.email}\n`;
+                        }
+                        if (formData.phone.trim()) {
+                          message += `Phone: ${formData.phone}\n`;
+                        }
+                        if (formData.notes.trim()) {
+                          message += `Notes: ${formData.notes}`;
+                        }
+
+                        window.open(
+                          `https://wa.me/233247932681?text=${encodeURIComponent(message)}`,
+                          "_blank"
+                        )
                         }}
                         className="flex-1 !bg-green-600 hover:!bg-green-700"
                       >
@@ -1683,8 +1682,8 @@ useEffect(() => {
                     </p>
 
                     <p className="text-sm">Service: {formData.service}</p>
-                    <p className="text-sm">Name: {formData.name}</p>
-                    <p className="text-sm">Email: {formData.email}</p>
+                    <p className="text-sm">Name: {formData.name || "Not provided"}</p>
+                    <p className="text-sm">Email: {formData.email || "Not provided"}</p>
                     <p className="text-sm">
                       Phone: {formData.phone || "Not provided"}
                     </p>
@@ -1700,7 +1699,6 @@ useEffect(() => {
     </section>
   )
 }
-
 // -------------------- Footer --------------------------------------
 import { ElegantButton } from "./ui/elegant-button"
 import { Facebook, Instagram } from "lucide-react"
