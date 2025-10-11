@@ -33,18 +33,9 @@ const SERVICES = [
     price: "800",
     duration: "1 hour",
     description:
-      "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
+    "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
     image: "media/deep-tissue.webp",
     alt: "Close-up deep tissue massage",
-  },
-  {
-    name: "Swedish Massage",
-    price: "800",
-    duration: "1 hour",
-    description:
-      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
-    image: "media/swedish-massage.jpg",
-    alt: "Relaxing Swedish massage with oil",
   },
   {
     name: "Nuru Massage",
@@ -78,6 +69,15 @@ const SERVICES = [
     description: "Premium combination of techniques for complete rejuvenation.",
     image: "media/sweedish+nuru.jpg",
     alt: "Therapist combining massage techniques",
+  },
+  {
+    name: "Swedish Massage",
+    price: "800",
+    duration: "1 hour",
+    description:
+      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
+    image: "media/swedish-massage.jpg",
+    alt: "Relaxing Swedish massage with oil",
   },
   {
     name: "Couple Massage",
@@ -567,7 +567,7 @@ export function ServicesSection() {
     if (autoplayRef.current) clearInterval(autoplayRef.current)
     autoplayRef.current = setInterval(() => {
       setCurrent((prev) => (prev + 1) % total)
-    }, 8000)
+    }, 12000)
     return () => {
       if (autoplayRef.current) clearInterval(autoplayRef.current)
     }
@@ -587,7 +587,7 @@ export function ServicesSection() {
         left: cardWidth * nextIndex,
         behavior: "smooth",
       })
-    }, 8000)
+    }, 12000)
 
     return () => clearInterval(autoplay)
   }, [total, paused])
@@ -604,10 +604,10 @@ export function ServicesSection() {
   }, [])
 
   return (
-    <section id="services" className="py-20 bg-background/30">
+    <section id="services" className="pt-20 bg-background/30">
       <div className="container mx-auto px-6 relative">
         {/* Title */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-2">
             <span className="font-[var(--font-playfair)]">Our</span>
             <span style={{ fontFamily: "'Great Vibes', cursive" }} className="text-pink-300">
@@ -617,7 +617,7 @@ export function ServicesSection() {
           <p className="text-muted-foreground max-w-2xl mx-auto mt-4 text-lg">
             Explore our signature treatments designed for luxury, comfort, and deep relaxation.
           </p>
-        </div>
+        </div> */}
 
         {/* Carousel */}
         <div className="relative md:overflow-x-hidden">
@@ -633,8 +633,8 @@ export function ServicesSection() {
                 onMouseEnter={pauseAutoplay}
                 onMouseLeave={() => setPaused(false)}
               >
-                <div className="flex flex-col items-center text-center group">
-                  <div className="w-full aspect-[4/5] overflow-hidden rounded-2xl relative">
+                <div className="flex flex-col items-cente text-cente group">
+                  <div className="w-full aspect-[3/2] overflow-hidden rounded-2xl relative">
                     <motion.img
                       src={s.image}
                       alt={s.alt}
@@ -643,20 +643,19 @@ export function ServicesSection() {
                       transition={{ duration: 0.4 }}
                     />
                   </div>
-                  <div className="mt-6">
-                    <h3 className="text-xl font-semibold text-foreground">{s.name}</h3>
-                    <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
+                  <div className="w-full">
+                    <h3 className="text-2xl font-semibold text-foreground">{s.name}</h3>
+                    {/* <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
                       {s.description}
-                    </p>
-                    <div className="mt-4 text-foreground/90">
-                      <div className="font-medium">{s.duration}</div>
-                      <div className="text-lg font-bold text-primary">₵{s.price}</div>
+                    </p> */}
+                    <div className="text-foreground/90">
+                      <div>{s.duration}</div>
+                      {/* <div className="text-lg font-bold text-primary">₵{s.price}</div> */}
                     </div>
-                    {/* <div className="mt-5">
-                      <ServiceButton>Book</ServiceButton>
-                    </div> */}
+                    <div className="flex items-center gap-3 mt-5">
+
                     <button
-                    className="px-4 py-2 mt-5 rounded-full bg-primary/90 text-white font-medium shadow-sm hover:bg-primary transition"
+                    className="px-4 py-2 rounded-full bg-primary text-white font-medium shadow-sm hover:bg-primary transition"
                       onClick={() => {
                       // Store selected service in localStorage
                       if (typeof window !== "undefined") {
@@ -677,8 +676,18 @@ export function ServicesSection() {
                       document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
                       }}
                     >
-                      Book
+                      Book Now
                     </button>
+                                         {/* <button
+                    className="px-4 py-2 mt-5 rounded-full bg-secondary font-medium shadow-sm hover:bg-primary transition"
+
+                    >
+                      Learn More
+                    </button> */}
+                     <Link href="#" className="text-white/90 underline-offset-4 font-medium hover:underline">
+                Learn More
+              </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -695,8 +704,8 @@ export function ServicesSection() {
                 key={s.name}
                 className="flex-none w-[85%] snap-center"
               >
-                <div className="flex flex-col items-center text-center group">
-                  <div className="w-full aspect-[4/5] overflow-hidden rounded-2xl relative">
+                <div className="flex flex-col group">
+                  <div className="w-full aspect-[3/2] overflow-hidden rounded-2xl relative">
                     <motion.img
                       src={s.image}
                       alt={s.alt}
@@ -705,20 +714,20 @@ export function ServicesSection() {
                       transition={{ duration: 0.2 }}
                     />
                   </div>
-                  <div className="mt-6">
+                  
+                  <div className="w-full">
                     <h3 className="text-xl font-semibold text-foreground">{s.name}</h3>
-                    <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
+                    {/* <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
                       {s.description}
-                    </p>
-                    <div className="mt-4 text-foreground/90">
-                      <div className="font-medium">{s.duration}</div>
-                      <div className="text-lg font-bold text-primary">₵{s.price}</div>
+                    </p> */}
+                    <div className="text-foreground/90">
+                      <div>{s.duration}</div>
+                      {/* <div className="text-lg font-bold text-primary">₵{s.price}</div> */}
                     </div>
-                    {/* <div className="mt-5">
-                      <ServiceButton>Book</ServiceButton>
-                    </div> */}
+                    <div className="flex items-center gap-3 mt-5 w-full">
+
                     <button
-                    className="px-4 py-2 mt-5 rounded-full bg-primary/90 text-white font-medium shadow-sm hover:bg-primary transition"
+                    className="px-4 py-2 rounded-full bg-primary text-white font-medium shadow-sm hover:bg-primary transition w-1/2"
                       onClick={() => {
                       // Store selected service in localStorage
                       if (typeof window !== "undefined") {
@@ -739,8 +748,15 @@ export function ServicesSection() {
                       document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
                       }}
                     >
-                      Book
+                      Book Now
                     </button>
+                    <div className="flex justify-center items-center w-1/2">
+
+                     <Link href="#" className="text-white/90 underline-offset-4 font-medium hover:underline">
+                Learn More
+              </Link>
+                    </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -748,7 +764,7 @@ export function ServicesSection() {
           </div>
 
           {/* Arrows for desktop */}
-          <button
+          {/* <button
             onClick={prev}
             className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 bg-background/70 hover:bg-background rounded-full p-2 shadow-md"
           >
@@ -759,15 +775,32 @@ export function ServicesSection() {
             className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 bg-background/70 hover:bg-background rounded-full p-2 shadow-md"
           >
             <ChevronRight className="w-6 h-6" />
-          </button>
+          </button> */}
         </div>
+        
+                  {/* Arrows for desktop */}
+                  <div className="flex items-center justify-center mt-12 gap-4">
+
+          <button
+            onClick={prev}
+            className="hidden md:flex bg-primary-foreground/25 rounded-full p-2 shadow-md"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={next}
+            className="hidden md:flex bg-primary-foreground/25 rounded-full p-2 shadow-md"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+                  </div>
 
         {/* Compare Link */}
-        <div className="mt-12 text-center">
+        {/* <div className="mt-12 text-center">
           <Link href="/compare-services" className="text-sm text-primary underline-offset-4 hover:underline">
             Compare all services
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   )
