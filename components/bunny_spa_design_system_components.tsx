@@ -1914,15 +1914,58 @@ export function Footer() {
       </div>
 
       {/* Back to Top Button */}
-            <button
+            {/* <button
         onClick={scrollToTop}
-        className={`fixed right-6 bottom-6 p-3 rounded-full bg-[#EC7F36] z-50 text-white shadow-lg transition-opacity duration-300 hover:bg-[#d86d2a] focus:outline-none focus:ring-2 focus:ring-[#EC7F36] focus:ring-opacity-50 ${
+        className={`fixed right-6 bottom-6 p-3 rounded-full bg- z-50 text-white shadow-lg transition-opacity duration-300 hover:bg- focus:outline-none focus:ring-2 focus:ring- focus:ring-opacity-50 ${
           isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-label="Back to top"
       >
         <ArrowUp className="h-5 w-5" />
-      </button>
+      </button> */}
+      {/* WhatsApp Floating Button */}
+{/* <a
+  href="https://wa.me/233247932681" // Replace with your actual number
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Chat on WhatsApp"
+  className={`fixed right-6 bottom-6 md:right-12 md:bottom-12 z-50 transition-opacity duration-300 ${
+    isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+  }`}
+>
+  <div className="p-3 rounded-full bg-green-500 hover:bg-green-600 shadow-lg shadow-green-800/40 transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
+    <img
+      src="/whatsapp.svg" // place your SVG file in the public folder
+      alt="WhatsApp"
+      className="h-7 w-7 invert brightness-0"
+    />
+  </div>
+</a> */}
+
+{/* WhatsApp Floating Button */}
+<a
+  href="https://wa.me/233247932681"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Chat on WhatsApp"
+  className={`fixed right-6 bottom-6 z-50 transition-opacity duration-300 ${
+    isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+  }`}
+>
+  <div
+    className="relative p-3 rounded-full bg-green-500 hover:bg-green-600 shadow-lg shadow-green-800/40 
+               transition-transform hover:scale-105 focus:outline-none focus:ring-2 
+               focus:ring-green-400 focus:ring-offset-2 animate-[pulseSoft_3s_ease-in-out_infinite]"
+  >
+    <img
+      src="/whatsapp.svg"
+      alt="WhatsApp"
+      className="h-6 w-6 invert brightness-0"
+    />
+  </div>
+</a>
+
+
     </footer>
   )
 }
