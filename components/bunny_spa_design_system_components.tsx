@@ -1703,9 +1703,10 @@ export function BookingSection() {
 import { ElegantButton } from "./ui/elegant-button"
 import { Facebook, Instagram } from "lucide-react"
 import { useTheme } from "@/lib/useTheme"
-import { serialize } from "v8"
+import { ArrowUp } from "lucide-react"
 
 export function Footer() {
+  const [isVisible, setIsVisible] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const navItems = [
     { name: "Home", href: "#home" },
@@ -1714,6 +1715,28 @@ export function Footer() {
     { name: "Booking", href: "#booking" },
   ]
   const todayIndex = new Date().getDay() // 0 = Sunday, 1 = Monday, ...
+
+    // Show button when page is scrolled down
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true)
+    } else {
+      setIsVisible(false)
+    }
+  }
+
+    // Set up scroll event listener
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisibility)
+    return () => window.removeEventListener("scroll", toggleVisibility)
+  }, [])
+
+    const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
 
   const openingHours = [
     { day: "Monday", hours: "07:00 – 22:00" },
@@ -1889,6 +1912,17 @@ export function Footer() {
           </button>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+            <button
+        onClick={scrollToTop}
+        className={`fixed right-6 bottom-6 p-3 rounded-full bg-[#EC7F36] z-50 text-white shadow-lg transition-opacity duration-300 hover:bg-[#d86d2a] focus:outline-none focus:ring-2 focus:ring-[#EC7F36] focus:ring-opacity-50 ${
+          isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        aria-label="Back to top"
+      >
+        <ArrowUp className="h-5 w-5" />
+      </button>
     </footer>
   )
 }
