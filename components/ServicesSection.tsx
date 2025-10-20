@@ -1,26 +1,17 @@
 "use client"
 
-import { motion } from "framer-motion"
 import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
 
-interface Service {
-  name: string
-  price: string
-  duration: string
-  description: string
-  image: string
-  alt: string
-}
-
-const services: Service[] = [
+const SERVICES = [
   {
     name: "Thai Massage",
     price: "800",
     duration: "40 mins",
     description:
-      "Authentic Thai stretching and pressure techniques to increase flexibility and relieve tension.",
-    image: "placeholder.svg",
-    alt: "Therapist performing Thai massage stretching client's neck",
+      "Traditional stretching and pressure techniques to relieve tension and restore mobility.",
+    image: "media/thai-massage-photo.jpg",
+    alt: "Therapist performing Thai massage",
   },
   {
     name: "Deep Tissue Massage",
@@ -28,128 +19,214 @@ const services: Service[] = [
     duration: "1 hour",
     description:
       "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
-    image: "placeholder.svg",
-    alt: "Hands applying firm massage strokes on back muscles",
+    image: "media/deep-tissue.webp",
+    alt: "Close-up deep tissue massage",
+  },
+  {
+    name: "Nuru Massage",
+    price: "1000",
+    duration: "1 hr 30 mins",
+    description:
+      "Luxurious skin-to-skin experience using premium gel for total relaxation.",
+    image: "media/nuru-massage.jpg",
+    alt: "Spa setup for Nuru massage",
+  },
+  {
+    name: "Sensual Massage",
+    price: "1000",
+    duration: "1 hr 30 mins",
+    description: "An intimate massage crafted to calm the senses and restore balance.",
+    image: "media/sensual-massage.jpg",
+    alt: "Dimly-lit sensual massage setting",
+  },
+  {
+    name: "Erotic Massage",
+    price: "1000",
+    duration: "1 hr 30 mins",
+    description: "A focused experience designed for pleasure and deep relaxation.",
+    image: "media/erotic-massage.avif",
+    alt: "Candles and warm lighting around massage table",
+  },
+  {
+    name: "Swedish/Deep Tissue Nuru",
+    price: "1500",
+    duration: "1 hr 30 mins",
+    description: "Premium combination of techniques for complete rejuvenation.",
+    image: "media/sweedish+nuru.jpg",
+    alt: "Therapist combining massage techniques",
   },
   {
     name: "Swedish Massage",
     price: "800",
     duration: "1 hour",
     description:
-      "Gentle flowing strokes and kneading to relax your body, ease stress, and enhance circulation.",
-    image: "placeholder.svg",
-    alt: "Client enjoying a relaxing oil-based massage",
+      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
+    image: "media/swedish-massage.jpg",
+    alt: "Relaxing Swedish massage with oil",
   },
   {
-    name: "Nuru Massage",
-    price: "1,000",
+    name: "Couple Massage",
+    price: "1600",
     duration: "1 hr 30 mins",
-    description:
-      "Deeply indulgent, skin-to-skin body massage using premium Nuru gel for total relaxation.",
-    image: "placeholder.svg",
-    alt: "Spa setup for Nuru massage with gel close-up",
-  },
-  {
-    name: "Sensual Massage",
-    price: "1,000",
-    duration: "1 hr 30 mins",
-    description:
-      "An intimate massage crafted to calm the senses and create profound relaxation.",
-    image: "placeholder.svg",
-    alt: "Dimly-lit spa setting for sensual massage",
-  },
-  {
-    name: "Erotic Massage",
-    price: "1,000",
-    duration: "1 hr 30 mins",
-    description:
-      "An intimate, tension-melting experience designed to rejuvenate and restore.",
-    image: "placeholder.svg",
-    alt: "Candles around a massage table for intimate ambiance",
-  },
-  {
-    name: "Swedish/Deep Tissue Nuru",
-    price: "1,500",
-    duration: "1 hr 30 mins",
-    description:
-      "Masterfully blends Swedish, Deep Tissue, and Nuru for the ultimate revitalizing massage.",
-    image: "placeholder.svg",
-    alt: "Therapist performing combined massage techniques",
-  },
-  {
-    name: "Couple Massage ❤️",
-    price: "1,600",
-    duration: "1 hr 30 mins",
-    description:
-      "Shared massage experience tailored for couples to connect, relax, and unwind together.",
-    image: "placeholder.svg",
+    description: "Side-by-side relaxation for two — reconnect and unwind together.",
+    image: "media/couple-massage.jpg",
     alt: "Couple receiving side-by-side massages",
   },
 ]
 
-export default function ServicesSection() {
-  return (
-    <section id="services" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-12 fade-in-up">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-2">
-            Our Services
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Enjoy rejuvenation and relaxation in the comfort of your home with
-            our tailored massage experiences.
-          </p>
-        </div>
+const SERVICE_SLUGS: { [key: string]: string } = {
+  "Thai Massage": "thai-massage",
+  "Deep Tissue Massage": "deep-tissue",
+  "Swedish Massage": "swedish",
+  "Nuru Massage": "nuru",
+  "Sensual Massage": "sensual",
+  "Erotic Massage": "erotic",
+  "Swedish/Deep Tissue Nuru": "swedish-nuru",
+  "Couple Massage": "couples",
+}
 
-        {/* Services Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {services.slice(0, 6).map((service, index) => (
-            <motion.div
-              key={index}
-              className="bg-card/60 rounded-sm shadow-lg overflow-hidden backdrop-blur-sm"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
+
+
+export function ServicesSection({ services = SERVICES }) {
+  const [current, setCurrent] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [translate, setTranslate] = useState(0)
+  const [slideWidth, setSlideWidth] = useState(0)
+  const trackRef = useRef<HTMLDivElement | null>(null)
+  const autoplayRef = useRef<number | null>(null)
+  const gap = 24
+
+  useEffect(() => {
+    function measureWidth() {
+      if (!trackRef.current) return
+      const first = trackRef.current.querySelector(".carousel-slide") as HTMLElement | null
+      if (!first) return
+      const style = getComputedStyle(first)
+      const w = first.getBoundingClientRect().width
+      const mr = parseFloat(style.marginRight || "0")
+      setSlideWidth(Math.round(w + mr))
+    }
+    measureWidth()
+    window.addEventListener("resize", measureWidth)
+    return () => window.removeEventListener("resize", measureWidth)
+  }, [])
+
+  // useEffect(() => {
+  //   const id = window.setInterval(() => setCurrent((c) => (c + 1) % services.length), 1200000)
+  //   autoplayRef.current = id
+  //   return () => window.clearInterval(id)
+  // }, [services.length])
+
+  const goTo = (index: number) =>
+    setCurrent(((index % services.length) + services.length) % services.length)
+  const prev = () => goTo(current - 1)
+  const next = () => goTo(current + 1)
+
+  const translateX = slideWidth ? -current * slideWidth + translate : translate
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true)
+    setStartX(e.touches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return
+    const diff = e.touches[0].clientX - startX
+    setTranslate(diff)
+  }
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return
+    setIsDragging(false)
+    if (translate > 60) prev()
+    else if (translate < -60) next()
+    setTranslate(0)
+  }
+
+  return (
+    <div className="w-full flex flex-col items-center overflow-hidden pt-20">
+      <div className="relative w-full px-4 sm:px-6 select-none">
+        <div
+          ref={trackRef}
+          className="flex items-stretch transition-transform duration-500 ease-out will-change-transform"
+          style={{ transform: `translateX(${translateX}px)` }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {services.map((service, i) => (
+            <article
+              key={i}
+              className="carousel-slide flex-shrink-0 w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-[1020px] mr-6 rounded-xl overflow-hidden shadow-xl relative bg-gray-100 h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[75vh]"
             >
-              <img
-                src={service.image}
-                alt={service.alt}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-6 flex flex-col justify-between h-auto">
+              <div className="absolute inset-0">
+                <img
+                  src={service.image}
+                  alt={service.alt}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
+              </div>
+
+              <div className="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between">
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {service.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {service.description}
-                  </p>
-                </div>
-                <div className="flex justify-between items-center border-t pt-4">
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-white/90 font-medium tracking-wide bg-black/30 px-3 py-1 rounded-md">
                     {service.duration}
                   </span>
-                  <span className="text-lg font-bold text-foreground">
-                    ₵{service.price}
-                  </span>
+                </div>
+
+                <div className="mt-auto mb-6 md:mb-8 max-w-[75%]">
+                  <h2 className="text-white text-4xl sm:text-5xl md:text-6xl font-bol leading-tight font-[var(--font-playfair)]">
+                    {service.name}
+                  </h2>
+                  <p className="text-white/80 text-base mt-1">₵{service.price}</p>
+                  <p className="text-white/90 text-sm mt-3 line-clamp-2">
+                    {service.description}
+                  </p>
+
+                  <div className="mt-6 flex gap-3 flex-wrap">
+                    <button
+                      className="px-5 py-3 rounded-md bg-primary/95 text-primary-foreground font-semibold shadow-md transition-transform active:scale-95"
+                      onClick={() => {
+                        // Store selected service in localStorage
+                        if (typeof window !== "undefined") {
+                          const serviceSlug = SERVICE_SLUGS[service.name] || "thai-massage"
+                          localStorage.setItem("selectedService", serviceSlug)
+                        }
+                        // Scroll to booking section
+                        document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
+                      }}
+                    >
+                      Book Now
+                    </button>
+                    <Link
+                      href={`/services/${SERVICE_SLUGS[service.name] || "thai-massage"}`}
+                      className="px-4 py-3 rounded-md bg-white text-gray-800 font-medium shadow-sm hover:shadow-md"
+                    >
+                      Learn More
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </motion.div>
+            </article>
           ))}
         </div>
-
-        {/* See All Button */}
-        <div className="mt-12 text-center">
-          <Link
-            href="/services"
-            className="px-6 py-3 bg-primary text-white rounded-md shadow-md hover:bg-primary/90 transition"
-          >
-            See All Services
-          </Link>
-        </div>
       </div>
-    </section>
+
+      {/* Indicators */}
+      <div className="mt-6 flex items-center gap-3">
+        {services.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => goTo(i)}
+            className={`w-3 h-3 rounded-full transition-all ${i === current ? "bg-gray-800" : "bg-gray-300"
+              }`}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

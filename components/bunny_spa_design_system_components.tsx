@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useEffect, useRef } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion, Variants } from "framer-motion"
 import Link from "next/link"
 import { Menu, Phone, Mail, MapPin, Clock, Heart, ChevronLeft, ChevronRight, ChevronDown, Calendar, User, CheckCircle2 } from "lucide-react"
 import { useScrollToSection } from "@/lib/useScrollToSection"
@@ -18,76 +18,6 @@ import { useScrollToSection } from "@/lib/useScrollToSection"
  */
 
 // --------------------------- Helpers & Data --------------------------------
-const SERVICES = [
-  {
-    name: "Thai Massage",
-    price: "800",
-    duration: "40 mins",
-    description:
-      "Traditional stretching and pressure techniques to relieve tension and restore mobility.",
-    image: "media/thai-massage-photo.jpg",
-    alt: "Therapist performing Thai massage",
-  },
-  {
-    name: "Deep Tissue Massage",
-    price: "800",
-    duration: "1 hour",
-    description:
-    "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
-    image: "media/deep-tissue.webp",
-    alt: "Close-up deep tissue massage",
-  },
-  {
-    name: "Nuru Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description:
-      "Luxurious skin-to-skin experience using premium gel for total relaxation.",
-    image: "media/nuru-massage.jpg",
-    alt: "Spa setup for Nuru massage",
-  },
-  {
-    name: "Sensual Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description: "An intimate massage crafted to calm the senses and restore balance.",
-    image: "media/sensual-massage.jpg",
-    alt: "Dimly-lit sensual massage setting",
-  },
-  {
-    name: "Erotic Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description: "A focused experience designed for pleasure and deep relaxation.",
-    image: "media/erotic-massage.avif",
-    alt: "Candles and warm lighting around massage table",
-  },
-  {
-    name: "Swedish/Deep Tissue Nuru",
-    price: "1500",
-    duration: "1 hr 30 mins",
-    description: "Premium combination of techniques for complete rejuvenation.",
-    image: "media/sweedish+nuru.jpg",
-    alt: "Therapist combining massage techniques",
-  },
-  {
-    name: "Swedish Massage",
-    price: "800",
-    duration: "1 hour",
-    description:
-      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
-    image: "media/swedish-massage.jpg",
-    alt: "Relaxing Swedish massage with oil",
-  },
-  {
-    name: "Couple Massage",
-    price: "1600",
-    duration: "1 hr 30 mins",
-    description: "Side-by-side relaxation for two — reconnect and unwind together.",
-    image: "media/couple-massage.jpg",
-    alt: "Couple receiving side-by-side massages",
-  },
-]
 
 const TESTIMONIALS = [
   {
@@ -526,287 +456,7 @@ export function HeroSection() {
   )
 }
 
-// --------------------------- ServicesSection (Apple-inspired layout)---------------------------
-function ServiceButton({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      {...props}
-      className="px-4 py-2 rounded-full bg-primary/90 text-white font-medium shadow-sm hover:bg-primary transition"
-    >
-      {children}
-    </button>
-  )
-}
 
-export function ServicesSection() {
-  const [current, setCurrent] = useState(0)
-  const itemsPerView = 3
-  const total = SERVICES.length
-
-  const autoplayRef = useRef<NodeJS.Timeout | null>(null)
-  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const mobileScrollRef = useRef<HTMLDivElement>(null)
-  const [paused, setPaused] = useState(false)
-
-  const next = () => setCurrent((prev) => (prev + 1) % total)
-  const prev = () => setCurrent((prev) => (prev - 1 + total) % total)
-
-  const pauseAutoplay = () => {
-    setPaused(true)
-    if (autoplayRef.current) clearInterval(autoplayRef.current)
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
-    // resume after 6s of inactivity
-    resumeTimeoutRef.current = setTimeout(() => {
-      setPaused(false)
-    }, 6000)
-  }
-
-  // desktop autoplay
-  useEffect(() => {
-    if (paused) return
-    if (autoplayRef.current) clearInterval(autoplayRef.current)
-    autoplayRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % total)
-    }, 12000)
-    return () => {
-      if (autoplayRef.current) clearInterval(autoplayRef.current)
-    }
-  }, [current, total, paused])
-
-  // mobile autoplay
-  useEffect(() => {
-    const el = mobileScrollRef.current
-    if (!el || paused) return
-
-    const autoplay = setInterval(() => {
-      if (!el) return
-      const cardWidth = el.scrollWidth / total
-      const newIndex = Math.round(el.scrollLeft / cardWidth) + 1
-      const nextIndex = newIndex % total
-      el.scrollTo({
-        left: cardWidth * nextIndex,
-        behavior: "smooth",
-      })
-    }, 12000)
-
-    return () => clearInterval(autoplay)
-  }, [total, paused])
-
-  // pause on user scroll (mobile swipe)
-  useEffect(() => {
-    const el = mobileScrollRef.current
-    if (!el) return
-
-    const handleScroll = () => pauseAutoplay()
-    el.addEventListener("scroll", handleScroll, { passive: true })
-
-    return () => el.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  return (
-    <section id="services" className="pt-20 bg-background/30">
-      <div className="container mx-auto px-6 relative">
-        {/* Title */}
-        {/* <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-2">
-            <span className="font-[var(--font-playfair)]">Our</span>
-            <span style={{ fontFamily: "'Great Vibes', cursive" }} className="text-pink-300">
-              Services
-            </span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-4 text-lg">
-            Explore our signature treatments designed for luxury, comfort, and deep relaxation.
-          </p>
-        </div> */}
-
-        {/* Carousel */}
-        <div className="relative md:overflow-x-hidden">
-          {/* Desktop carousel */}
-          <motion.div
-            className="hidden md:flex transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${(current * 100) / itemsPerView}%)` }}
-          >
-            {SERVICES.map((s) => (
-              <div
-                key={s.name}
-                className="flex-none w-full sm:w-1/2 lg:w-1/3 px-4"
-                onMouseEnter={pauseAutoplay}
-                onMouseLeave={() => setPaused(false)}
-              >
-                <div className="flex flex-col items-cente text-cente group">
-                  <div className="w-full aspect-[3/2] overflow-hidden rounded-2xl relative">
-                    <motion.img
-                      src={s.image}
-                      alt={s.alt}
-                      className="w-full h-[85%] object-cover rounded-2xl select-none"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.4 }}
-                    />
-                  </div>
-                  <div className="w-full">
-                    <h3 className="text-2xl font-semibold text-foreground">{s.name}</h3>
-                    {/* <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
-                      {s.description}
-                    </p> */}
-                    <div className="text-foreground/90">
-                      <div>{s.duration}</div>
-                      {/* <div className="text-lg font-bold text-primary">₵{s.price}</div> */}
-                    </div>
-                    <div className="flex items-center gap-3 mt-5">
-
-                    <button
-                    className="px-4 py-2 rounded-full bg-primary text-white font-medium shadow-sm hover:bg-primary transition"
-                      onClick={() => {
-                      // Store selected service in localStorage
-                      if (typeof window !== "undefined") {
-                        const serviceSlugMap: {[key: string]: string} = {
-                        "Thai Massage": "thai-massage",
-                        "Deep Tissue Massage": "deep-tissue",
-                        "Swedish Massage": "swedish",
-                        "Nuru Massage": "nuru",
-                        "Sensual Massage": "sensual",
-                        "Erotic Massage": "erotic", 
-                        "Swedish/Deep Tissue Nuru": "swedish-nuru",
-                        "Couple Massage": "couples"
-                        }
-                        const serviceSlug = serviceSlugMap[s.name] || "thai-massage"
-                        localStorage.setItem("selectedService", serviceSlug)
-                      }
-                      // Scroll to booking section
-                      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                    >
-                      Book Now
-                    </button>
-                                         {/* <button
-                    className="px-4 py-2 mt-5 rounded-full bg-secondary font-medium shadow-sm hover:bg-primary transition"
-
-                    >
-                      Learn More
-                    </button> */}
-                     <Link href="#" className="text-white/90 underline-offset-4 font-medium hover:underline">
-                Learn More
-              </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Mobile scroll-snap slider */}
-          <div
-            ref={mobileScrollRef}
-            className="flex md:hidden overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-2 scrollbar-hide"
-          >
-            {SERVICES.map((s) => (
-              <div
-                key={s.name}
-                className="flex-none w-[85%] snap-center"
-              >
-                <div className="flex flex-col group">
-                  <div className="w-full aspect-[3/2] overflow-hidden rounded-2xl relative">
-                    <motion.img
-                      src={s.image}
-                      alt={s.alt}
-                      className="w-full h-[85%] object-cover rounded-2xl select-none"
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ duration: 0.2 }}
-                    />
-                  </div>
-                  
-                  <div className="w-full">
-                    <h3 className="text-xl font-semibold text-foreground">{s.name}</h3>
-                    {/* <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
-                      {s.description}
-                    </p> */}
-                    <div className="text-foreground/90">
-                      <div>{s.duration}</div>
-                      {/* <div className="text-lg font-bold text-primary">₵{s.price}</div> */}
-                    </div>
-                    <div className="flex items-center gap-3 mt-5 w-full">
-
-                    <button
-                    className="px-4 py-2 rounded-full bg-primary text-white font-medium shadow-sm hover:bg-primary transition w-1/2"
-                      onClick={() => {
-                      // Store selected service in localStorage
-                      if (typeof window !== "undefined") {
-                        const serviceSlugMap: {[key: string]: string} = {
-                        "Thai Massage": "thai-massage",
-                        "Deep Tissue Massage": "deep-tissue",
-                        "Swedish Massage": "swedish",
-                        "Nuru Massage": "nuru",
-                        "Sensual Massage": "sensual",
-                        "Erotic Massage": "erotic", 
-                        "Swedish/Deep Tissue Nuru": "swedish-nuru",
-                        "Couple Massage": "couples"
-                        }
-                        const serviceSlug = serviceSlugMap[s.name] || "thai-massage"
-                        localStorage.setItem("selectedService", serviceSlug)
-                      }
-                      // Scroll to booking section
-                      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                    >
-                      Book Now
-                    </button>
-                    <div className="flex justify-center items-center w-1/2">
-
-                     <Link href="#" className="text-white/90 underline-offset-4 font-medium hover:underline">
-                Learn More
-              </Link>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Arrows for desktop */}
-          {/* <button
-            onClick={prev}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 bg-background/70 hover:bg-background rounded-full p-2 shadow-md"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={next}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 bg-background/70 hover:bg-background rounded-full p-2 shadow-md"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button> */}
-        </div>
-        
-                  {/* Arrows for desktop */}
-                  <div className="flex items-center justify-center mt-12 gap-4">
-
-          <button
-            onClick={prev}
-            className="hidden md:flex bg-primary-foreground/25 rounded-full p-2 shadow-md"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={next}
-            className="hidden md:flex bg-primary-foreground/25 rounded-full p-2 shadow-md"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-                  </div>
-
-        {/* Compare Link */}
-        {/* <div className="mt-12 text-center">
-          <Link href="/compare-services" className="text-sm text-primary underline-offset-4 hover:underline">
-            Compare all services
-          </Link>
-        </div> */}
-      </div>
-    </section>
-  )
-}
-
-// --------------------------- CountdownRing ------------------------------
 function CountdownRing({ expiry }: { expiry: number }) {
   const [now, setNow] = useState<number | null>(null)
 
@@ -2006,16 +1656,16 @@ export function Footer() {
 
 
 // --------------------------- FAQSection --------------------------------------
-const faqVariant = {
+const faqVariant: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" },
+    transition: { delay: i * 0.1, duration: 0.5, ease: [0.22, 0.8, 0.2, 1] },
   }),
 }
 
-const answerVariant = {
+const answerVariant: Variants = {
   hidden: { opacity: 0, height: 0 },
   visible: { opacity: 1, height: "auto", transition: { duration: 0.4 } },
 }
@@ -2115,7 +1765,6 @@ export function FAQSection() {
 export default {
   StickyNav,
   HeroSection,
-  ServicesSection,
   DiscountSection,
   TestimonialsSection,
   BookingSection,
