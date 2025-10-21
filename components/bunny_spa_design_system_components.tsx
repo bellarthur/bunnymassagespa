@@ -1995,12 +1995,12 @@ export function FAQSection() {
     {
       question: "What services do you offer?",
       answer:
-        "We provide a range of mobile spa services including Thai massage, deep tissue massage, and facials, all delivered to your home.",
+        "We provide a range of spa services including Thai massage, deep tissue massage, nuru massage etc, all delivered to your home.",
     },
     {
       question: "How do I book an appointment?",
       answer:
-        "You can book directly through our website by filling out the booking form, selecting your preferred service, date, and time.",
+        "You may WhatsApp us to book. You may also book directly through the website by filling out the booking form, selecting your preferred service, date, and time.",
     },
     {
       question: "Are your therapists certified?",
