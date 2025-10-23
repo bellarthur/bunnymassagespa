@@ -145,7 +145,7 @@ export function ServicesSection({ services = SERVICES }) {
   }
 
   return (
-    <div className="w-full flex flex-col items-center overflow-hidden pt-20">
+    <div id="services" className="w-full flex flex-col items-center overflow-hidden pt-20">
       <div className="relative w-full px-4 sm:px-6 select-none">
         <div
           ref={trackRef}
