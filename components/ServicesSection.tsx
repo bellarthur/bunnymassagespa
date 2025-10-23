@@ -39,14 +39,7 @@ const SERVICES = [
     image: "media/sensual-massage.jpg",
     alt: "Dimly-lit sensual massage setting",
   },
-  {
-    name: "Erotic Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description: "A focused experience designed for pleasure and deep relaxation.",
-    image: "media/erotic-massage.avif",
-    alt: "Candles and warm lighting around massage table",
-  },
+  { name: "Erotic Massage", price: "1000", duration: "1 hr 30 mins", description: "A focused experience designed for pleasure and deep relaxation.", image: "media/erotic-massage.avif", alt: "Candles and warm lighting around massage table", },
   {
     name: "Swedish/Deep Tissue Nuru",
     price: "1500",
@@ -85,8 +78,6 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Couple Massage": "couples",
 }
 
-
-
 export function ServicesSection({ services = SERVICES }) {
   const [current, setCurrent] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
@@ -94,9 +85,9 @@ export function ServicesSection({ services = SERVICES }) {
   const [translate, setTranslate] = useState(0)
   const [slideWidth, setSlideWidth] = useState(0)
   const trackRef = useRef<HTMLDivElement | null>(null)
-  const autoplayRef = useRef<number | null>(null)
-  const gap = 24
+  const imageRefs = useRef<(HTMLImageElement | null)[]>([])
 
+  // --- Measure slide width dynamically ---
   useEffect(() => {
     function measureWidth() {
       if (!trackRef.current) return
@@ -112,30 +103,23 @@ export function ServicesSection({ services = SERVICES }) {
     return () => window.removeEventListener("resize", measureWidth)
   }, [])
 
-  // useEffect(() => {
-  //   const id = window.setInterval(() => setCurrent((c) => (c + 1) % services.length), 1200000)
-  //   autoplayRef.current = id
-  //   return () => window.clearInterval(id)
-  // }, [services.length])
-
+  // --- Carousel Navigation ---
   const goTo = (index: number) =>
     setCurrent(((index % services.length) + services.length) % services.length)
   const prev = () => goTo(current - 1)
   const next = () => goTo(current + 1)
-
   const translateX = slideWidth ? -current * slideWidth + translate : translate
 
+  // --- Swipe gestures for mobile ---
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true)
     setStartX(e.touches[0].clientX)
   }
-
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return
     const diff = e.touches[0].clientX - startX
     setTranslate(diff)
   }
-
   const handleTouchEnd = () => {
     if (!isDragging) return
     setIsDragging(false)
@@ -143,6 +127,48 @@ export function ServicesSection({ services = SERVICES }) {
     else if (translate < -60) next()
     setTranslate(0)
   }
+
+  // --- Cursor-based parallax (desktop) ---
+  const handleMouseMove = (e: React.MouseEvent, index: number) => {
+    const img = imageRefs.current[index]
+    if (!img || index !== current) return
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    const rotateX = ((y - centerY) / centerY) * -4
+    const rotateY = ((x - centerX) / centerX) * 4
+    img.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`
+  }
+
+  const handleMouseLeave = (index: number) => {
+    const img = imageRefs.current[index]
+    if (!img) return
+    img.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05)"
+  }
+
+  // --- Device-based parallax (mobile gyroscope) ---
+  useEffect(() => {
+    const handleOrientation = (event: DeviceOrientationEvent) => {
+      const img = imageRefs.current[current]
+      if (!img) return
+      const { beta, gamma } = event // beta: front-back, gamma: left-right tilt
+      const maxTilt = 5
+      const xTilt = Math.min(Math.max(gamma || 0, -maxTilt), maxTilt)
+      const yTilt = Math.min(Math.max(beta || 0, -maxTilt), maxTilt)
+      img.style.transform = `perspective(1000px) rotateX(${yTilt / 2}deg) rotateY(${xTilt / 2}deg) scale(1.08)`
+    }
+
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener("deviceorientation", handleOrientation)
+    }
+
+    return () => {
+      window.removeEventListener("deviceorientation", handleOrientation)
+    }
+  }, [current])
 
   return (
     <div id="services" className="w-full flex flex-col items-center overflow-hidden pt-20">
@@ -160,11 +186,18 @@ export function ServicesSection({ services = SERVICES }) {
               key={i}
               className="carousel-slide flex-shrink-0 w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-[1020px] mr-6 rounded-xl overflow-hidden shadow-xl relative bg-gray-100 h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[75vh]"
             >
-              <div className="absolute inset-0">
+              <div
+                className="absolute inset-0 perspective-1000"
+                onMouseMove={(e) => handleMouseMove(e, i)}
+                onMouseLeave={() => handleMouseLeave(i)}
+              >
                 <img
                   src={service.image}
                   alt={service.alt}
-                  className="w-full h-full object-cover"
+                  ref={(el) => {imageRefs.current[i] = el}}
+                  className={`w-full h-full object-cover transition-transform duration-[18000ms] ease-in-out ${
+                    i === current ? "parallax-active" : ""
+                  }`}
                   draggable={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
@@ -178,7 +211,7 @@ export function ServicesSection({ services = SERVICES }) {
                 </div>
 
                 <div className="mt-auto mb-6 md:mb-8 max-w-[75%]">
-                  <h2 className="text-white text-4xl sm:text-5xl md:text-6xl font-bol leading-tight font-[var(--font-playfair)]">
+                  <h2 className="text-white text-4xl sm:text-5xl md:text-6xl leading-tight font-[var(--font-playfair)]">
                     {service.name}
                   </h2>
                   <p className="text-white/80 text-base mt-1">₵{service.price}</p>
@@ -190,12 +223,10 @@ export function ServicesSection({ services = SERVICES }) {
                     <button
                       className="px-5 py-3 rounded-md bg-primary/95 text-primary-foreground font-semibold shadow-md transition-transform active:scale-95"
                       onClick={() => {
-                        // Store selected service in localStorage
                         if (typeof window !== "undefined") {
                           const serviceSlug = SERVICE_SLUGS[service.name] || "thai-massage"
                           localStorage.setItem("selectedService", serviceSlug)
                         }
-                        // Scroll to booking section
                         document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
                       }}
                     >
@@ -222,8 +253,9 @@ export function ServicesSection({ services = SERVICES }) {
             key={i}
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => goTo(i)}
-            className={`w-3 h-3 rounded-full transition-all ${i === current ? "bg-gray-800" : "bg-gray-300"
-              }`}
+            className={`w-3 h-3 rounded-full transition-all ${
+              i === current ? "bg-gray-800" : "bg-gray-300"
+            }`}
           />
         ))}
       </div>

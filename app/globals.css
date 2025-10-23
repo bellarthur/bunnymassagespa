@@ -433,3 +433,92 @@
     box-shadow: 0 0 0 10px rgba(72, 187, 120, 0);
   }
 }
+
+
+@keyframes kenBurnsPan {
+  0% {
+    transform: scale(1.05) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.1) translate(-3%, -3%);
+  }
+  100% {
+    transform: scale(1.05) translate(0%, 0%);
+  }
+}
+
+.kenburns-active {
+  animation: kenBurnsPan 12s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+
+@keyframes kenBurnsPanLeft {
+  0% { transform: scale(1.05) translate(2%, 0%); }
+  50% { transform: scale(1.1) translate(-3%, 2%); }
+  100% { transform: scale(1.05) translate(2%, 0%); }
+}
+
+@keyframes kenBurnsPanRight {
+  0% { transform: scale(1.05) translate(-2%, 0%); }
+  50% { transform: scale(1.1) translate(3%, -2%); }
+  100% { transform: scale(1.05) translate(-2%, 0%); }
+}
+
+.kenburns-left {
+  animation: kenBurnsPanLeft 12s ease-in-out infinite;
+}
+.kenburns-right {
+  animation: kenBurnsPanRight 12s ease-in-out infinite;
+}
+
+
+@keyframes parallaxPan {
+  0% {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.05);
+  }
+  25% {
+    transform: perspective(1000px) rotateX(-1deg) rotateY(2deg) scale(1.08);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.1);
+  }
+  75% {
+    transform: perspective(1000px) rotateX(-2deg) rotateY(-2deg) scale(1.08);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.05);
+  }
+}
+
+.parallax-active {
+  animation: parallaxPan 18s ease-in-out infinite;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+@keyframes parallaxPanReverse {
+  0% {
+    transform: perspective(1000px) rotateX(-2deg) rotateY(2deg) scale(1.05);
+  }
+  25% {
+    transform: perspective(1000px) rotateX(1deg) rotateY(-2deg) scale(1.08);
+  }
+  50% {
+    transform: perspective(1000px) rotateX(-2deg) rotateY(-2deg) scale(1.1);
+  }
+  75% {
+    transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.08);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(-2deg) rotateY(2deg) scale(1.05);
+  }
+}
+
+.parallax-active-reverse {
+  animation: parallaxPanReverse 18s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+}

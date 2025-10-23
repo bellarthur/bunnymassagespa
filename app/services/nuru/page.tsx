@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function NuruPage() {
   return (
-    <main className="max-w-4xl mx-auto p-6">
+    <main className="max-w-4xl mx-auto px-6 py-20">
       <Link href="/services" className="text-sm text-primary underline">← Back to Services</Link>
       <h1 className="text-4xl font-bold mt-4">Nuru Massage</h1>
       <p className="text-lg text-muted-foreground mt-2">Luxurious skin-to-skin experience using premium gel for total relaxation.</p>

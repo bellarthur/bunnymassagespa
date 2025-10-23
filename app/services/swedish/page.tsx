@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function SwedishPage() {
   return (
-    <main className="max-w-4xl mx-auto p-6">
+    <main className="max-w-4xl mx-auto px-6 py-20">
       <Link href="/services" className="text-sm text-primary underline">← Back to Services</Link>
       <h1 className="text-4xl font-bold mt-4">Swedish Massage</h1>
       <p className="text-lg text-muted-foreground mt-2">Relaxing long strokes and kneading that soothe muscles and help circulation.</p>
