@@ -116,12 +116,12 @@ export default function ThaiMassagePage() {
           </ul>
         </div>
 
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <h3 className="text-xl font-semibold">Special Offers</h3>
           <p className="text-muted-foreground mt-2">
             Get 10% off when booked with a facial treatment. Available this month only!
           </p>
-        </div>
+        </div> */}
       </section>
 
       {/* Other Services */}

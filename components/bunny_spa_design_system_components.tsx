@@ -124,13 +124,13 @@ export function StickyNav() {
     >
       <div className="container mx-auto px-6 h-11 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-3">
+        <a href="/" className="flex items-center space-x-3">
           <img
             src="/BUNNY MASSAGE LOGO (1).png"
             alt="SpaAtHome Logo"
             className="h-8 w-8 object-contain"
           />
-        </Link>
+        </a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex space-x-8 text-xs">

@@ -56,7 +56,7 @@ export default function SwedishPage() {
         <Button
           size="lg"
           className="bg-primary text-white shadow-xl hover:scale-105 transition-transform"
-          onClick={() => router.push("/booking?service=Swedish Massage")}
+          onClick={() => router.push("/appointment?service=Swedish Massage")}
         >
           Book Swedish Massage
         </Button>

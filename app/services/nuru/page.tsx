@@ -63,7 +63,7 @@ export default function NuruPage() {
       </section>
 
       {/* Content Section */}
-      <section className="max-w-4xl mx-auto py-16">
+      <section className="max-w-4xl mx-auto pt-16">
         <h2 className="text-2xl font-semibold">Details</h2>
         <p className="mt-3 text-base">
           <span className="font-medium text-primary">Duration:</span> 1 hr 30 mins —{" "}
