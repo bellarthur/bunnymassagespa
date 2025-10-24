@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   title: "Bunny Massage Spa - Luxurious Spa Experience",
   description:
     "Experience ultimate relaxation at Bunny Massage Spa. Professional massage therapy and facial treatments in a serene, luxurious environment.",
-  generator: "v0.app",
 }
 
 export default function RootLayout({

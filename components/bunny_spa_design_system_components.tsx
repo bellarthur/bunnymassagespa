@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useEffect, useRef } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion, Variants } from "framer-motion"
 import Link from "next/link"
 import { Menu, Phone, Mail, MapPin, Clock, Heart, ChevronLeft, ChevronRight, ChevronDown, Calendar, User, CheckCircle2 } from "lucide-react"
 import { useScrollToSection } from "@/lib/useScrollToSection"
@@ -18,76 +18,6 @@ import { useScrollToSection } from "@/lib/useScrollToSection"
  */
 
 // --------------------------- Helpers & Data --------------------------------
-const SERVICES = [
-  {
-    name: "Thai Massage",
-    price: "800",
-    duration: "40 mins",
-    description:
-      "Traditional stretching and pressure techniques to relieve tension and restore mobility.",
-    image: "media/thai-massage-photo.jpg",
-    alt: "Therapist performing Thai massage",
-  },
-  {
-    name: "Deep Tissue Massage",
-    price: "800",
-    duration: "1 hour",
-    description:
-      "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
-    image: "media/deep-tissue.webp",
-    alt: "Close-up deep tissue massage",
-  },
-  {
-    name: "Swedish Massage",
-    price: "800",
-    duration: "1 hour",
-    description:
-      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
-    image: "media/swedish-massage.jpg",
-    alt: "Relaxing Swedish massage with oil",
-  },
-  {
-    name: "Nuru Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description:
-      "Luxurious skin-to-skin experience using premium gel for total relaxation.",
-    image: "media/nuru-massage.jpg",
-    alt: "Spa setup for Nuru massage",
-  },
-  {
-    name: "Sensual Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description: "An intimate massage crafted to calm the senses and restore balance.",
-    image: "media/sensual-massage.jpg",
-    alt: "Dimly-lit sensual massage setting",
-  },
-  {
-    name: "Erotic Massage",
-    price: "1000",
-    duration: "1 hr 30 mins",
-    description: "A focused experience designed for pleasure and deep relaxation.",
-    image: "media/erotic-massage.avif",
-    alt: "Candles and warm lighting around massage table",
-  },
-  {
-    name: "Swedish/Deep Tissue Nuru",
-    price: "1500",
-    duration: "1 hr 30 mins",
-    description: "Premium combination of techniques for complete rejuvenation.",
-    image: "media/sweedish+nuru.jpg",
-    alt: "Therapist combining massage techniques",
-  },
-  {
-    name: "Couple Massage",
-    price: "1600",
-    duration: "1 hr 30 mins",
-    description: "Side-by-side relaxation for two — reconnect and unwind together.",
-    image: "media/couple-massage.jpg",
-    alt: "Couple receiving side-by-side massages",
-  },
-]
 
 const TESTIMONIALS = [
   {
@@ -194,13 +124,13 @@ export function StickyNav() {
     >
       <div className="container mx-auto px-6 h-11 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-3">
+        <a href="/" className="flex items-center space-x-3">
           <img
             src="/BUNNY MASSAGE LOGO (1).png"
             alt="SpaAtHome Logo"
             className="h-8 w-8 object-contain"
           />
-        </Link>
+        </a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex space-x-8 text-xs">
@@ -247,10 +177,10 @@ export function StickyNav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col min-h-screen"
           >
             {/* Close Button */}
-            <div className="flex justify-end p-6">
+            <div className="flex justify-end p-6 bg-black">
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="text-white hover:text-primary transition"
@@ -264,7 +194,7 @@ export function StickyNav() {
             </div>
 
             {/* Centered Nav Links */}
-            <div className="flex-1 flex flex-col items-center justify-center space-y-10">
+            <div className="flex-1 flex flex-col items-center justify-center space-y-10 bg-black py-8">
               {navItems.map((item, i) => (
                 <motion.button
                   key={item.name}
@@ -526,254 +456,7 @@ export function HeroSection() {
   )
 }
 
-// --------------------------- ServicesSection (Apple-inspired layout)---------------------------
-function ServiceButton({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      {...props}
-      className="px-4 py-2 rounded-full bg-primary/90 text-white font-medium shadow-sm hover:bg-primary transition"
-    >
-      {children}
-    </button>
-  )
-}
 
-export function ServicesSection() {
-  const [current, setCurrent] = useState(0)
-  const itemsPerView = 3
-  const total = SERVICES.length
-
-  const autoplayRef = useRef<NodeJS.Timeout | null>(null)
-  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const mobileScrollRef = useRef<HTMLDivElement>(null)
-  const [paused, setPaused] = useState(false)
-
-  const next = () => setCurrent((prev) => (prev + 1) % total)
-  const prev = () => setCurrent((prev) => (prev - 1 + total) % total)
-
-  const pauseAutoplay = () => {
-    setPaused(true)
-    if (autoplayRef.current) clearInterval(autoplayRef.current)
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
-    // resume after 6s of inactivity
-    resumeTimeoutRef.current = setTimeout(() => {
-      setPaused(false)
-    }, 6000)
-  }
-
-  // desktop autoplay
-  useEffect(() => {
-    if (paused) return
-    if (autoplayRef.current) clearInterval(autoplayRef.current)
-    autoplayRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % total)
-    }, 8000)
-    return () => {
-      if (autoplayRef.current) clearInterval(autoplayRef.current)
-    }
-  }, [current, total, paused])
-
-  // mobile autoplay
-  useEffect(() => {
-    const el = mobileScrollRef.current
-    if (!el || paused) return
-
-    const autoplay = setInterval(() => {
-      if (!el) return
-      const cardWidth = el.scrollWidth / total
-      const newIndex = Math.round(el.scrollLeft / cardWidth) + 1
-      const nextIndex = newIndex % total
-      el.scrollTo({
-        left: cardWidth * nextIndex,
-        behavior: "smooth",
-      })
-    }, 8000)
-
-    return () => clearInterval(autoplay)
-  }, [total, paused])
-
-  // pause on user scroll (mobile swipe)
-  useEffect(() => {
-    const el = mobileScrollRef.current
-    if (!el) return
-
-    const handleScroll = () => pauseAutoplay()
-    el.addEventListener("scroll", handleScroll, { passive: true })
-
-    return () => el.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  return (
-    <section id="services" className="py-20 bg-background/30">
-      <div className="container mx-auto px-6 relative">
-        {/* Title */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-2">
-            <span className="font-[var(--font-playfair)]">Our</span>
-            <span style={{ fontFamily: "'Great Vibes', cursive" }} className="text-pink-300">
-              Services
-            </span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-4 text-lg">
-            Explore our signature treatments designed for luxury, comfort, and deep relaxation.
-          </p>
-        </div>
-
-        {/* Carousel */}
-        <div className="relative md:overflow-x-hidden">
-          {/* Desktop carousel */}
-          <motion.div
-            className="hidden md:flex transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${(current * 100) / itemsPerView}%)` }}
-          >
-            {SERVICES.map((s) => (
-              <div
-                key={s.name}
-                className="flex-none w-full sm:w-1/2 lg:w-1/3 px-4"
-                onMouseEnter={pauseAutoplay}
-                onMouseLeave={() => setPaused(false)}
-              >
-                <div className="flex flex-col items-center text-center group">
-                  <div className="w-full aspect-[4/5] overflow-hidden rounded-2xl relative">
-                    <motion.img
-                      src={s.image}
-                      alt={s.alt}
-                      className="w-full h-[85%] object-cover rounded-2xl select-none"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.4 }}
-                    />
-                  </div>
-                  <div className="mt-6">
-                    <h3 className="text-xl font-semibold text-foreground">{s.name}</h3>
-                    <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
-                      {s.description}
-                    </p>
-                    <div className="mt-4 text-foreground/90">
-                      <div className="font-medium">{s.duration}</div>
-                      <div className="text-lg font-bold text-primary">₵{s.price}</div>
-                    </div>
-                    {/* <div className="mt-5">
-                      <ServiceButton>Book</ServiceButton>
-                    </div> */}
-                    <button
-                    className="px-4 py-2 mt-5 rounded-full bg-primary/90 text-white font-medium shadow-sm hover:bg-primary transition"
-                      onClick={() => {
-                      // Store selected service in localStorage
-                      if (typeof window !== "undefined") {
-                        const serviceSlugMap: {[key: string]: string} = {
-                        "Thai Massage": "thai-massage",
-                        "Deep Tissue Massage": "deep-tissue",
-                        "Swedish Massage": "swedish",
-                        "Nuru Massage": "nuru",
-                        "Sensual Massage": "sensual",
-                        "Erotic Massage": "erotic", 
-                        "Swedish/Deep Tissue Nuru": "swedish-nuru",
-                        "Couple Massage": "couples"
-                        }
-                        const serviceSlug = serviceSlugMap[s.name] || "thai-massage"
-                        localStorage.setItem("selectedService", serviceSlug)
-                      }
-                      // Scroll to booking section
-                      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                    >
-                      Book
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Mobile scroll-snap slider */}
-          <div
-            ref={mobileScrollRef}
-            className="flex md:hidden overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-2 scrollbar-hide"
-          >
-            {SERVICES.map((s) => (
-              <div
-                key={s.name}
-                className="flex-none w-[85%] snap-center"
-              >
-                <div className="flex flex-col items-center text-center group">
-                  <div className="w-full aspect-[4/5] overflow-hidden rounded-2xl relative">
-                    <motion.img
-                      src={s.image}
-                      alt={s.alt}
-                      className="w-full h-[85%] object-cover rounded-2xl select-none"
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ duration: 0.2 }}
-                    />
-                  </div>
-                  <div className="mt-6">
-                    <h3 className="text-xl font-semibold text-foreground">{s.name}</h3>
-                    <p className="text-muted-foreground text-sm mt-2 max-w-xs mx-auto">
-                      {s.description}
-                    </p>
-                    <div className="mt-4 text-foreground/90">
-                      <div className="font-medium">{s.duration}</div>
-                      <div className="text-lg font-bold text-primary">₵{s.price}</div>
-                    </div>
-                    {/* <div className="mt-5">
-                      <ServiceButton>Book</ServiceButton>
-                    </div> */}
-                    <button
-                    className="px-4 py-2 mt-5 rounded-full bg-primary/90 text-white font-medium shadow-sm hover:bg-primary transition"
-                      onClick={() => {
-                      // Store selected service in localStorage
-                      if (typeof window !== "undefined") {
-                        const serviceSlugMap: {[key: string]: string} = {
-                        "Thai Massage": "thai-massage",
-                        "Deep Tissue Massage": "deep-tissue",
-                        "Swedish Massage": "swedish",
-                        "Nuru Massage": "nuru",
-                        "Sensual Massage": "sensual",
-                        "Erotic Massage": "erotic", 
-                        "Swedish/Deep Tissue Nuru": "swedish-nuru",
-                        "Couple Massage": "couples"
-                        }
-                        const serviceSlug = serviceSlugMap[s.name] || "thai-massage"
-                        localStorage.setItem("selectedService", serviceSlug)
-                      }
-                      // Scroll to booking section
-                      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                    >
-                      Book
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Arrows for desktop */}
-          <button
-            onClick={prev}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 bg-background/70 hover:bg-background rounded-full p-2 shadow-md"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={next}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 bg-background/70 hover:bg-background rounded-full p-2 shadow-md"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Compare Link */}
-        <div className="mt-12 text-center">
-          <Link href="/compare-services" className="text-sm text-primary underline-offset-4 hover:underline">
-            Compare all services
-          </Link>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// --------------------------- CountdownRing ------------------------------
 function CountdownRing({ expiry }: { expiry: number }) {
   const [now, setNow] = useState<number | null>(null)
 
@@ -1397,15 +1080,15 @@ export function BookingSection() {
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
             Book Your Session
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-3">
+          {/* <p className="text-muted-foreground max-w-2xl mx-auto mt-3">
             A guided 3-step booking that’s simple, elegant, and reassuring.
-          </p>
+          </p> */}
         </div>
 
         {/* Desktop Grid */}
         <div className="grid grid-cols-1 md:grid-cols-[280px,1fr] gap-10">
           {/* Progress Stepper */}
-          <div className="flex md:flex-col items-center md:items-start justify-center md:justify-start gap-8 md:gap-12 relative z-10">
+          {/* <div className="flex md:flex-col items-center md:items-start justify-center md:justify-start gap-8 md:gap-12 relative z-10">
             {steps.map((s, idx) => {
               const isActive = step === s.id
               const isCompleted = step > s.id
@@ -1436,7 +1119,7 @@ export function BookingSection() {
                 </div>
               )
             })}
-          </div>
+          </div> */}
 
           {/* Main Panel */}
           <motion.div
@@ -1578,10 +1261,13 @@ export function BookingSection() {
                         <option value="" disabled>
                           Select a service
                         </option>
-                        <option value="thai-massage">Thai Massage</option>
-                        <option value="deep-tissue">Deep Tissue</option>
-                        <option value="swedish">Swedish Massage</option>
                         <option value="nuru">Nuru Massage</option>
+                        <option value="thai-massage">Thai Massage</option>
+                        <option value="sensual-massage">Sensual Massage</option>
+                        <option value="deep-tissue">Deep Tissue</option>
+                        <option value="erotic-massage">Erotic Massage</option>
+                        <option value="swedish">Swedish Massage</option>
+                        <option value="swedish-deep-tissue-massage">Swedish/Deep Tissue Massage</option>
                         <option value="couples">Couples Massage</option>
                       </select>
                       {errors.service && (
@@ -1942,28 +1628,7 @@ export function Footer() {
   </div>
 </a> */}
 
-{/* WhatsApp Floating Button */}
-<a
-  href="https://wa.me/233247932681"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Chat on WhatsApp"
-  className={`fixed right-6 bottom-6 z-50 transition-opacity duration-300 ${
-    isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-  }`}
->
-  <div
-    className="relative p-3 rounded-full bg-green-500 hover:bg-green-600 shadow-lg shadow-green-800/40 
-               transition-transform hover:scale-105 focus:outline-none focus:ring-2 
-               focus:ring-green-400 focus:ring-offset-2 animate-[pulseSoft_3s_ease-in-out_infinite]"
-  >
-    <img
-      src="/whatsapp.svg"
-      alt="WhatsApp"
-      className="h-6 w-6 invert brightness-0"
-    />
-  </div>
-</a>
+
 
 
     </footer>
@@ -1973,16 +1638,16 @@ export function Footer() {
 
 
 // --------------------------- FAQSection --------------------------------------
-const faqVariant = {
+const faqVariant: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" },
+    transition: { delay: i * 0.1, duration: 0.5, ease: [0.22, 0.8, 0.2, 1] },
   }),
 }
 
-const answerVariant = {
+const answerVariant: Variants = {
   hidden: { opacity: 0, height: 0 },
   visible: { opacity: 1, height: "auto", transition: { duration: 0.4 } },
 }
@@ -2082,7 +1747,6 @@ export function FAQSection() {
 export default {
   StickyNav,
   HeroSection,
-  ServicesSection,
   DiscountSection,
   TestimonialsSection,
   BookingSection,
