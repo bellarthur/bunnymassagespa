@@ -177,10 +177,10 @@ export function StickyNav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col min-h-screen"
           >
             {/* Close Button */}
-            <div className="flex justify-end p-6">
+            <div className="flex justify-end p-6 bg-black">
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="text-white hover:text-primary transition"
@@ -194,7 +194,7 @@ export function StickyNav() {
             </div>
 
             {/* Centered Nav Links */}
-            <div className="flex-1 flex flex-col items-center justify-center space-y-10">
+            <div className="flex-1 flex flex-col items-center justify-center space-y-10 bg-black py-8">
               {navItems.map((item, i) => (
                 <motion.button
                   key={item.name}
@@ -1080,15 +1080,15 @@ export function BookingSection() {
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
             Book Your Session
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-3">
+          {/* <p className="text-muted-foreground max-w-2xl mx-auto mt-3">
             A guided 3-step booking that’s simple, elegant, and reassuring.
-          </p>
+          </p> */}
         </div>
 
         {/* Desktop Grid */}
         <div className="grid grid-cols-1 md:grid-cols-[280px,1fr] gap-10">
           {/* Progress Stepper */}
-          <div className="flex md:flex-col items-center md:items-start justify-center md:justify-start gap-8 md:gap-12 relative z-10">
+          {/* <div className="flex md:flex-col items-center md:items-start justify-center md:justify-start gap-8 md:gap-12 relative z-10">
             {steps.map((s, idx) => {
               const isActive = step === s.id
               const isCompleted = step > s.id
@@ -1119,7 +1119,7 @@ export function BookingSection() {
                 </div>
               )
             })}
-          </div>
+          </div> */}
 
           {/* Main Panel */}
           <motion.div
@@ -1261,10 +1261,13 @@ export function BookingSection() {
                         <option value="" disabled>
                           Select a service
                         </option>
-                        <option value="thai-massage">Thai Massage</option>
-                        <option value="deep-tissue">Deep Tissue</option>
-                        <option value="swedish">Swedish Massage</option>
                         <option value="nuru">Nuru Massage</option>
+                        <option value="thai-massage">Thai Massage</option>
+                        <option value="sensual-massage">Sensual Massage</option>
+                        <option value="deep-tissue">Deep Tissue</option>
+                        <option value="erotic-massage">Erotic Massage</option>
+                        <option value="swedish">Swedish Massage</option>
+                        <option value="swedish-deep-tissue-massage">Swedish/Deep Tissue Massage</option>
                         <option value="couples">Couples Massage</option>
                       </select>
                       {errors.service && (
@@ -1625,28 +1628,7 @@ export function Footer() {
   </div>
 </a> */}
 
-{/* WhatsApp Floating Button */}
-<a
-  href="https://wa.me/233247932681"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Chat on WhatsApp"
-  className={`fixed right-6 bottom-6 z-50 transition-opacity duration-300 ${
-    isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-  }`}
->
-  <div
-    className="relative p-3 rounded-full bg-green-500 hover:bg-green-600 shadow-lg shadow-green-800/40 
-               transition-transform hover:scale-105 focus:outline-none focus:ring-2 
-               focus:ring-green-400 focus:ring-offset-2 animate-[pulseSoft_3s_ease-in-out_infinite]"
-  >
-    <img
-      src="/whatsapp.svg"
-      alt="WhatsApp"
-      className="h-6 w-6 invert brightness-0"
-    />
-  </div>
-</a>
+
 
 
     </footer>

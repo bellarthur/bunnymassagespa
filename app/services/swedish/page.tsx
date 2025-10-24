@@ -129,12 +129,12 @@ export default function SwedishPage() {
           </p>
         </div>
 
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <h3 className="text-xl font-semibold">Recommended Add-on</h3>
           <p className="text-muted-foreground mt-2">
             Pair your session with essential oils or hot stones for an elevated experience.
           </p>
-        </div>
+        </div> */}
       </section>
 
       {/* Explore Other Services */}

@@ -3,9 +3,30 @@
 import { useState, useRef } from "react"
 import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+
+const OTHER_SERVICES = [
+  {
+    name: "Thai Massage",
+    image: "/media/thai-massage-photo.jpg",
+    link: "/services/thai-massage",
+  },
+  {
+    name: "Swedish Massage",
+    image: "/media/swedish-massage.jpg",
+    link: "/services/swedish",
+  },
+  {
+    name: "Nuru Massage",
+    image: "media/nuru-massage.jpg",
+    link: "/services/nuru",
+  },
+]
 
 export default function NuruPage() {
   const [expanded, setExpanded] = useState(false)
+  const router = useRouter()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -16,7 +37,7 @@ export default function NuruPage() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "15%"])
 
   return (
-    <main className="relative min-h-screen">
+    <main className="max-w-6xl mx-auto px-6 py-20 relative overflow-hidden">
       {/* Back link */}
       {/* <div className="max-w-4xl mx-auto px-6 pt-6">
         <Link href="/services" className="text-sm text-primary underline hover:text-primary/80 transition">
@@ -42,7 +63,7 @@ export default function NuruPage() {
       </section>
 
       {/* Content Section */}
-      <section className="max-w-4xl mx-auto px-6 py-16">
+      <section className="max-w-4xl mx-auto py-16">
         <h2 className="text-2xl font-semibold">Details</h2>
         <p className="mt-3 text-base">
           <span className="font-medium text-primary">Duration:</span> 1 hr 30 mins —{" "}
@@ -89,7 +110,7 @@ export default function NuruPage() {
         {/* Call to Action */}
         <div className="mt-10 text-center">
           <Link
-            href="/booking"
+            href="/appointment?service=Nuru"
             className="inline-block px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all"
           >
             Book a Session
@@ -102,6 +123,33 @@ export default function NuruPage() {
         aria-hidden
         className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_50%_80%,rgba(173,216,230,0.15),transparent_70%)]"
       />
+      {/* Other Services */}
+      <section className="mt-20 border-t border-border pt-10">
+        <h2 className="text-2xl font-semibold mb-6">Explore Other Services</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {OTHER_SERVICES.map((service) => (
+            <motion.div
+              key={service.name}
+              whileHover={{ scale: 1.03 }}
+              className="group cursor-pointer"
+              onClick={() => router.push(service.link)}
+            >
+              <div className="relative overflow-hidden rounded-xl shadow-md">
+                <Image
+                  src={service.image}
+                  alt={service.name}
+                  width={400}
+                  height={300}
+                  className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <p className="mt-3 text-lg font-medium group-hover:text-primary transition-colors">
+                {service.name}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
     </main>
   )
 }

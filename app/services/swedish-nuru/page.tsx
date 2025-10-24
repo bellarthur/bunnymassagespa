@@ -127,12 +127,12 @@ export default function SwedishNuruPage() {
           </p>
         </div>
 
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <h3 className="text-xl font-semibold">Special Offer</h3>
           <p className="text-muted-foreground mt-2">
             Enjoy a complimentary aromatherapy upgrade when booked before month-end.
           </p>
-        </div>
+        </div> */}
       </section>
 
       {/* Other Services */}
