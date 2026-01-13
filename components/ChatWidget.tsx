@@ -7,6 +7,7 @@ type Step =
   | "intent"
   | "service"
   | "comfort"
+  | "questions"
   | "name"
   | "date"
   | "time"
@@ -25,6 +26,7 @@ export default function ChatWidget() {
 
   const DRAFT_KEY = "bunny_booking_draft"
   const [draftFound, setDraftFound] = useState<any>(null)
+  const todayStr = new Date().toISOString().split("T")[0]
 
   useEffect(() => {
     // initial welcome when dialog opens; offer to resume a draft if present
@@ -76,11 +78,25 @@ export default function ChatWidget() {
 
   function continueDraft() {
     if (!draftFound) return
-    setData(draftFound.data || {})
-    setDatePick(draftFound.datePick || "")
-    setMessages(draftFound.messages || [])
-    setStep(draftFound.step || "name")
+    const df = draftFound
+    setData(df.data || {})
+    setDatePick(df.datePick || "")
     setDraftFound(null)
+
+    // require re-confirmation of age if not explicitly saved
+    const hasAge = df.data?.ageConfirmed
+    if (!hasAge) {
+      setMessages([
+        { sender: "bot", text: "Welcome back. Before continuing, please confirm that you are 18 years or older." },
+      ])
+      setStep("age")
+    } else {
+      setMessages([
+        { sender: "bot", text: "Welcome back. I can continue your previous booking when you're ready." },
+      ])
+      setStep(df.step || "name")
+    }
+
     // focus panel after restoring
     setTimeout(() => panelRef.current?.focus(), 10)
   }
@@ -103,13 +119,13 @@ export default function ChatWidget() {
     if (!open) return
     if (step === "done") return
     // only save if there is some meaningful data
-    const hasData = Object.keys(data || {}).length > 0 || datePick || (messages && messages.length > 0)
+    const hasData = Object.keys(data || {}).length > 0 || datePick
     if (!hasData) return
     try {
-      const payload = { step, data, datePick, messages }
+      const payload = { step, data, datePick, updatedAt: Date.now() }
       localStorage.setItem(DRAFT_KEY, JSON.stringify(payload))
     } catch (e) {}
-  }, [step, data, datePick, messages, open])
+  }, [step, data, datePick, open])
 
   // focus panel when opened
   useEffect(() => {
@@ -146,7 +162,7 @@ export default function ChatWidget() {
 
   function handleService(choice: string) {
     pushUser(choice)
-    setData((d: any) => ({ ...d, service: choice }))
+    setData((d: any) => ({ ...d, service: choice, party: choice === "Couples" ? "couple" : d?.party }))
 
     const safeDescriptions: Record<string, string> = {
       "Deep Tissue":
@@ -158,6 +174,9 @@ export default function ChatWidget() {
     }
 
     pushBot(safeDescriptions[choice] || "This session is offered in a professional, private setting.")
+    if (choice === "Couples") {
+      pushBot("Note: Couples sessions are for two consenting adults. I’ve set the session for two people by default.")
+    }
     pushBot("Would you like to continue with this service?")
     setStep("comfort")
   }
@@ -166,17 +185,39 @@ export default function ChatWidget() {
     pushUser(answer === "agree" ? "I agree" : "I have questions")
     if (answer === "questions") {
       pushBot("What would you like to know? I can explain what's allowed, what's not allowed, or our privacy & safety practices.")
-      // keep at comfort step but show options in UI
+      setStep("questions")
       return
     }
     pushBot("Great. I’ll prepare your booking request. What is your first name?")
     setStep("name")
   }
 
+  function handleQuestion(topic: "allowed" | "not_allowed" | "privacy" | "back") {
+    if (topic === "back") {
+      pushUser("Back")
+      pushBot("Okay — do you agree to the session terms?")
+      setStep("comfort")
+      return
+    }
+    pushUser(topic === "allowed" ? "What's allowed?" : topic === "not_allowed" ? "What's not allowed?" : "Privacy & safety")
+    const answers: Record<string, string> = {
+      allowed: "Allowed: consenting adults, respectful touch, and adjustments at any time.",
+      not_allowed: "Not allowed: illegal acts, unsafe or non-consensual requests. We will refuse anything that violates safety or the law.",
+      privacy: "Privacy: sessions are private and handled discreetly. Personal details are kept confidential unless required by law."
+    }
+    pushBot(answers[topic])
+    // remain in questions so the user can ask another or go back
+  }
+
   function handleName(name: string) {
+    if (!name || !name.trim()) {
+      pushBot("Please provide your first name to continue.")
+      setStep("name")
+      return
+    }
     pushUser(name)
-    setData((d: any) => ({ ...d, name }))
-    pushBot(`Thanks, ${name}. When would you like your session?`)
+    setData((d: any) => ({ ...d, name: name.trim() }))
+    pushBot(`Thanks, ${name.trim()}. When would you like your session?`)
     setStep("date")
   }
 
@@ -206,6 +247,10 @@ export default function ChatWidget() {
 
   function submitPickedDate() {
     if (!datePick) return
+    if (datePick < todayStr) {
+      pushBot("Please choose a date today or in the future.")
+      return
+    }
     pushUser(datePick)
     setData((d2: any) => ({ ...d2, date: new Date(datePick).toDateString() }))
     pushBot("What time works best?")
@@ -215,12 +260,24 @@ export default function ChatWidget() {
   function chooseTime(slot: string) {
     pushUser(slot)
     setData((d: any) => ({ ...d, time: slot }))
+    // If the selected service is Couples, skip the party question
+    if (data?.service === "Couples" || (data?.service && String(data.service).toLowerCase() === "couples")) {
+      pushBot("Noted. For Couples sessions, the booking will be for two people. Where would you like the session?")
+      setStep("location")
+      return
+    }
     pushBot("Are you booking for just yourself or for two people?")
     setStep("party")
   }
 
   function chooseParty(p: "solo" | "couple") {
     pushUser(p === "solo" ? "Just me" : "Me and someone else")
+    // If the service is Couples, enforce couple party
+    if (data?.service === "Couples" && p === "solo") {
+      pushBot("Couples sessions require two people. Please select 'Me and someone else' or choose a different service.")
+      setStep("party")
+      return
+    }
     setData((d: any) => ({ ...d, party: p }))
     pushBot("Where would you like the session? In-studio or outcall (home / hotel)?")
     setStep("location")
@@ -235,10 +292,26 @@ export default function ChatWidget() {
 
   function confirmBooking(edit?: boolean) {
     if (edit) {
-      // allow editing; return to name for simplicity
+      // keep legacy behavior
       setStep("name")
       return
     }
+
+    const required = ["name", "service", "date", "time", "location"]
+    const missing = required.filter((f) => !data?.[f])
+    if (missing.length > 0) {
+      pushBot(`I’m missing some details: ${missing.join(", ")}. Let’s fix the first one.`)
+      const first = missing[0]
+      if (first === "name") setStep("name")
+      else if (first === "service") setStep("service")
+      else if (first === "date") setStep("date")
+      else if (first === "time") setStep("time")
+      else setStep("location")
+      return
+    }
+
+    if (!data.party) setData((d: any) => ({ ...d, party: "solo" }))
+
     pushBot("Everything is ready. Tap the button below to send your booking request privately on WhatsApp. A staff member will confirm availability and payment.")
     setStep("done")
   }
@@ -255,7 +328,7 @@ export default function ChatWidget() {
   // Minimal progress indicator
   const stepIndex = ["age", "intent", "service", "comfort", "name", "date", "time", "party", "location", "confirm", "done"].indexOf(step)
   const progressStage = (() => {
-    const map: Record<string, number> = { age: 1, intent: 2, service: 3, comfort: 4, name: 4, date: 4, time: 4, party: 4, location: 4, confirm: 4, done: 4 }
+    const map: Record<string, number> = { age: 1, intent: 2, service: 3, comfort: 3, questions: 3, name: 4, date: 4, time: 5, party: 5, location: 5, confirm: 6, done: 6 }
     return map[step] || 1
   })()
 
@@ -292,7 +365,7 @@ export default function ChatWidget() {
             </div>
             <div className="flex items-center gap-2">
               <div className="text-xs text-gray-500 flex items-center gap-1">
-                {Array.from({ length: 4 }).map((_, i) => (
+                {Array.from({ length: 6 }).map((_, i) => (
                   <span key={i} className={`w-2 h-2 rounded-full ${i < progressStage ? "bg-amber-400" : "bg-gray-200"}`} />
                 ))}
               </div>
@@ -307,8 +380,8 @@ export default function ChatWidget() {
           </div>
 
           {/* Message area */}
-          <div role="log" aria-live="polite" aria-atomic="true" className="px-3 py-3 overflow-auto flex-1 space-y-3 bg-gray-50">
-            {step === "service" && (data.service === "Sensual" || data.service === "Erotic") && (
+          <div role="log" aria-live="polite" aria-atomic="true" className="px-3 py-3 overflow-auto flex-1 space-y-3 bg-gray-50 flex flex-col">
+            {( (step === "comfort" || step === "confirm" || (step === "service" && data.service)) && (data.service === "Sensual" || data.service === "Erotic") ) && (
               <div className="rounded-md bg-amber-50 text-amber-700 text-xs px-3 py-2 border-l-4 border-amber-200">
                 <div className="flex items-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -362,7 +435,12 @@ export default function ChatWidget() {
                 <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => handleService("Sensual")}>Sensual</button>
                 <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => handleService("Nuru")}>Nuru</button>
                 <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => handleService("Erotic")}>Erotic</button>
-                <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => handleService("Couples")}>Couples</button>
+                <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition flex items-center justify-center gap-2" onClick={() => handleService("Couples")}>
+                  <span>Couples</span>
+                  {String(data?.intent || "").toLowerCase().includes("couple") && (
+                    <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded">Recommended</span>
+                  )}
+                </button>
               </div>
             )}
 
@@ -371,6 +449,16 @@ export default function ChatWidget() {
               <div className="flex gap-2">
                 <button className="flex-1 bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => handleComfort("agree")}>I agree</button>
                 <button className="flex-1 border border-gray-200 py-2 px-3 rounded-md hover:bg-gray-50" onClick={() => handleComfort("questions")}>I have questions</button>
+              </div>
+            )}
+
+            {/* Questions sub-step */}
+            {step === "questions" && (
+              <div className="grid grid-cols-2 gap-2">
+                <button className="bg-white border border-gray-200 py-2 px-3 rounded-md" onClick={() => handleQuestion("allowed")}>What's allowed?</button>
+                <button className="bg-white border border-gray-200 py-2 px-3 rounded-md" onClick={() => handleQuestion("not_allowed")}>What's not allowed?</button>
+                <button className="bg-white border border-gray-200 py-2 px-3 rounded-md" onClick={() => handleQuestion("privacy")}>Privacy &amp; safety</button>
+                <button className="border border-gray-200 py-2 px-3 rounded-md" onClick={() => handleQuestion("back")}>Back</button>
               </div>
             )}
 
@@ -385,7 +473,7 @@ export default function ChatWidget() {
                 <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => pickDate("today")}>Today</button>
                 <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => pickDate("tomorrow")}>Tomorrow</button>
                 <div className="col-span-3 flex gap-2">
-                  <input type="date" value={datePick} onChange={(e) => setDatePick(e.target.value)} className="flex-1 border border-gray-200 rounded-md px-3 py-2" />
+                  <input type="date" value={datePick} min={todayStr} onChange={(e) => setDatePick(e.target.value)} className="flex-1 border border-gray-200 rounded-md px-3 py-2" />
                   <button className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={submitPickedDate}>Set</button>
                 </div>
               </div>
@@ -420,17 +508,16 @@ export default function ChatWidget() {
             {/* Confirm */}
             {step === "confirm" && (
               <div className="space-y-2">
-                <div className="bg-gray-50 p-3 rounded-md text-sm shadow-sm">
-                  <div><strong>Name:</strong> {data.name}</div>
-                  <div><strong>Service:</strong> {data.service}</div>
-                  <div><strong>Date:</strong> {data.date}</div>
-                  <div><strong>Time:</strong> {data.time}</div>
-                  <div><strong>Session:</strong> {data.party === "solo" ? "Solo" : "Couple"}</div>
-                  <div><strong>Location:</strong> {data.location}</div>
+                <div className="bg-gray-50 p-3 rounded-md text-sm shadow-sm space-y-1">
+                  <div className="flex items-center justify-between"><div><strong>Name:</strong> {data.name}</div><button className="text-xs text-amber-600" onClick={() => setStep("name")}>Edit</button></div>
+                  <div className="flex items-center justify-between"><div><strong>Service:</strong> {data.service}</div><button className="text-xs text-amber-600" onClick={() => setStep("service")}>Edit</button></div>
+                  <div className="flex items-center justify-between"><div><strong>Date:</strong> {data.date}</div><button className="text-xs text-amber-600" onClick={() => setStep("date")}>Edit</button></div>
+                  <div className="flex items-center justify-between"><div><strong>Time:</strong> {data.time}</div><button className="text-xs text-amber-600" onClick={() => setStep("time")}>Edit</button></div>
+                  <div className="flex items-center justify-between"><div><strong>Session:</strong> {data.party === "solo" ? "Solo" : "Couple"}</div><button className="text-xs text-amber-600" onClick={() => setStep("party")}>Edit</button></div>
+                  <div className="flex items-center justify-between"><div><strong>Location:</strong> {data.location}</div><button className="text-xs text-amber-600" onClick={() => setStep("location")}>Edit</button></div>
                 </div>
                 <div className="flex gap-2">
                   <button className="flex-1 bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition" onClick={() => confirmBooking()}>Yes — continue</button>
-                  <button className="flex-1 border border-gray-200 py-2 px-3 rounded-md hover:bg-gray-50" onClick={() => confirmBooking(true)}>Edit</button>
                 </div>
               </div>
             )}
