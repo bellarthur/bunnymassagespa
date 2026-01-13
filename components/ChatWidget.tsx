@@ -566,9 +566,9 @@ export default function ChatWidget() {
               <div className="text-sm font-medium">
                 Private Booking Assistant
               </div>
-              <div className="text-xs text-(--color-muted-foreground)">
+              {/* <div className="text-xs text-(--color-muted-foreground)">
                 Confidential &amp; 18+
-              </div>
+              </div> */}
             </div>
             <div className="flex items-center gap-2">
               <div className="text-xs text-(--color-muted-foreground) flex items-center gap-1">
@@ -1193,9 +1193,9 @@ export default function ChatWidget() {
 
             {step === "rejected" && (
               <div className="space-y-4 text-center py-4">
-                <div className="text-(--color-muted-foreground) text-sm">
+                {/* <div className="text-(--color-muted-foreground) text-sm">
                   Thank you for understanding.
-                </div>
+                </div> */}
                 <button
                   onClick={() => {
                     setOpen(false);
