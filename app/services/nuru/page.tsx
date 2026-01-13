@@ -8,19 +8,22 @@ import { useRouter } from "next/navigation"
 
 const OTHER_SERVICES = [
   {
+    id: 1,
     name: "Thai Massage",
     image: "/media/thai-massage-photo.jpg",
     link: "/services/thai-massage",
   },
   {
+    id: 2,
     name: "Swedish Massage",
     image: "/media/swedish-massage.jpg",
     link: "/services/swedish",
   },
   {
-    name: "Nuru Massage",
-    image: "media/nuru-massage.jpg",
-    link: "/services/nuru",
+    id: 3,
+    name: "Couple Massage",
+    image: "media/couple-massage.jpg",
+    link: "/services/couple",
   },
 ]
 
@@ -128,25 +131,26 @@ export default function NuruPage() {
         <h2 className="text-2xl font-semibold mb-6">Explore Other Services</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {OTHER_SERVICES.map((service) => (
-            <motion.div
-              key={service.name}
-              whileHover={{ scale: 1.03 }}
-              className="group cursor-pointer"
-              onClick={() => router.push(service.link)}
-            >
-              <div className="relative overflow-hidden rounded-xl shadow-md">
-                <Image
-                  src={service.image}
-                  alt={service.name}
-                  width={400}
-                  height={300}
-                  className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="mt-3 text-lg font-medium group-hover:text-primary transition-colors">
-                {service.name}
-              </p>
-            </motion.div>
+            <a href={service.link} key={service.id}>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                className="group cursor-pointer"
+                onClick={() => router.push(service.link)}
+              >
+                <div className="relative overflow-hidden rounded-xl shadow-md">
+                  <Image
+                    src={service.image}
+                    alt={service.name}
+                    width={400}
+                    height={300}
+                    className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <p className="mt-3 text-lg font-medium group-hover:text-primary transition-colors">
+                  {service.name}
+                </p>
+              </motion.button>
+            </a>
           ))}
         </div>
       </section>

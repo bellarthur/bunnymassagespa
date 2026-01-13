@@ -9,16 +9,19 @@ import { useEffect, useState } from "react"
 
 const OTHER_SERVICES = [
   {
+    id: 1,
     name: "Swedish Massage",
     image: "/media/swedish-massage.jpg",
     link: "/services/swedish",
   },
   {
+    id: 2,
     name: "Nuru Massage",
     image: "media/nuru-massage.jpg",
     link: "/services/nuru",
   },
   {
+    id: 3,
     name: "Deep Tissue Massage",
     image: "media/deep-tissue.webp",
     link: "/services/deep-tissue",
@@ -129,8 +132,8 @@ export default function ThaiMassagePage() {
         <h2 className="text-2xl font-semibold mb-6">Explore Other Services</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {OTHER_SERVICES.map((service) => (
-            <motion.div
-              key={service.name}
+            <a href={service.link} key={service.id}>
+            <motion.button
               whileHover={{ scale: 1.03 }}
               className="group cursor-pointer"
               onClick={() => router.push(service.link)}
@@ -147,7 +150,8 @@ export default function ThaiMassagePage() {
               <p className="mt-3 text-lg font-medium group-hover:text-primary transition-colors">
                 {service.name}
               </p>
-            </motion.div>
+            </motion.button>
+            </a>
           ))}
         </div>
       </section>

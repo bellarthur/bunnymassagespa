@@ -135,13 +135,15 @@ export function StickyNav() {
         {/* Desktop Nav */}
         <div className="hidden md:flex space-x-8 text-xs">
           {navItems.map((item) => (
-            <button
-              key={item.name}
-              onClick={() => scrollToSection(item.id)}
-              className="text-white/90 hover:text-white transition-colors"
-            >
-              {item.name}
-            </button>
+            <a href={`/#${item.id}`} key={item.name}>
+              <button
+                key={item.name}
+                onClick={() => scrollToSection(item.id)}
+                className="text-white/90 hover:text-white transition-colors"
+              >
+                {item.name}
+              </button>
+            </a>
           ))}
         </div>
 

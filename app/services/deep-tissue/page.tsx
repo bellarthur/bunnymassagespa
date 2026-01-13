@@ -6,19 +6,23 @@ import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
+import { id } from "date-fns/locale"
 
 const OTHER_SERVICES = [
   {
+    id: 1,
     name: "Nuru Massage",
     image: "media/nuru-massage.jpg",
     link: "/services/nuru",
   },
   {
+    id: 2,
     name: "Swedish Massage",
     image: "/media/swedish-massage.jpg",
     link: "/services/swedish",
   },
   {
+    id: 3,
     name: "Couple Massage",
     image: "/media/couple-massage.jpg",
     link: "/services/couples",
@@ -78,7 +82,8 @@ export default function DeepTissuePage() {
         <h2 className="text-2xl font-semibold mb-6">Explore Other Services</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {OTHER_SERVICES.map((service) => (
-            <motion.div
+            <a href={service.link} key={service.id}>
+            <motion.button
               key={service.name}
               whileHover={{ scale: 1.03 }}
               className="group cursor-pointer"
@@ -96,7 +101,8 @@ export default function DeepTissuePage() {
               <p className="mt-3 text-lg font-medium group-hover:text-primary transition-colors">
                 {service.name}
               </p>
-            </motion.div>
+            </motion.button>
+            </a>
           ))}
         </div>
       </section>
