@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { StickyNav, HeroSection, DiscountSection, TestimonialsSection, BookingSection, FAQSection, Footer, AboutSection } from "@/components/bunny_spa_design_system_components"
 import { ServicesSection } from "@/components/ServicesSection"
+import ChatWidget from "@/components/ChatWidget"
 
 export default function BunnySpaLanding() {
   const [isVisible, setIsVisible] = useState(false)
@@ -36,7 +37,9 @@ export default function BunnySpaLanding() {
       <BookingSection />
       <AboutSection />
       <FAQSection />
-      {/* WhatsApp Floating Button */}
+      {/* Chat widget and WhatsApp floating buttons */}
+      <ChatWidget />
+{/* WhatsApp Floating Button */}
 <a
   href="https://wa.me/233247932681"
   target="_blank"
