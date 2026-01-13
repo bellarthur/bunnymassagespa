@@ -44,6 +44,18 @@ export default function ChatWidget() {
   // draft expiry (hours)
   const DRAFT_EXPIRY_HOURS = 48;
 
+  // scrolling helpers
+  const messagesRef = useRef<HTMLDivElement | null>(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  // Auto-scroll to bottom when messages or typing state changes
+  useEffect(() => {
+    if (!open) return;
+    try {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    } catch (e) {}
+  }, [messages, typing, open]);
+
   useEffect(() => {
     if (open) {
       try {
@@ -518,7 +530,7 @@ export default function ChatWidget() {
         <button
           aria-label="Open private booking assistant"
           onClick={() => setOpen(true)}
-          className="w-12 h-12 rounded-xl bg-[rgba(20,20,20,0.9)] text-amber-300 flex items-center justify-center shadow-lg hover:scale-105 transition-transform"
+          className="w-12 h-12 rounded-xl bg-[rgba(20,20,20,0.9)] text-(--color-accent) flex items-center justify-center shadow-lg hover:scale-105 transition-transform"
         >
           {/* chat icon (simple) */}
           <svg
@@ -546,7 +558,7 @@ export default function ChatWidget() {
           tabIndex={-1}
           role="dialog"
           aria-label="Private Booking Assistant"
-          className="w-88 md:w-95 max-h-[70vh] bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col transform transition duration-150 ease-out"
+          className="w-88 md:w-95 max-h-[70vh] bg-(--color-card) rounded-xl shadow-2xl overflow-hidden flex flex-col transform transition duration-150 ease-out"
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b">
@@ -554,17 +566,17 @@ export default function ChatWidget() {
               <div className="text-sm font-medium">
                 Private Booking Assistant
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-(--color-muted-foreground)">
                 Confidential &amp; 18+
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-xs text-gray-500 flex items-center gap-1">
+              <div className="text-xs text-(--color-muted-foreground) flex items-center gap-1">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <span
                     key={i}
                     className={`w-2 h-2 rounded-full ${
-                      i < progressStage ? "bg-amber-400" : "bg-gray-200"
+                      i < progressStage ? "bg-(--color-accent)" : "bg-(--color-border)"
                     }`}
                   />
                 ))}
@@ -572,7 +584,7 @@ export default function ChatWidget() {
               <button
                 aria-label="Minimize"
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-md hover:bg-gray-100 flex items-center justify-center"
+                className="w-8 h-8 rounded-md hover:bg-[var(--color-muted)/0.06] flex items-center justify-center"
               >
                 ✕
               </button>
@@ -581,16 +593,17 @@ export default function ChatWidget() {
 
           {/* Message area */}
           <div
+            ref={messagesRef}
             role="log"
             aria-live="polite"
             aria-atomic="true"
-            className="px-3 py-3 overflow-auto flex-1 space-y-3 bg-gray-50 flex flex-col"
+            className="px-3 py-3 overflow-auto flex-1 space-y-3 bg-(--color-muted) flex flex-col"
           >
             {(step === "comfort" ||
               step === "confirm" ||
               (step === "service" && data.service)) &&
               (data.service === "Sensual" || data.service === "Erotic") && (
-                <div className="rounded-md bg-amber-50 text-amber-700 text-xs px-3 py-2 border-l-4 border-amber-200">
+                <div className="rounded-md bg-[var(--color-accent)/0.12] text-(--color-accent-foreground) text-xs px-3 py-2 border-l-4 border-[var(--color-accent)/0.24]">
                   <div className="flex items-center gap-2">
                     <svg
                       width="14"
@@ -626,8 +639,8 @@ export default function ChatWidget() {
                 key={idx}
                 className={`max-w-[86%] ${
                   m.sender === "bot"
-                    ? "bg-white text-gray-900 self-start"
-                    : "bg-gray-200 self-end text-gray-900"
+                    ? "bg-(--color-card) text-(--color-card-foreground) self-start"
+                    : "bg-[var(--color-muted)/0.2] self-end text-(--color-card-foreground)"
                 } px-3 py-2 rounded-lg shadow-sm`}
               >
                 <div className="text-sm">{m.text}</div>
@@ -636,32 +649,34 @@ export default function ChatWidget() {
 
             {/* typing indicator */}
             {typing && (
-              <div className="max-w-[30%] bg-white text-gray-900 self-start px-3 py-2 rounded-lg shadow-sm opacity-90">
+              <div className="max-w-[30%] bg-(--color-card) text-(--color-card-foreground) self-start px-3 py-2 rounded-lg shadow-sm opacity-90">
                 <div className="h-3 flex items-center gap-1">
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce200" />
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce400" />
+                  <span className="w-2 h-2 bg-(--color-muted-foreground) rounded-full animate-bounce" />
+                  <span className="w-2 h-2 bg-(--color-muted-foreground) rounded-full animate-bounce200" />
+                  <span className="w-2 h-2 bg-(--color-muted-foreground) rounded-full animate-bounce400" />
                 </div>
               </div>
             )}
+
+            <div ref={bottomRef} />
           </div>
 
           {/* Draft resume prompt — shown whenever draftFound exists */}
           {draftFound && (
-            <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-              <p className="text-sm text-amber-800 mb-3">
+            <div className="mb-4 p-3 bg-[var(--color-accent)/0.12] border-[var(--color-accent)/0.24] rounded-lg">
+              <p className="text-sm text-(--color-accent-foreground) mb-3">
                 I found an unfinished booking from earlier. What would you like
                 to do?
               </p>
               <div className="flex gap-3">
                 <button
-                  className="flex-1 bg-slate-900 text-white py-2 px-4 rounded-md hover:bg-slate-800 transition"
+                  className="flex-1 bg-(--color-primary) text-(--color-primary-foreground) py-2 px-4 rounded-md hover:brightness-95 transition"
                   onClick={continueDraft}
                 >
                   Continue where I left off
                 </button>
                 <button
-                  className="flex-1 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-50 transition"
+                  className="flex-1 border-(--color-border) py-2 px-4 rounded-md hover:bg-[var(--color-muted)/0.04] transition"
                   onClick={startOver}
                 >
                   Start over
@@ -671,7 +686,7 @@ export default function ChatWidget() {
           )}
 
           {/* Controls */}
-          <div className="px-4 py-3 border-t bg-white">
+          <div className="px-4 py-3 border-t bg-foreground/25">
             {/* Navigation controls */}
             {[
               "name",
@@ -687,14 +702,14 @@ export default function ChatWidget() {
             ].includes(step) && (
               <div className="mb-2 flex items-center justify-between">
                 <button
-                  className="text-sm text-gray-500"
+                  className="text-sm text-(--color-muted-foreground)"
                   onClick={() => previousStep()}
                 >
                   ← Back
                 </button>
                 {(data?.name || draftFound) && (
                   <button
-                    className="text-sm text-red-500"
+                    className="text-sm text-destructive"
                     onClick={() => {
                       clearDraft();
                       setOpen(false);
@@ -713,28 +728,28 @@ export default function ChatWidget() {
                 {draftFound && (
                   <div className="mb-2 flex gap-2">
                     <button
-                      className="flex-1 border border-gray-200 py-2 px-3 rounded-md"
+                      className="flex-1 border-(--color-border) py-2 px-3 rounded-md"
                       onClick={continueDraft}
                     >
                       Continue where I left off
                     </button>
                     <button
-                      className="flex-1 bg-white text-slate-900 py-2 px-3 rounded-md border border-gray-200"
+                      className="flex-1 bg-(--color-card) text-(--color-card-foreground) py-2 px-3 rounded-md border-(--color-border)"
                       onClick={startOver}
                     >
                       Start over
-                    </button>
+                    </button> 
                   </div>
                 )}
                 <div className="flex gap-2">
                   <button
-                    className="flex-1 bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+                    className="flex-1 bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                     onClick={() => handleAge("yes")}
                   >
                     Yes
                   </button>
                   <button
-                    className="flex-1 border border-gray-200 py-2 px-3 rounded-md hover:bg-gray-50"
+                    className="flex-1 border-(--color-border) py-2 px-3 rounded-md hover:bg-[var(--color-muted)/0.04]"
                     onClick={() => handleAge("no")}
                   >
                     No
@@ -749,8 +764,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.intent === "Relaxation & stress relief"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleIntent("Relaxation & stress relief")}
                 >
@@ -759,8 +774,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.intent === "Sensory / body awareness"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleIntent("Sensory / body awareness")}
                 >
@@ -769,18 +784,18 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.intent === "Couple experience"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleIntent("Couple experience")}
                 >
                   Couple experience
                 </button>
                 <button
-                  className={`py-2 px-3 rounded-md hover:bg-gray-50 ${
+                  className={`py-2 px-3 rounded-md hover:bg-[var(--color-muted)/0.04] ${
                     data.intent === "Not sure — I want to explore"
-                      ? "bg-amber-100 text-amber-700"
-                      : "border border-gray-200"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "border-(--color-border)"
                   }`}
                   onClick={() => handleIntent("Not sure — I want to explore")}
                 >
@@ -795,8 +810,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.service === "Deep Tissue"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleService("Deep Tissue")}
                 >
@@ -805,8 +820,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.service === "Sensual"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleService("Sensual")}
                 >
@@ -815,8 +830,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.service === "Nuru"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleService("Nuru")}
                 >
@@ -825,8 +840,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.service === "Erotic"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleService("Erotic")}
                 >
@@ -835,8 +850,8 @@ export default function ChatWidget() {
                 <button
                   className={`py-2 px-3 rounded-md hover:scale-[1.02] transition flex items-center justify-center gap-2 ${
                     data.service === "Couples"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => handleService("Couples")}
                 >
@@ -844,7 +859,7 @@ export default function ChatWidget() {
                   {String(data?.intent || "")
                     .toLowerCase()
                     .includes("couple") && (
-                    <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded">
+                    <span className="text-xs bg-[var(--color-accent)/0.12] text-(--color-accent-foreground) px-2 py-0.5 rounded">
                       Recommended
                     </span>
                   )}
@@ -856,13 +871,13 @@ export default function ChatWidget() {
             {step === "comfort" && (
               <div className="flex gap-2">
                 <button
-                  className="flex-1 bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+                  className="flex-1 bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                   onClick={() => handleComfort("agree")}
                 >
                   I agree
                 </button>
                 <button
-                  className="flex-1 border border-gray-200 py-2 px-3 rounded-md hover:bg-gray-50"
+                  className="flex-1 border-(--color-border) py-2 px-3 rounded-md hover:bg-[var(--color-muted)/0.04]"
                   onClick={() => handleComfort("questions")}
                 >
                   I have questions
@@ -874,25 +889,25 @@ export default function ChatWidget() {
             {step === "questions" && (
               <div className="grid grid-cols-2 gap-2">
                 <button
-                  className="bg-white border border-gray-200 py-2 px-3 rounded-md"
+                  className="bg-(--color-card) border-(--color-border) py-2 px-3 rounded-md"
                   onClick={() => handleQuestion("allowed")}
                 >
                   What's allowed?
                 </button>
                 <button
-                  className="bg-white border border-gray-200 py-2 px-3 rounded-md"
+                  className="bg-(--color-card) border-(--color-border) py-2 px-3 rounded-md"
                   onClick={() => handleQuestion("not_allowed")}
                 >
                   What's not allowed?
                 </button>
                 <button
-                  className="bg-white border border-gray-200 py-2 px-3 rounded-md"
+                  className="bg-(--color-card) border-(--color-border) py-2 px-3 rounded-md"
                   onClick={() => handleQuestion("privacy")}
                 >
                   Privacy &amp; safety
                 </button>
                 <button
-                  className="border border-gray-200 py-2 px-3 rounded-md"
+                  className="border-(--color-border) py-2 px-3 rounded-md"
                   onClick={() => handleQuestion("back")}
                 >
                   Back
@@ -907,19 +922,19 @@ export default function ChatWidget() {
             {step === "date" && (
               <div className="grid grid-cols-3 gap-2">
                 <button
-                  className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+                  className="bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                   onClick={() => pickDate("today")}
                 >
                   Today
                 </button>
                 <button
-                  className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+                  className="bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                   onClick={() => pickDate("tomorrow")}
                 >
                   Tomorrow
                 </button>
                 <div className="col-span-3">
-                  <div className="text-xs text-gray-500 mb-1">
+                  <div className="text-xs text-(--color-muted-foreground) mb-1">
                     Or pick any future date:
                   </div>
                   <div className="flex gap-2 items-start">
@@ -934,14 +949,14 @@ export default function ChatWidget() {
                         }
                       }}
                       onChange={(e) => setDatePick(e.target.value)}
-                      className="flex-1 border border-gray-200 rounded-md px-3 py-2"
+                      className="flex-1 border-(--color-border) rounded-md px-3 py-2"
                     />
                     <button
-                      className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+                      className="bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                       onClick={submitPickedDate}
                     >
                       Set
-                    </button>
+                    </button> 
                   </div>
                   {datePick && datePick < todayStr && (
                     <div className="text-xs text-red-500 mt-1">
@@ -959,8 +974,8 @@ export default function ChatWidget() {
                   <button
                     className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                       data.time === "Morning"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-slate-900 text-white"
+                        ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                        : "bg-(--color-primary) text-(--color-primary-foreground)"
                     }`}
                     onClick={() => chooseTime("Morning")}
                   >
@@ -969,8 +984,8 @@ export default function ChatWidget() {
                   <button
                     className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                       data.time === "Afternoon"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-slate-900 text-white"
+                        ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                        : "bg-(--color-primary) text-(--color-primary-foreground)"
                     }`}
                     onClick={() => chooseTime("Afternoon")}
                   >
@@ -979,8 +994,8 @@ export default function ChatWidget() {
                   <button
                     className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                       data.time === "Evening"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-slate-900 text-white"
+                        ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                        : "bg-(--color-primary) text-(--color-primary-foreground)"
                     }`}
                     onClick={() => chooseTime("Evening")}
                   >
@@ -989,8 +1004,8 @@ export default function ChatWidget() {
                   <button
                     className={`py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                       data.time === "Late night"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-slate-900 text-white"
+                        ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                        : "bg-(--color-primary) text-(--color-primary-foreground)"
                     }`}
                     onClick={() => chooseTime("Late night")}
                   >
@@ -1001,8 +1016,8 @@ export default function ChatWidget() {
                   <button
                     className={`py-2 px-3 rounded-md border ${
                       customTime
-                        ? "border-amber-300 bg-amber-50 text-amber-700"
-                        : "border-gray-200"
+                        ? "border-[var(--color-accent)/0.24] bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                        : "border-(--color-border)"
                     }`}
                     onClick={() => setCustomTime((s) => !s)}
                   >
@@ -1011,7 +1026,7 @@ export default function ChatWidget() {
                   {customTime && (
                     <div className="flex gap-2 flex-1">
                       <input
-                        className="flex-1 border border-gray-200 rounded-md px-3 py-2"
+                        className="flex-1 border-(--color-border) rounded-md px-3 py-2"
                         placeholder="e.g., 18:30 or 8pm"
                         value={customTimeValue}
                         onChange={(e) => setCustomTimeValue(e.target.value)}
@@ -1024,7 +1039,7 @@ export default function ChatWidget() {
                         }}
                       />
                       <button
-                        className="bg-slate-900 text-white py-2 px-3 rounded-md"
+                        className="bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md"
                         onClick={() => {
                           if (customTimeValue.trim()) {
                             chooseTime(customTimeValue.trim());
@@ -1047,8 +1062,8 @@ export default function ChatWidget() {
                 <button
                   className={`flex-1 py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.party === "solo"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => chooseParty("solo")}
                 >
@@ -1057,8 +1072,8 @@ export default function ChatWidget() {
                 <button
                   className={`flex-1 py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.party === "couple"
-                      ? "bg-amber-100 text-amber-700"
-                      : "border border-gray-200"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "border-(--color-border)"
                   }`}
                   onClick={() => chooseParty("couple")}
                 >
@@ -1073,8 +1088,8 @@ export default function ChatWidget() {
                 <button
                   className={`flex-1 py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.location === "In-studio"
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-slate-900 text-white"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "bg-(--color-primary) text-(--color-primary-foreground)"
                   }`}
                   onClick={() => chooseLocation("In-studio")}
                 >
@@ -1083,8 +1098,8 @@ export default function ChatWidget() {
                 <button
                   className={`flex-1 py-2 px-3 rounded-md hover:scale-[1.02] transition ${
                     data.location === "Outcall"
-                      ? "bg-amber-100 text-amber-700"
-                      : "border border-gray-200"
+                      ? "bg-[var(--color-accent)/0.12] text-(--color-accent-foreground)"
+                      : "border-(--color-border)"
                   }`}
                   onClick={() => chooseLocation("Outcall")}
                 >
@@ -1096,13 +1111,13 @@ export default function ChatWidget() {
             {/* Confirm */}
             {step === "confirm" && (
               <div className="space-y-2">
-                <div className="bg-gray-50 p-3 rounded-md text-sm shadow-sm space-y-1">
+                <div className="bg-(--color-muted) p-3 rounded-md text-sm shadow-sm space-y-1">
                   <div className="flex items-center justify-between">
                     <div>
                       <strong>Name:</strong> {data.name}
                     </div>
                     <button
-                      className="text-xs text-amber-600"
+                      className="text-xs text-(--color-accent)"
                       onClick={() => updateStep("name")}
                     >
                       Edit
@@ -1113,7 +1128,7 @@ export default function ChatWidget() {
                       <strong>Service:</strong> {data.service}
                     </div>
                     <button
-                      className="text-xs text-amber-600"
+                      className="text-xs text-(--color-accent)"
                       onClick={() => updateStep("service")}
                     >
                       Edit
@@ -1124,7 +1139,7 @@ export default function ChatWidget() {
                       <strong>Date:</strong> {data.date}
                     </div>
                     <button
-                      className="text-xs text-amber-600"
+                      className="text-xs text-(--color-accent)"
                       onClick={() => updateStep("date")}
                     >
                       Edit
@@ -1135,7 +1150,7 @@ export default function ChatWidget() {
                       <strong>Time:</strong> {data.time}
                     </div>
                     <button
-                      className="text-xs text-amber-600"
+                      className="text-xs text-(--color-accent)"
                       onClick={() => updateStep("time")}
                     >
                       Edit
@@ -1147,7 +1162,7 @@ export default function ChatWidget() {
                       {data.party === "solo" ? "Solo" : "Couple"}
                     </div>
                     <button
-                      className="text-xs text-amber-600"
+                      className="text-xs text-(--color-accent)"
                       onClick={() => updateStep("party")}
                     >
                       Edit
@@ -1158,7 +1173,7 @@ export default function ChatWidget() {
                       <strong>Location:</strong> {data.location}
                     </div>
                     <button
-                      className="text-xs text-amber-600"
+                      className="text-xs text-(--color-accent)"
                       onClick={() => updateStep("location")}
                     >
                       Edit
@@ -1167,7 +1182,7 @@ export default function ChatWidget() {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    className="flex-1 bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+                    className="flex-1 bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                     onClick={() => confirmBooking()}
                   >
                     Yes — continue
@@ -1178,7 +1193,7 @@ export default function ChatWidget() {
 
             {step === "rejected" && (
               <div className="space-y-4 text-center py-4">
-                <div className="text-gray-700 text-sm">
+                <div className="text-(--color-muted-foreground) text-sm">
                   Thank you for understanding.
                 </div>
                 <button
@@ -1186,7 +1201,7 @@ export default function ChatWidget() {
                     setOpen(false);
                     clearDraft();
                   }}
-                  className="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"
+                  className="px-6 py-2 bg-(--color-muted-foreground) text-(--color-card-foreground) rounded-md hover:brightness-95 transition"
                 >
                   Close
                 </button>
@@ -1198,11 +1213,11 @@ export default function ChatWidget() {
               <div className="space-y-2">
                 <button
                   onClick={sendToWhatsApp}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white rounded-md py-2"
+                  className="w-full bg-(--color-primary) hover:brightness-95 text-(--color-primary-foreground) rounded-md py-2"
                 >
                   Send booking to WhatsApp
                 </button>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-(--color-muted-foreground)">
                   A staff member will reply to confirm availability and payment.
                 </div>
               </div>
@@ -1232,7 +1247,7 @@ function NameInput({ onSubmit }: { onSubmit: (name: string) => void }) {
       <div className="flex gap-2">
         <input
           className={`flex-1 border ${
-            error ? "border-red-400" : "border-gray-200"
+            error ? "border-red-400" : "border-(--color-border)"
           } rounded-md px-3 py-2`}
           placeholder="First name"
           value={val}
@@ -1242,7 +1257,7 @@ function NameInput({ onSubmit }: { onSubmit: (name: string) => void }) {
           }}
         />
         <button
-          className="bg-slate-900 text-white py-2 px-3 rounded-md hover:scale-[1.02] transition"
+          className="bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
           onClick={submit}
         >
           Continue
