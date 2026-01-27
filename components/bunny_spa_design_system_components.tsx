@@ -439,7 +439,7 @@ export function HeroSection() {
               <Link href="/appointment">
               <ElegantButton className="!px-4 !py-2 !text-sm">
               Book Now
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[sheen_3s_infinite]" />
+              <span className="absolute inset-0 rounded-full bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[sheen_3s_infinite]" />
               </ElegantButton>
               </Link>
               <Link href="#services" className="text-white/90 underline-offset-4 hover:underline">
@@ -560,7 +560,7 @@ export function DiscountSection() {
         {/* Section heading */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-3">
-            <span className="font-[var(--font-playfair)]">Special</span>
+            <span className="font-(--font-playfair)">Special</span>
             <span
               style={{ fontFamily: "'Great Vibes', cursive" }}
               className="text-pink-300 text-3xl md:text-4xl"
@@ -586,7 +586,7 @@ export function DiscountSection() {
               transition={{ duration: 0.6, delay: i * 0.08 }}
             >
               {/* Image */}
-              <div className="w-full md:w-1/2 h-48 md:h-auto md:max-h-[220px] overflow-hidden relative">
+              <div className="w-full md:w-1/2 h-48 md:h-auto md:max-h-55 overflow-hidden relative">
                 <img
                   src={d.image}
                   alt={d.title}
@@ -606,7 +606,7 @@ export function DiscountSection() {
               <div className="p-6 md:w-1/2 flex flex-col justify-between">
                 {/* top: title + description */}
                 <div>
-                  <h3 className="text-2xl font-[var(--font-playfair)] text-foreground leading-snug">
+                  <h3 className="text-2xl font-(--font-playfair) text-foreground leading-snug">
                     {d.title}{" "}
                     <span
                       style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -693,7 +693,7 @@ export function TestimonialsSection() {
         {/* Heading */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-3">
-            <span className="font-[var(--font-playfair)]">What</span>
+            <span className="font-(--font-playfair)">What</span>
             <span
               style={{ fontFamily: "'Great Vibes', cursive" }}
               className="text-pink-300 text-3xl md:text-4xl"
@@ -726,7 +726,7 @@ export function TestimonialsSection() {
                 <div className="mt-6 flex items-start gap-4">
                   {t.avatar === "" ? (
                     <div
-                      className={`flex justify-center items-center w-10 h-10 rounded-full ${t.bgColor} text-white font-semibold text-lg flex-shrink-0`}
+                      className={`flex justify-center items-center w-10 h-10 rounded-full ${t.bgColor} text-white font-semibold text-lg shrink-0`}
                     >
                       {t.name[0]}
                     </div>
@@ -734,7 +734,7 @@ export function TestimonialsSection() {
                     <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
                   )}
                   <div>
-                    <div className="font-[var(--font-playfair)] text-foreground">
+                    <div className="font-(--font-playfair) text-foreground">
                       {t.name}
                     </div>
                     <div className="mt-1 flex gap-1 text-yellow-400">
@@ -774,12 +774,12 @@ export function TestimonialsSection() {
 
                 <div className="mt-6 flex items-center gap-3">
                   <div
-                    className={`flex justify-center items-center w-10 h-10 rounded-full ${t.bgColor} text-white font-semibold text-lg flex-shrink-0`}
+                    className={`flex justify-center items-center w-10 h-10 rounded-full ${t.bgColor} text-white font-semibold text-lg shrink-0`}
                   >
                     {t.name[0]}
                   </div>
                   <div>
-                    <div className="font-[var(--font-playfair)] text-foreground">
+                    <div className="font-(--font-playfair) text-foreground">
                       {t.name}
                     </div>
                     <div className="text-xs text-muted-foreground">{t.role}</div>
@@ -814,7 +814,7 @@ export function AboutSection() {
     <section id="about" className="relative w-full py-20 bg-background">
       <div className="container mx-auto px-6 md:px-12 flex flex-col items-center gap-12">
         <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-3">
-          <span className="font-[var(--font-playfair)]">About</span>
+          <span className="font-(--font-playfair)">About</span>
           <span
             style={{ fontFamily: "'Great Vibes', cursive" }}
             className="text-pink-300 text-3xl md:text-4xl"
@@ -826,7 +826,7 @@ export function AboutSection() {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-10 max-w-5xl">
           {/* Founder image */}
           <div className="flex flex-col items-center gap-6">
-            <div className="relative w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-white">
+            <div className="relative w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-white">
               <Image
                 src="/media/clara-founder.jpeg"
                 alt="Founder"
@@ -1072,7 +1072,7 @@ export function BookingSection() {
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[url('/massage.jpeg')] bg-cover bg-center mix-blend-overlay animate-spaShimmer" />
         <div className="absolute inset-0 bg-linear-to-br from-transparent via-[rgba(60,156,191,0.15)] to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(227,213,184,0.15),transparent_15%),radial-gradient(circle_at_70%_65%,rgba(245,214,123,0.12),transparent_20%)] blur-[40px] animate-[meshMove_18s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(227,213,184,0.15),transparent_15%),radial-gradient(circle_at_70%_65%,rgba(245,214,123,0.12),transparent_20%)] blur-2xl animate-[meshMove_18s_ease-in-out_infinite]" />
         <div className="absolute inset-0 bg-black/20" />
       </div>
 

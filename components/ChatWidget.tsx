@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 type Step =
   | "age"
@@ -629,39 +630,59 @@ export default function ChatWidget() {
   return (
     <div className="fixed right-4 bottom-18 z-40">
       {/* 👇 NEW: nudge bubble */}
-      {!open && nudgeVisible && (
-        <div className="mb-2 flex justify-end">
-          <div className="relative max-w-60 rounded-2xl bg-[rgba(20,20,20,0.92)] text-white px-3 py-2 shadow-lg">
-            <div className="text-sm font-medium">Hello 👋</div>
-            <div className="text-xs opacity-90">Need help booking a session?</div>
-
-            <div className="mt-2 flex gap-2">
-              <button
-                className="text-xs px-2 py-1 rounded-md bg-white/10 hover:bg-white/15"
-                onClick={() => {
-                  // if user clicks, we can safely play greeting too
-                  if (!greeted) playGreeting();
-                  setOpen(true);
-                }}
-              >
-                Open chat
-              </button>
-              <button
-                className="text-xs px-2 py-1 rounded-md bg-white/5 hover:bg-white/10"
-                onClick={() => {
-                  setNudgeVisible(false);
-                  sessionStorage.setItem("bunny_chat_nudge_seen", "1");
-                }}
-              >
-                Not now
-              </button>
-            </div>
-
-            {/* little tail */}
-            <div className="absolute -bottom-2 left-5 h-0 w-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-[rgba(20,20,20,0.92)]" />
+{!open && nudgeVisible && (
+  <div className="mb-2 flex justify-end">
+    <div className="relative max-w-60 rounded-2xl bg-[rgba(20,20,20,0.92)] text-white px-3 py-3 shadow-lg">
+      <div className="flex items-start gap-3">
+        {/* Avatar */}
+        <div className="shrink-0">
+          <div className="h-10 w-10 rounded-xl overflow-hidden ring-1 ring-white/10">
+            <Image
+              src="/media/clara-founder.jpeg"
+              alt="Booking assistant"
+              width={40}
+              height={40}
+              className="h-full w-full object-cover"
+              priority
+            />
           </div>
         </div>
-      )}
+
+        {/* Text + actions */}
+        <div className="min-w-0">
+          <div className="text-sm font-medium leading-tight">Hello 👋</div>
+          <div className="text-xs opacity-90 leading-snug">
+            Need help booking a session?
+          </div>
+
+          <div className="mt-2 flex gap-2">
+            <button
+              className="text-xs px-2 py-1 rounded-md bg-white/10 hover:bg-white/15"
+              onClick={() => {
+                if (!greeted) playGreeting()
+                setOpen(true)
+              }}
+            >
+              Open chat
+            </button>
+            <button
+              className="text-xs px-2 py-1 rounded-md bg-white/5 hover:bg-white/10"
+              onClick={() => {
+                setNudgeVisible(false)
+                sessionStorage.setItem("bunny_chat_nudge_seen", "1")
+              }}
+            >
+              Not now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* little tail */}
+      <div className="absolute -bottom-2 left-5 h-0 w-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-[rgba(20,20,20,0.92)]" />
+    </div>
+  </div>
+)}
 
       {/* Launcher */}
       {!open && (
@@ -700,13 +721,28 @@ export default function ChatWidget() {
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b">
-            <div>
-              <div className="text-sm font-medium">
-                Private Booking Assistant
+            <div className="flex items-center gap-3">
+              {/* Avatar */}
+              <div className="shrink-0">
+                <div className="h-10 w-10 rounded-xl overflow-hidden ring-1 ring-white/10">
+                  <Image
+                    src="/media/clara-founder.jpeg"
+                    alt="Booking assistant"
+                    width={40}
+                    height={40}
+                    className="h-full w-full object-cover"
+                    priority
+                  />
+                </div>
               </div>
-              {/* <div className="text-xs text-(--color-muted-foreground)">
-                Confidential &amp; 18+
-              </div> */}
+              <div>
+                <div className="text-sm font-medium">
+                  Booking Assistant
+                </div>
+                <div className="text-xs text-(--color-muted-foreground)">
+                  Confidential &amp; 18+
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <div className="text-xs text-(--color-muted-foreground) flex items-center gap-1">
