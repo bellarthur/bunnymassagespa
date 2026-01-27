@@ -627,7 +627,7 @@ export default function ChatWidget() {
   })();
 
   return (
-    <div className="fixed right-4 bottom-14 z-50">
+    <div className="fixed right-4 bottom-18 z-40">
       {/* 👇 NEW: nudge bubble */}
       {!open && nudgeVisible && (
         <div className="mb-2 flex justify-end">
