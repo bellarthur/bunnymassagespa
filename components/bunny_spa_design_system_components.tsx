@@ -1068,10 +1068,10 @@ export function BookingSection() {
   return (
     <section id="booking" className="py-20 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-background opacity-70" />
+      <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-accent/5 to-background opacity-70" />
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[url('/massage.jpeg')] bg-cover bg-center mix-blend-overlay animate-spaShimmer" />
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-[rgba(60,156,191,0.15)] to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-br from-transparent via-[rgba(60,156,191,0.15)] to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,rgba(227,213,184,0.15),transparent_15%),radial-gradient(circle_at_70%_65%,rgba(245,214,123,0.12),transparent_20%)] blur-[40px] animate-[meshMove_18s_ease-in-out_infinite]" />
         <div className="absolute inset-0 bg-black/20" />
       </div>
@@ -1131,7 +1131,7 @@ export function BookingSection() {
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="bg-primary/85 backdrop-blur-md md:rounded-2xl p-6 md:p-8 border border-white/10 md:shadow-xl relative z-10"
           >
-            <div className="min-h-[400px] md:min-h-[500px] flex flex-col justify-between">
+            <div className="min-h-100 md:min-h-125 flex flex-col justify-between">
               {/* Step 1 */}
               {step === 1 && (
                 <div className="space-y-6">
@@ -1214,12 +1214,12 @@ export function BookingSection() {
                         type: "text",
                         placeholder: "Jane Doe",
                       },
-                      {
-                        name: "email",
-                        label: "Email",
-                        type: "email",
-                        placeholder: "you@example.com",
-                      },
+                      // {
+                      //   name: "email",
+                      //   label: "Email",
+                      //   type: "email",
+                      //   placeholder: "you@example.com",
+                      // },
                       {
                         name: "phone",
                         label: "Phone",
@@ -1339,7 +1339,7 @@ export function BookingSection() {
                           "_blank"
                         )
                         }}
-                        className="flex-1 !bg-green-600 hover:!bg-green-700"
+                        className="flex-1 bg-green-600! hover:bg-green-700!"
                       >
                         <div className="flex items-center justify-center gap-2">
                           Book via WhatsApp

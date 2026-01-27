@@ -20,6 +20,11 @@ type Step =
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
+    // 👇 NEW: nudge + audio control
+  const [nudgeVisible, setNudgeVisible] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [greeted, setGreeted] = useState(false);
+  const nudgeTimeoutRef = useRef<number | null>(null);
   const [step, setStep] = useState<Step>("age");
   const [messages, setMessages] = useState<
     { sender: "bot" | "user"; text: string }[]
@@ -47,6 +52,104 @@ export default function ChatWidget() {
   // scrolling helpers
   const messagesRef = useRef<HTMLDivElement | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+
+    // -------------------------
+  // NEW: greeting + nudge
+  // -------------------------
+
+  // Track the first user gesture so we can safely play audio later.
+  useEffect(() => {
+    const mark = () => setHasInteracted(true);
+
+    window.addEventListener("pointerdown", mark, { once: true });
+    window.addEventListener("keydown", mark, { once: true });
+    window.addEventListener("scroll", mark, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", mark);
+      window.removeEventListener("keydown", mark);
+      window.removeEventListener("scroll", mark);
+    };
+  }, []);
+
+    // Decide when to show the nudge.
+  useEffect(() => {
+    // Don’t show if already greeted in this session (or if widget opened)
+    if (open) return;
+
+    const seen = sessionStorage.getItem("bunny_chat_nudge_seen");
+    if (seen) return;
+
+    // show after a short delay
+    const t = window.setTimeout(() => {
+      setNudgeVisible(true);
+      // attempt sound/voice only if user has already interacted
+      if (hasInteracted) {
+        playGreeting();
+      }
+      // auto-hide after 8s (still can be opened)
+      nudgeTimeoutRef.current = window.setTimeout(() => {
+        setNudgeVisible(false);
+      }, 8000);
+    }, 2500);
+
+    return () => {
+      window.clearTimeout(t);
+      if (nudgeTimeoutRef.current) window.clearTimeout(nudgeTimeoutRef.current);
+    };
+  }, [open, hasInteracted]);
+
+    function playGreeting() {
+    if (greeted) return;
+    setGreeted(true);
+    sessionStorage.setItem("bunny_chat_nudge_seen", "1");
+
+    // 1) Soft chime using WebAudio (no asset file needed)
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const ctx = new AudioCtx();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 740; // gentle tone
+      g.gain.value = 0.0001;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+
+      // fade in/out quickly (soft)
+      const now = ctx.currentTime;
+      g.gain.exponentialRampToValueAtTime(0.08, now + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+      o.stop(now + 0.26);
+      o.onended = () => ctx.close();
+    } catch {
+      // ignore
+    }
+
+    // // 2) Optional spoken hello (will work on many devices after gesture)
+    // try {
+    //   if ("speechSynthesis" in window) {
+    //     const msg = new SpeechSynthesisUtterance("Hello! Need help booking a session?");
+    //     msg.rate = 1;
+    //     msg.pitch = 1;
+    //     msg.volume = 0.9;
+    //     window.speechSynthesis.cancel();
+    //     window.speechSynthesis.speak(msg);
+    //   }
+    // } catch {
+    //   // ignore
+    // }
+  }
+
+
+  // hide nudge whenever open
+  useEffect(() => {
+    if (open) {
+      setNudgeVisible(false);
+      sessionStorage.setItem("bunny_chat_nudge_seen", "1");
+    }
+  }, [open]);
 
   // Auto-scroll to bottom when messages or typing state changes
   useEffect(() => {
@@ -525,6 +628,41 @@ export default function ChatWidget() {
 
   return (
     <div className="fixed right-4 bottom-14 z-50">
+      {/* 👇 NEW: nudge bubble */}
+      {!open && nudgeVisible && (
+        <div className="mb-2 flex justify-end">
+          <div className="relative max-w-60 rounded-2xl bg-[rgba(20,20,20,0.92)] text-white px-3 py-2 shadow-lg">
+            <div className="text-sm font-medium">Hello 👋</div>
+            <div className="text-xs opacity-90">Need help booking a session?</div>
+
+            <div className="mt-2 flex gap-2">
+              <button
+                className="text-xs px-2 py-1 rounded-md bg-white/10 hover:bg-white/15"
+                onClick={() => {
+                  // if user clicks, we can safely play greeting too
+                  if (!greeted) playGreeting();
+                  setOpen(true);
+                }}
+              >
+                Open chat
+              </button>
+              <button
+                className="text-xs px-2 py-1 rounded-md bg-white/5 hover:bg-white/10"
+                onClick={() => {
+                  setNudgeVisible(false);
+                  sessionStorage.setItem("bunny_chat_nudge_seen", "1");
+                }}
+              >
+                Not now
+              </button>
+            </div>
+
+            {/* little tail */}
+            <div className="absolute -bottom-2 left-5 h-0 w-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-[rgba(20,20,20,0.92)]" />
+          </div>
+        </div>
+      )}
+
       {/* Launcher */}
       {!open && (
         <button
@@ -874,7 +1012,7 @@ export default function ChatWidget() {
                   className="flex-1 bg-(--color-primary) text-(--color-primary-foreground) py-2 px-3 rounded-md hover:scale-[1.02] transition"
                   onClick={() => handleComfort("agree")}
                 >
-                  I agree
+                  Agreed. Continue
                 </button>
                 <button
                   className="flex-1 border-(--color-border) py-2 px-3 rounded-md hover:bg-[var(--color-muted)/0.04]"

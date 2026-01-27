@@ -8,7 +8,7 @@ export const metadata = {
 export default function AppointmentPage() {
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
+    <main className="relative min-h-screen bg-linear-to-br from-background via-muted/30 to-background">
       <BookingSection />
     </main>
   )
