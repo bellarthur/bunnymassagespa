@@ -39,7 +39,7 @@ export default function BunnySpaLanding() {
       <FAQSection />
       {/* Chat widget and WhatsApp floating buttons */}
       <ChatWidget />
-      {/* WhatsApp Floating Button */}
+      {/* WhatsApp Floating Btn */}
         <a
           href="https://wa.me/233247932681"
           target="_blank"
