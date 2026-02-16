@@ -68,7 +68,7 @@ const SERVICES = [
   {
     name: "Pedicures/Manicures",
     price: "500",
-    duration: "",
+    duration: "NEW",
     description:
       "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
     image: "media/swedish-massage.jpg",
@@ -77,7 +77,7 @@ const SERVICES = [
   {
     name: "Body Scrub",
     price: "500",
-    duration: "",
+    duration: "NEW",
     description:
       "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
     image: "media/deep-tissue.webp",
