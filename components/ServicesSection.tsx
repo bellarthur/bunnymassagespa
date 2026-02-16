@@ -184,7 +184,7 @@ export function ServicesSection({ services = SERVICES }) {
           {services.map((service, i) => (
             <article
               key={i}
-              className="carousel-slide flex-shrink-0 w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-[1020px] mr-6 rounded-xl overflow-hidden shadow-xl relative bg-gray-100 h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[75vh]"
+              className="carousel-slide shrink-0 w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-255 mr-6 rounded-xl overflow-hidden shadow-xl relative bg-gray-100 h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[75vh]"
             >
               <div
                 className="absolute inset-0 perspective-1000"
@@ -195,12 +195,12 @@ export function ServicesSection({ services = SERVICES }) {
                   src={service.image}
                   alt={service.alt}
                   ref={(el) => {imageRefs.current[i] = el}}
-                  className={`w-full h-full object-cover transition-transform duration-[18000ms] ease-in-out ${
+                  className={`w-full h-full object-cover transition-transform duration-18000 ease-in-out ${
                     i === current ? "parallax-active" : ""
                   }`}
                   draggable={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/10 to-black/40" />
               </div>
 
               <div className="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between">
@@ -211,7 +211,7 @@ export function ServicesSection({ services = SERVICES }) {
                 </div>
 
                 <div className="mt-auto mb-6 md:mb-8 max-w-[75%]">
-                  <h2 className="text-white text-4xl sm:text-5xl md:text-6xl leading-tight font-[var(--font-playfair)]">
+                  <h2 className="text-white text-4xl sm:text-5xl md:text-6xl leading-tight font-(--font-playfair)">
                     {service.name}
                   </h2>
                   <p className="text-white/80 text-base mt-1">₵{service.price}</p>
