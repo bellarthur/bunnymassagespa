@@ -65,6 +65,24 @@ const SERVICES = [
     image: "media/couple-massage.jpg",
     alt: "Couple receiving side-by-side massages",
   },
+  {
+    name: "Pedicures/Manicures",
+    price: "500",
+    duration: "",
+    description:
+      "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
+    image: "media/swedish-massage.jpg",
+    alt: "Spa setup for pedicure and manicure service",
+  },
+  {
+    name: "Body Scrub",
+    price: "500",
+    duration: "",
+    description:
+      "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
+    image: "media/deep-tissue.webp",
+    alt: "Body scrub preparation in a spa setting",
+  },
 ]
 
 const SERVICE_SLUGS: { [key: string]: string } = {
@@ -76,6 +94,8 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Erotic Massage": "erotic",
   "Swedish/Deep Tissue Nuru": "swedish-nuru",
   "Couple Massage": "couples",
+  "Pedicures/Manicures": "pedicures-manicures",
+  "Body Scrub": "body-scrub",
 }
 
 export function ServicesSection({ services = SERVICES }) {
