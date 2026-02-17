@@ -10,7 +10,7 @@ const OTHER_SERVICES = [
   {
     id: 1,
     name: "Pedicures/Manicures",
-    image: "/media/swedish-massage.jpg",
+    image: "/media/pedicure-menicure.webp",
     link: "/services/pedicures-manicures",
   },
   {
@@ -60,7 +60,7 @@ export default function BodyScrubPage() {
 
       <div className="mt-6">
         <img
-          src="/media/deep-tissue.webp"
+          src="/media/body-scrub-massage.jpg"
           alt="Body scrub spa setup"
           className="w-full rounded-md shadow"
         />

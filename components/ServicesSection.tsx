@@ -5,15 +5,6 @@ import { useEffect, useRef, useState } from "react"
 
 const SERVICES = [
   {
-    name: "Thai Massage",
-    price: "800",
-    duration: "40 mins",
-    description:
-      "Traditional stretching and pressure techniques to relieve tension and restore mobility.",
-    image: "media/thai-massage-photo.jpg",
-    alt: "Therapist performing Thai massage",
-  },
-  {
     name: "Deep Tissue Massage",
     price: "800",
     duration: "1 hour",
@@ -21,6 +12,15 @@ const SERVICES = [
       "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
     image: "media/deep-tissue.webp",
     alt: "Close-up deep tissue massage",
+  },
+  {
+    name: "Thai Massage",
+    price: "800",
+    duration: "40 mins",
+    description:
+      "Traditional stretching and pressure techniques to relieve tension and restore mobility.",
+    image: "media/thai-massage-photo.jpg",
+    alt: "Therapist performing Thai massage",
   },
   {
     name: "Nuru Massage",
@@ -68,19 +68,19 @@ const SERVICES = [
   {
     name: "Pedicures/Manicures",
     price: "500",
-    duration: "",
+    duration: "New",
     description:
       "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
-    image: "media/swedish-massage.jpg",
+    image: "media/pedicure-menicure.webp",
     alt: "Spa setup for pedicure and manicure service",
   },
   {
     name: "Body Scrub",
     price: "500",
-    duration: "",
+    duration: "New",
     description:
       "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
-    image: "media/deep-tissue.webp",
+    image: "media/body-scrub-massage.jpg",
     alt: "Body scrub preparation in a spa setting",
   },
 ]
@@ -225,9 +225,11 @@ export function ServicesSection({ services = SERVICES }) {
 
               <div className="relative z-10 p-6 md:p-8 h-full flex flex-col justify-between">
                 <div>
-                  <span className="text-sm text-white/90 font-medium tracking-wide bg-black/30 px-3 py-1 rounded-md">
+                    <span className={`text-sm text-white/90 font-medium tracking-wide px-3 py-1 rounded-md ${
+                    service.duration === "New" ? "bg-red-500/90" : "bg-black/30"
+                    }`}>
                     {service.duration}
-                  </span>
+                    </span>
                 </div>
 
                 <div className="mt-auto mb-6 md:mb-8 max-w-[75%]">

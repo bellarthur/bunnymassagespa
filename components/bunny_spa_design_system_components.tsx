@@ -271,21 +271,21 @@ function RippleCard() {
       transition={{ type: "spring", stiffness: 120, damping: 15 }}
       className="relative w-full max-w-md overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl cursor-pointer select-none"
     >
-      <div className="text-sm text-white/80 mb-3">Popular</div>
+      <div className="text-sm text-white/80 mb-3">New</div>
       <div className="flex items-center gap-4">
         <img
-          src="/media/thai-massage-photo.jpg"
-          alt="Thai massage preview"
+          src="/media/pedicure-menicure.webp"
+          alt="Pedicures/manicures preview"
           className="w-24 h-24 object-cover rounded-xl pointer-events-none select-none"
         />
         <div>
-          <div className="text-lg font-semibold text-white">Thai Massage</div>
-          <div className="text-sm text-white/80">40 mins • ₵800</div>
+          <div className="text-lg font-semibold text-white">Pedicures/manicures</div>
+          <div className="text-sm text-white/80">₵500</div>
         </div>
       </div>
       <div className="mt-4">
         <p className="text-sm text-white/80">
-          A quick, rejuvenating session delivered in the comfort of your home.
+          Complete hand and foot care designed to keep your nails healthy, neat, and beautifully finished.
         </p>
       </div>
 
