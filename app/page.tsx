@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { StickyNav, HeroSection, DiscountSection, TestimonialsSection, BookingSection, FAQSection, Footer, AboutSection } from "@/components/bunny_spa_design_system_components"
+import { StickyNav, DiscountSection, TestimonialsSection, BookingSection, FAQSection, Footer, AboutSection } from "@/components/bunny_spa_design_system_components"
+import HeroSection from "@/components/HeroSection"
 import { ServicesSection } from "@/components/ServicesSection"
 import ChatWidget from "@/components/ChatWidget"
 

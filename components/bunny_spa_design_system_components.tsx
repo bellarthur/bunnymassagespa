@@ -1429,13 +1429,13 @@ export function Footer() {
   }
 
   const openingHours = [
-    { day: "Monday", hours: "07:00 – 22:00" },
-    { day: "Tuesday", hours: "07:00 – 22:00" },
-    { day: "Wednesday", hours: "07:00 – 22:00" },
-    { day: "Thursday", hours: "07:00 – 22:00" },
-    { day: "Friday", hours: "08:30 – 22:00" },
-    { day: "Saturday", hours: "07:00 – 22:00" },
-    { day: "Sunday", hours: "08:30 – 22:00" },
+    { day: "Monday", hours: "08:00AM – 12:00AM" },
+    { day: "Tuesday", hours: "08:00AM – 12:00AM" },
+    { day: "Wednesday", hours: "08:00AM – 12:00AM" },
+    { day: "Thursday", hours: "08:00AM – 12:00AM" },
+    { day: "Friday", hours: "08:00AM – 12:00AM" },
+    { day: "Saturday", hours: "08:00AM – 12:00AM" },
+    { day: "Sunday", hours: "08:00AM – 12:00AM" },
   ]
 
   return (
@@ -1525,9 +1525,9 @@ export function Footer() {
                   WhatsApp
                 </a>
               </li>
-              <li className="flex items-center gap-2">
+              <li className="grid grid-cols-[auto_1fr] items-start gap-2">
                 <MapPin size={16} className="text-primary/80" />
-                <span>Kumasi, Ghana</span>
+                <span>Kumasi, Ghana: Behind Brotherman spot. By Roses academy. Close to the Pentecost church.</span>
               </li>
             </ul>
           </div>

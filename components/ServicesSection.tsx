@@ -24,7 +24,7 @@ const SERVICES = [
   },
   {
     name: "Nuru Massage",
-    price: "1000",
+    price: "1050",
     duration: "1 hr 30 mins",
     description:
       "Luxurious skin-to-skin experience using premium gel for total relaxation.",
@@ -33,7 +33,7 @@ const SERVICES = [
   },
   {
     name: "Sensual Massage",
-    price: "1000",
+    price: "1100",
     duration: "1 hr 30 mins",
     description: "An intimate massage crafted to calm the senses and restore balance.",
     image: "media/sensual-massage.jpg",
@@ -67,7 +67,7 @@ const SERVICES = [
   },
   {
     name: "Pedicures/Manicures",
-    price: "500",
+    price: "300",
     duration: "New",
     description:
       "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
@@ -76,7 +76,7 @@ const SERVICES = [
   },
   {
     name: "Body Scrub",
-    price: "500",
+    price: "300",
     duration: "New",
     description:
       "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
