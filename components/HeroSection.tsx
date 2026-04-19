@@ -145,7 +145,7 @@ export default function HeroSection() {
               </ElegantButton>
               </Link>
               <Link href="#services" className="text-white/90 underline-offset-4 hover:underline">
-                Explore Treatments
+                Explore Services
               </Link>
             </div>
           </div>
@@ -243,8 +243,14 @@ function RippleCard() {
 
             <div className="relative p-4">
               <div className="flex items-start gap-4">
-                <div className="w-24 h-24 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
-                  <MapPin className="w-10 h-10 text-pink-200" />
+                <div className="flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center cursor-pointer">
+                    <MapPin className="w-10 h-10 text-pink-200" />
+                  </div>
+                  <div className="mt-1 text-xs text-white/70">
+                      Tap to view map
+                    </div>
+
                 </div>
 
                 <div>
@@ -254,13 +260,12 @@ function RippleCard() {
 
                   <div className="mt-1 text-sm text-white/80 leading-5">
                     Behind Brotherman Spot<br />
-                    By Roses Academy<br />
-                    Near Pentecost Church
+                    By Roses Academy. Near Pentecost Church
                   </div>
 
-                  <div className="mt-3 text-xs text-white/70">
+                  {/* <div className="mt-2 text-xs text-white/70">
                     Tap to view map
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

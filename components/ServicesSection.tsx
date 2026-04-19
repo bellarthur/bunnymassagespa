@@ -191,7 +191,7 @@ export function ServicesSection({ services = SERVICES }) {
   }, [current])
 
   return (
-    <div id="services" className="w-full flex flex-col items-center overflow-hidden pt-20">
+    <div id="services" className="h-auto w-full flex flex-col items-center overflow-hidden pt-20">
       <div className="relative w-full px-4 sm:px-6 select-none">
         <div
           ref={trackRef}
@@ -204,7 +204,7 @@ export function ServicesSection({ services = SERVICES }) {
           {services.map((service, i) => (
             <article
               key={i}
-              className="carousel-slide shrink-0 w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-255 mr-6 rounded-xl overflow-hidden shadow-xl relative bg-gray-100 h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[75vh]"
+              className="carousel-slide shrink-0 w-[90vw] sm:w-[70vw] md:w-[60vw] lg:w-255 mr-6 rounded-xl overflow-hidden shadow-xl relative bg-gray-100 h-[60vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh]"
             >
               <div
                 className="absolute inset-0 perspective-1000"
