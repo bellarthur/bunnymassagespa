@@ -111,7 +111,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 * 0.2, type: "spring", stiffness: 80 }}
-                className="inline-block mx-2 font-[Great_Vibes] text-5xl md:text-6xl text-pink-200"
+                className="inline-block mr-2 font-[Great_Vibes] text-5xl md:text-6xl text-pink-200"
                 style={{ fontFamily: "'Great Vibes', cursive" }}
               >
                 Unwind
@@ -121,7 +121,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 2 * 0.2, type: "spring", stiffness: 80 }}
-                className="inline-block ml-2 font-[var(--font-playfair)] font-stretch-105% tracking-tight text-4xl md:text-6xl text-white/90"
+                className="inline-block font-[var(--font-playfair)] font-stretch-105% tracking-tight text-4xl md:text-6xl text-white/90"
               >
                 @Bunny Spa
               </motion.span>
