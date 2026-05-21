@@ -68,16 +68,25 @@ const SERVICES = [
   {
     name: "Pedicures/Manicures",
     price: "300",
-    duration: "New",
+    duration: "60 mins",
     description:
       "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
     image: "media/pedicure-menicure.webp",
     alt: "Spa setup for pedicure and manicure service",
   },
   {
+    name: "Head & Foot Massage",
+    price: "800",
+    duration: "New",
+    description:
+      "A relaxing treatment focusing on the head and feet for overall wellness.",
+    image: "media/head-foot-massage.png",
+    alt: "Therapist providing head and foot massage",
+  },
+  {
     name: "Body Scrub",
     price: "300",
-    duration: "New",
+    duration: "60 mins",
     description:
       "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
     image: "media/body-scrub-massage.jpg",
@@ -96,6 +105,7 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Couple Massage": "couples",
   "Pedicures/Manicures": "pedicures-manicures",
   "Body Scrub": "body-scrub",
+  "Head & Foot Massage": "head-foot",
 }
 
 export function ServicesSection({ services = SERVICES }) {

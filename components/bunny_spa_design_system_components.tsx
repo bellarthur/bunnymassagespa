@@ -1273,6 +1273,7 @@ export function BookingSection() {
                         <option value="couples">Couples Massage</option>
                         <option value="pedicures-manicures">Pedicures/Manicures</option>
                         <option value="body-scrub">Body Scrub</option>
+                        <option value="head-foot">Head & Foot Massage</option>
                       </select>
                       {errors.service && (
                         <p className="text-xs text-destructive mt-2">{errors.service}</p>
