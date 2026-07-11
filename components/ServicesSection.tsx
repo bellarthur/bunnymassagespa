@@ -14,6 +14,15 @@ const SERVICES = [
     alt: "Close-up deep tissue massage",
   },
   {
+    name: "Swedish Massage",
+    price: "800",
+    duration: "1 hour",
+    description:
+      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
+    image: "media/swedish-massage.jpg",
+    alt: "Relaxing Swedish massage with oil",
+  },
+  {
     name: "Thai Massage",
     price: "800",
     duration: "40 mins",
@@ -24,7 +33,7 @@ const SERVICES = [
   },
   {
     name: "Nuru Massage",
-    price: "1050",
+    price: "1000",
     duration: "1 hr 30 mins",
     description:
       "Luxurious skin-to-skin experience using premium gel for total relaxation.",
@@ -41,21 +50,12 @@ const SERVICES = [
   },
   { name: "Erotic Massage", price: "1000", duration: "1 hr 30 mins", description: "A focused experience designed for pleasure and deep relaxation.", image: "media/erotic-massage.avif", alt: "Candles and warm lighting around massage table", },
   {
-    name: "Swedish/Deep Tissue Nuru",
+    name: "Full Combination",
     price: "1500",
     duration: "1 hr 30 mins",
     description: "Premium combination of techniques for complete rejuvenation.",
     image: "media/sweedish+nuru.jpg",
     alt: "Therapist combining massage techniques",
-  },
-  {
-    name: "Swedish Massage",
-    price: "800",
-    duration: "1 hour",
-    description:
-      "Relaxing long strokes and kneading that soothe muscles and help circulation.",
-    image: "media/swedish-massage.jpg",
-    alt: "Relaxing Swedish massage with oil",
   },
   {
     name: "Couple Massage",
@@ -64,15 +64,6 @@ const SERVICES = [
     description: "Side-by-side relaxation for two — reconnect and unwind together.",
     image: "media/couple-massage.jpg",
     alt: "Couple receiving side-by-side massages",
-  },
-  {
-    name: "Pedicures/Manicures",
-    price: "300",
-    duration: "60 mins",
-    description:
-      "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
-    image: "media/pedicure-menicure.webp",
-    alt: "Spa setup for pedicure and manicure service",
   },
   {
     name: "Head & Foot Massage",
@@ -92,6 +83,15 @@ const SERVICES = [
     image: "media/body-scrub-massage.jpg",
     alt: "Body scrub preparation in a spa setting",
   },
+    {
+    name: "Pedicures/Manicures",
+    price: "300",
+    duration: "60 mins",
+    description:
+      "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
+    image: "media/pedicure-menicure.webp",
+    alt: "Spa setup for pedicure and manicure service",
+  },
 ]
 
 const SERVICE_SLUGS: { [key: string]: string } = {
@@ -101,7 +101,7 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Nuru Massage": "nuru",
   "Sensual Massage": "sensual",
   "Erotic Massage": "erotic",
-  "Swedish/Deep Tissue Nuru": "swedish-nuru",
+  "Full Combination": "full-combination",
   "Couple Massage": "couples",
   "Pedicures/Manicures": "pedicures-manicures",
   "Body Scrub": "body-scrub",
@@ -285,7 +285,7 @@ export function ServicesSection({ services = SERVICES }) {
             key={i}
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => goTo(i)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
               i === current ? "bg-gray-800" : "bg-gray-300"
             }`}
           />
