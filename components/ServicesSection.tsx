@@ -32,6 +32,14 @@ const SERVICES = [
     alt: "Therapist performing Thai massage",
   },
   {
+    name: "VIP Four(4) Hands Full Combination",
+    price: "2200",
+    duration: "1 hr 30 mins",
+    description: "A synchronized massage experience performed by two skilled therapists (four hands) for ultimate relaxation. Available with your choice of selected masssage styles.",
+    image: "media/VIP-Four-Hands-Full-Combination.webp.jpg",
+    alt: "VIP Four(4) Hands Full Combination massage",
+  },
+  {
     name: "Nuru Massage",
     price: "1000",
     duration: "1 hr 30 mins",
@@ -59,7 +67,7 @@ const SERVICES = [
   },
   {
     name: "Couple Massage",
-    price: "1600",
+    price: "1700",
     duration: "1 hr 30 mins",
     description: "Side-by-side relaxation for two — reconnect and unwind together.",
     image: "media/couple-massage.jpg",
@@ -98,6 +106,7 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Thai Massage": "thai-massage",
   "Deep Tissue Massage": "deep-tissue",
   "Swedish Massage": "swedish",
+  "VIP Four(4) Hands Full Combination": "vip-four-hands-full-combination",
   "Nuru Massage": "nuru",
   "Sensual Massage": "sensual",
   "Erotic Massage": "erotic",
@@ -202,6 +211,21 @@ export function ServicesSection({ services = SERVICES }) {
 
   return (
     <div id="services" className="h-auto w-full flex flex-col items-center overflow-hidden pt-20">
+      {/* Section heading */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-3">
+            <span className="font-(--font-playfair)">Our</span>
+            <span
+              style={{ fontFamily: "'Great Vibes', cursive" }}
+              className="text-pink-300 text-3xl md:text-4xl"
+            >
+              Services
+            </span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mt-4 text-lg leading-relaxed">
+            Explore our diverse range of massage therapies and spa treatments.
+          </p>
+        </div>
       <div className="relative w-full px-4 sm:px-6 select-none">
         <div
           ref={trackRef}
