@@ -82,15 +82,15 @@ const SERVICES = [
     image: "media/head-foot-massage.png",
     alt: "Therapist providing head and foot massage",
   },
-  {
-    name: "Body Scrub",
-    price: "300",
-    duration: "60 mins",
-    description:
-      "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
-    image: "media/body-scrub-massage.jpg",
-    alt: "Body scrub preparation in a spa setting",
-  },
+  // {
+  //   name: "Body Scrub",
+  //   price: "300",
+  //   duration: "60 mins",
+  //   description:
+  //     "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
+  //   image: "media/body-scrub-massage.jpg",
+  //   alt: "Body scrub preparation in a spa setting",
+  // },
     {
     name: "Pedicures/Manicures",
     price: "300",
@@ -113,7 +113,7 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Full Combination": "full-combination",
   "Couple Massage": "couples",
   "Pedicures/Manicures": "pedicures-manicures",
-  "Body Scrub": "body-scrub",
+  // "Body Scrub": "body-scrub",
   "Head & Foot Massage": "head-foot",
 }
 
@@ -212,7 +212,7 @@ export function ServicesSection({ services = SERVICES }) {
   return (
     <div id="services" className="h-auto w-full flex flex-col items-center overflow-hidden pt-20">
       {/* Section heading */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground flex items-baseline justify-center gap-3">
             <span className="font-(--font-playfair)">Our</span>
             <span
