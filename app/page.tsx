@@ -33,7 +33,7 @@ export default function BunnySpaLanding() {
     <div className="min-h-screen bg-background">
       <HeroSection />
       <ServicesSection />
-      <DiscountSection />
+      {/* <DiscountSection /> */}
       <TestimonialsSection />
       <BookingSection />
       <AboutSection />
