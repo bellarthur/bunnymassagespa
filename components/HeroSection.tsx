@@ -92,7 +92,7 @@ export default function HeroSection() {
               Walk-In Spa • Appointment Only
             </div> */}
             <div className="hidden md:inline-block px-3 py-1 rounded-full bg-white/10 text-sm text-white/90">
-              New Kumasi Branch • Appointment Only
+              Accra & Kumasi Branches • Appointment Only
             </div>
             <h1
               className={`flex flex-col mt-6 text-4xl md:text-6xl font-extrabold leading-tight text-white relative ${shimmer ? "animate-textShimmer" : ""
@@ -222,11 +222,11 @@ function RippleCard() {
           {/* Header */}
           <div className="flex items-center justify-between">
             <div className="text-sm px-3 py-1 rounded-full bg-white/10 text-white/90">
-              Our New Location
+              Our Locations
             </div>
             <div className="text-xs text-white/70 flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5" />
-              Kumasi
+              Accra & Kumasi
             </div>
           </div>
 
@@ -248,7 +248,7 @@ function RippleCard() {
                     <MapPin className="w-10 h-10 text-pink-200" />
                   </div>
                   <div className="mt-1 text-xs text-white/70">
-                      Tap to view map
+                      Tap for Kumasi map
                     </div>
 
                 </div>
@@ -266,6 +266,14 @@ function RippleCard() {
                   {/* <div className="mt-2 text-xs text-white/70">
                     Tap to view map
                   </div> */}
+                </div>
+              </div>
+              <div className="mt-4 border-t border-white/10 pt-4">
+                <div className="text-lg font-semibold text-white">
+                  Accra - East Legon
+                </div>
+                <div className="mt-1 text-sm text-white/80 leading-5">
+                  Aluguntugui Street, East Legon
                 </div>
               </div>
             </div>
@@ -331,6 +339,13 @@ function RippleCard() {
             <div className="text-sm font-medium text-white">Kumasi - Patasi</div>
             <div className="text-xs text-white/75 mt-1 leading-5">
               Behind Brotherman Spot, by Roses Academy, near Pentecost Church.
+            </div>
+          </div>
+
+          <div className="bg-white/10 border border-white/10 rounded-xl p-3">
+            <div className="text-sm font-medium text-white">Accra - East Legon</div>
+            <div className="text-xs text-white/75 mt-1 leading-5">
+              Aluguntugui Street, East Legon.
             </div>
           </div>
 
@@ -795,4 +810,3 @@ function RippleCard() {
 //     </motion.div>
 //   )
 // }
-

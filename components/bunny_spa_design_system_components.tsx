@@ -1460,8 +1460,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-white/70 mt-3 max-w-xs leading-relaxed">
-              Premium mobile spa services delivered to your door — relaxation
-              reimagined in the comfort of your home.
+              Appointment-only spa services in Accra and Kumasi, crafted for
+              calm, privacy, and deep relaxation.
             </p>
           </div>
 
@@ -1494,10 +1494,10 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-primary/80" />
                 <a
-                  href="mailto:info.deepbreathspa@gmail.com"
+                  href="mailto:Bhunnyspa@gmail.com"
                   className="hover:text-white transition"
                 >
-                  info.deepbreathspa@gmail.com
+                  Bhunnyspa@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
@@ -1528,7 +1528,11 @@ export function Footer() {
               </li>
               <li className="grid grid-cols-[auto_1fr] items-start gap-2">
                 <MapPin size={16} className="text-primary/80" />
-                <span>Kumasi, Ghana: Behind Brotherman spot. By Roses academy. Close to the Pentecost church.</span>
+                <span>
+                  Accra: Aluguntugui Street, East Legon.
+                  <br />
+                  Kumasi: Behind Brotherman Spot, by Roses Academy, close to the Pentecost Church.
+                </span>
               </li>
             </ul>
           </div>
@@ -1680,7 +1684,7 @@ export function FAQSection() {
     {
       question: "What are your service areas?",
       answer:
-        "We currently operate in Kumasi, Ghana. Contact us to confirm availability in your location.",
+        "We currently operate in Accra and Kumasi, Ghana.",
     },
   ]
 
