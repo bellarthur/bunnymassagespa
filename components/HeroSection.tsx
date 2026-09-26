@@ -114,7 +114,7 @@ export default function HeroSection() {
                 className="inline-block mr-2 font-[Great_Vibes] text-5xl md:text-6xl text-pink-200"
                 style={{ fontFamily: "'Great Vibes', cursive" }}
               >
-                Unwind
+                Unwind <span className="inline-block font-[var(--font-playfair)] font-stretch-105% tracking-tight text-4xl md:text-6xl text-white/90 pl-1.5">at</span>
               </motion.span>
 
               <motion.span
@@ -123,7 +123,7 @@ export default function HeroSection() {
                 transition={{ delay: 2 * 0.2, type: "spring", stiffness: 80 }}
                 className="inline-block font-[var(--font-playfair)] font-stretch-105% tracking-tight text-4xl md:text-6xl text-white/90"
               >
-                @Bunny Spa
+                Bunny Spa
               </motion.span>
             </h1>
 

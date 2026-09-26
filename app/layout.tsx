@@ -2,7 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Playfair_Display, Source_Sans_3 } from "next/font/google"
 import "./globals.css"
-import { Footer, StickyNav } from "@/components/bunny_spa_design_system_components"
+import { StickyNav } from "@/components/bunny_spa_design_system_components"
+import { Footer } from "@/components/Footer"
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
