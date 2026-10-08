@@ -133,13 +133,13 @@ export function StickyNav() {
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex space-x-8 text-xs">
+        <div className="hidden md:flex space-x-8 text-sm font-medium">
           {navItems.map((item) => (
             <a href={`/#${item.id}`} key={item.name}>
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.id)}
-                className="text-white/90 hover:text-white transition-colors"
+                className="text-white/90 hover:text-white/25 transition-colors cursor-pointer font-medium tracking-wide"
               >
                 {item.name}
               </button>
@@ -1264,15 +1264,15 @@ export function BookingSection() {
                           Select a service
                         </option>
                         <option value="nuru">Nuru Massage</option>
-                        <option value="thai-massage">Thai Massage</option>
-                        <option value="sensual-massage">Sensual Massage</option>
-                        <option value="deep-tissue">Deep Tissue</option>
                         <option value="erotic-massage">Erotic Massage</option>
+                        <option value="sensual-massage">Sensual Massage</option>
+                        <option value="full-combination">Full Combination</option>
+                        <option value="thai-massage">Thai Massage</option>
+                        <option value="deep-tissue">Deep Tissue</option>
                         <option value="swedish">Swedish Massage</option>
-                        <option value="swedish-deep-tissue-massage">Swedish/Deep Tissue Massage</option>
                         <option value="couples">Couples Massage</option>
                         <option value="pedicures-manicures">Pedicures/Manicures</option>
-                        <option value="body-scrub">Body Scrub</option>
+                        {/* <option value="body-scrub">Body Scrub</option> */}
                         <option value="head-foot">Head & Foot Massage</option>
                       </select>
                       {errors.service && (

@@ -1,45 +1,45 @@
-"use client"
+"use client";
 
 // -------------------- Footer --------------------------------------
-import Link from "next/link"
-import { useState, useEffect } from "react"
+import Link from "next/link";
+import { useState, useEffect } from "react";
 // import { ElegantButton } from "./ui/elegant-button"
-import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react"
-import { useTheme } from "@/lib/useTheme"
+import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { useTheme } from "@/lib/useTheme";
 // import { ArrowUp } from "lucide-react"
 
 export function Footer() {
-  const [isVisible, setIsVisible] = useState(false)
-  const { theme, toggleTheme } = useTheme()
+  const [isVisible, setIsVisible] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "Services", href: "#services" },
     { name: "Testimonials", href: "#testimonials" },
-    { name: "Booking", href: "#booking" },
-  ]
-  const todayIndex = new Date().getDay() // 0 = Sunday, 1 = Monday, ...
+    { name: "Booking", href: "appointment" },
+  ];
+  const todayIndex = new Date().getDay(); // 0 = Sunday, 1 = Monday, ...
 
-    // Show button when page is scrolled down
+  // Show button when page is scrolled down
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {
-      setIsVisible(true)
+      setIsVisible(true);
     } else {
-      setIsVisible(false)
+      setIsVisible(false);
     }
-  }
+  };
 
-    // Set up scroll event listener
+  // Set up scroll event listener
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility)
-    return () => window.removeEventListener("scroll", toggleVisibility)
-  }, [])
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
 
-    const scrollToTop = () => {
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    })
-  }
+    });
+  };
 
   const openingHours = [
     { day: "Monday", hours: "08:00AM – 12:00AM" },
@@ -49,7 +49,7 @@ export function Footer() {
     { day: "Friday", hours: "08:00AM – 12:00AM" },
     { day: "Saturday", hours: "08:00AM – 12:00AM" },
     { day: "Sunday", hours: "08:00AM – 12:00AM" },
-  ]
+  ];
 
   return (
     <footer className="relative overflow-hidden text-white/80">
@@ -86,7 +86,7 @@ export function Footer() {
               {navItems.map((item) => (
                 <li key={item.name}>
                   <Link
-                    href={item.href}
+                    href={`/${item.href}`}
                     className="relative text-white/70 hover:text-white transition group"
                   >
                     <span>{item.name}</span>
@@ -143,7 +143,8 @@ export function Footer() {
                 <span>
                   Accra: Aluguntugui Street, East Legon.
                   <br />
-                  Kumasi: Behind Brotherman Spot, by Roses Academy, close to the Pentecost Church.
+                  Kumasi: Behind Brotherman Spot, by Roses Academy, close to the
+                  Pentecost Church.
                 </span>
               </li>
             </ul>
@@ -159,20 +160,19 @@ export function Footer() {
                 // Match JS weekday index with array (Monday=1 … Sunday=0/7)
                 const isToday =
                   (todayIndex === 0 && item.day === "Sunday") ||
-                  (todayIndex === index + 1)
+                  todayIndex === index + 1;
 
                 return (
                   <li
                     key={item.day}
-                    className={`flex justify-between ${isToday
-                      ? "font-bold text-primary"
-                      : "text-white/70"
-                      }`}
+                    className={`flex justify-between ${
+                      isToday ? "font-bold text-primary" : "text-white/70"
+                    }`}
                   >
                     <span>{item.day}</span>
                     <span>{item.hours}</span>
                   </li>
-                )
+                );
               })}
             </ul>
           </div>
@@ -219,12 +219,19 @@ export function Footer() {
           </p>
           <div className="flex flex-col items-center gap-1">
             <p className="font-semibold">Powered by:</p>
-            <p className="text-sm text-white/60">Business Tech Support | <span><a
-                  href="tel:+233592771234"
-                  className="hover:text-white transition"
-                >
-                  +233 59 277 1234
-                </a></span></p>
+            <p className="text-sm text-white/60">
+              Business Tech Support | {" "}
+              <span>
+                  <a
+                    href="https://wa.me/233592771234"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition"
+                  >
+                    +233 59 277 1234
+                  </a>
+                </span>
+            </p>
           </div>
           {/* <button
             onClick={toggleTheme}
@@ -235,13 +242,8 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
-
-
-
-
 
 // import { Phone, Mail, MapPin, Clock } from "lucide-react"
 

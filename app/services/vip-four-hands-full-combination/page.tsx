@@ -9,15 +9,15 @@ import { useEffect, useState } from "react"
 const OTHER_SERVICES = [
   {
     id: 1,
-    name: "Pedicures/Manicures",
-    image: "/media/pedicure-menicure.webp",
-    link: "/services/pedicures-manicures",
+    name: "Full Combination",
+    image: "/media/sweedish+nuru.jpg",
+    link: "/services/full-combination",
   },
   {
     id: 2,
-    name: "Deep Tissue Massage",
-    image: "/media/deep-tissue.webp",
-    link: "/services/deep-tissue",
+    name: "Swedish Massage",
+    image: "/media/swedish-massage.jpg",
+    link: "/services/swedish",
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const OTHER_SERVICES = [
   },
 ]
 
-export default function BodyScrubPage() {
+export default function VipFourHandsPage() {
   const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
 
@@ -47,31 +47,32 @@ export default function BodyScrubPage() {
         <Button
           size="lg"
           className="bg-primary text-white shadow-xl hover:scale-105 transition-transform"
-          onClick={() => router.push("/appointment?service=Body Scrub")}
+          onClick={() => router.push("/appointment?service=VIP Four(4) Hands Full Combination")}
         >
-          Book Body Scrub
+          Book VIP Four(4) Hands
         </Button>
       </motion.div>
 
-      <h1 className="text-4xl font-bold mt-4">Body Scrub</h1>
+      <h1 className="text-4xl font-bold mt-4">VIP Four(4) Hands Full Combination</h1>
       <p className="text-lg text-muted-foreground mt-2">
-        A full-body exfoliation treatment that smooths texture and restores a fresh, radiant glow.
+        A synchronized massage experience performed by two skilled therapists for deeper relaxation and complete-body coverage.
       </p>
 
       <div className="mt-6">
         <img
-          src="/media/body-scrub-massage.jpg"
-          alt="Body scrub spa setup"
+          src="/media/VIP-Four-Hands-Full-Combination.webp.jpg"
+          alt="VIP Four(4) Hands Full Combination massage"
           className="w-full rounded-md shadow"
         />
       </div>
 
       <section className="mt-6">
         <h2 className="text-2xl font-semibold">Details</h2>
-        <p className="mt-2">Price: ₵500</p>
+        <p className="mt-2"><strong>Duration:</strong> 1 hr 30 mins</p>
+        <p className="mt-2"><strong>Price:</strong> ₵2200</p>
         <p className="mt-2">
-          This treatment uses a gentle exfoliant to remove dull skin buildup and improve softness.
-          It is a great choice before special events or as part of a monthly wellness routine.
+          This premium treatment blends your preferred massage techniques in a synchronized four-hands flow for enhanced circulation,
+          deeper muscle release, and a more indulgent spa experience. It is ideal for guests seeking ultimate relaxation and a luxurious touch.
         </p>
       </section>
 

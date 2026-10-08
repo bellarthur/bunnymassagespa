@@ -227,6 +227,25 @@ export function ServicesSection({ services = SERVICES }) {
           </p>
         </div>
       <div className="relative w-full px-4 sm:px-6 select-none">
+        <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-20 hidden items-center justify-between md:flex">
+          <button
+            type="button"
+            aria-label="Previous service"
+            onClick={prev}
+            className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/70 bg-black/30 text-xl text-white shadow-lg backdrop-blur-sm transition hover:bg-black/45"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            aria-label="Next service"
+            onClick={next}
+            className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/70 bg-black/30 text-xl text-white shadow-lg backdrop-blur-sm transition hover:bg-black/45"
+          >
+            →
+          </button>
+        </div>
+
         <div
           ref={trackRef}
           className="flex items-stretch transition-transform duration-500 ease-out will-change-transform"
