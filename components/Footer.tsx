@@ -14,6 +14,9 @@ export function Footer() {
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "Services", href: "#services" },
+    { name: "Accra Location", href: "locations/accra" },
+    { name: "Kumasi Location", href: "locations/kumasi" },
+    { name: "Blog", href: "blog" },
     { name: "Testimonials", href: "#testimonials" },
     { name: "Booking", href: "appointment" },
   ];
@@ -140,12 +143,15 @@ export function Footer() {
               </li>
               <li className="grid grid-cols-[auto_1fr] items-start gap-2">
                 <MapPin size={16} className="text-primary/80" />
-                <span>
-                  Accra: Aluguntugui Street, East Legon.
+                <div className="space-y-2">
+                  <Link href="/locations/accra" className="hover:text-white transition">
+                    Accra: Aluguntugui Street, East Legon
+                  </Link>
                   <br />
-                  Kumasi: Behind Brotherman Spot, by Roses Academy, close to the
-                  Pentecost Church.
-                </span>
+                  <Link href="/locations/kumasi" className="hover:text-white transition">
+                    Kumasi: Behind Brotherman Spot, by Roses Academy, close to the Pentecost Church
+                  </Link>
+                </div>
               </li>
             </ul>
           </div>

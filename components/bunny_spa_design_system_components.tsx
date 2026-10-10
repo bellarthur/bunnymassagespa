@@ -111,6 +111,7 @@ export function StickyNav() {
     { name: "Testimonials", id: "testimonials" },
     { name: "Booking", id: "booking" },
     { name: "About", id: "about" },
+    // { name: "Blog", id: "blog" },
     { name: "FAQ", id: "faq" },
   ]
 
@@ -1669,7 +1670,7 @@ export function FAQSection() {
     {
       question: "What services do you offer?",
       answer:
-        "We provide a range of spa services including Thai massage, deep tissue massage, nuru massage etc, all delivered to your home.",
+        "We offer massage and spa services by appointment at our Accra and Kumasi studios. Outcall sessions at a home or hotel are also available; choose in-studio or outcall when booking.",
     },
     {
       question: "How do I book an appointment?",
@@ -1684,7 +1685,7 @@ export function FAQSection() {
     {
       question: "What are your service areas?",
       answer:
-        "We currently operate in Accra and Kumasi, Ghana.",
+        "We have appointment-only studio locations in Accra at Aluguntugui Street, East Legon, and in Kumasi behind Brotherman Spot, by Roses Academy, close to the Pentecost Church. Outcall sessions are also available in Accra and Kumasi.",
     },
   ]
 

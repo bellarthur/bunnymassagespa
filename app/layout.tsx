@@ -29,16 +29,6 @@ export const metadata: Metadata = {
     "Book professional massage and spa treatments at Bunny Massage Spa in Accra and Kumasi, Ghana. Appointment-only sessions for relaxation, wellness, and comfort.",
   alternates: { canonical: "/" },
   applicationName: "Bunny Massage Spa",
-  keywords: [
-    "massage spa Accra",
-    "massage therapy Accra Ghana",
-    "spa in East Legon",
-    "massage Kumasi Ghana",
-    "Swedish massage Accra",
-    "deep tissue massage Accra",
-    "couples massage Accra",
-    "spa appointment Ghana",
-  ],
   openGraph: {
     type: "website",
     locale: "en_GH",
@@ -109,7 +99,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "HealthAndBeautyBusiness",
+              "@type": "Organization",
+              "@id": new URL("/#organization", SITE_URL).toString(),
               name: "Bunny Massage Spa",
               url: SITE_URL,
               image: `${SITE_URL}/media/massagespa-pouring-oil.avif`,
@@ -118,18 +109,10 @@ export default function RootLayout({
                 "Appointment-only massage and spa services in Accra and Kumasi, Ghana.",
               telephone: "+233247932681",
               email: "Bhunnyspa@gmail.com",
-              priceRange: "₵300-₵2200",
               areaServed: [
                 { "@type": "City", name: "Accra" },
                 { "@type": "City", name: "Kumasi" },
               ],
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "Aluguntugui Street, East Legon",
-                addressLocality: "Accra",
-                addressRegion: "Greater Accra",
-                addressCountry: "GH",
-              },
               contactPoint: {
                 "@type": "ContactPoint",
                 telephone: "+233247932681",
