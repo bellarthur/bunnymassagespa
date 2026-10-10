@@ -1,9 +1,11 @@
 import { BookingSection } from "@/components/bunny_spa_design_system_components"
+import { serviceMetadata } from "@/lib/seo"
 
-export const metadata = {
-  title: "Book an Appointment | Bunny Spa",
-  description: "Reserve your massage or facial session with Bunny Spa. Relax, unwind, and rejuvenate.",
-}
+export const metadata = serviceMetadata(
+  "Book a Massage Appointment",
+  "Request an appointment for massage and spa services at Bunny Massage Spa in Accra or Kumasi, Ghana.",
+  "/appointment",
+)
 
 export default function AppointmentPage() {
 

@@ -134,7 +134,7 @@ export default function HeroSection() {
             </p> */}
 
             <p className="text-sm md:text-base text-white/75 max-w-2xl mx-auto lg:mx-0">
-              Book your appointment before arrival to secure your preferred time and therapist.
+              Professional massage and spa appointments in Accra and Kumasi. Reserve your preferred time and therapist.
             </p>
 
             <div className="flex gap-4 items-center mt-6 justify-center lg:justify-start">
