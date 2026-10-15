@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 // import { ElegantButton } from "./ui/elegant-button"
-import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, Mail, MapPin, Music2, Phone } from "lucide-react";
 import { useTheme } from "@/lib/useTheme";
 // import { ArrowUp } from "lucide-react"
 
@@ -125,6 +125,12 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2">
+                <Phone size={16} className="text-primary/80" />
+                <a href="tel:+233596202033" className="hover:text-white transition">
+                  Accra branch: +233 59 620 2033
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
                 {/* You can use an SVG or import an icon from a library like react-icons */}
                 <svg
                   viewBox="0 0 24 24"
@@ -138,14 +144,25 @@ export function Footer() {
                   href="https://wa.me/233247932681"
                   className="hover:text-white transition"
                 >
-                  WhatsApp
+                  WhatsApp reservations
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone size={16} className="text-primary/80" />
+                <a
+                  href="https://wa.me/233596202033"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition"
+                >
+                  WhatsApp Accra branch
                 </a>
               </li>
               <li className="grid grid-cols-[auto_1fr] items-start gap-2">
                 <MapPin size={16} className="text-primary/80" />
                 <div className="space-y-2">
                   <Link href="/locations/accra" className="hover:text-white transition">
-                    Accra: Aluguntugui Street, East Legon
+                    Accra: Little Roses, Ashley Botwe
                   </Link>
                   <br />
                   <Link href="/locations/kumasi" className="hover:text-white transition">
@@ -189,7 +206,7 @@ export function Footer() {
               Follow Us
             </h4>
             <div className="mt-4 flex gap-4">
-              <a
+              {/* <a
                 href="#"
                 className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:shadow-lg hover:shadow-primary/20 transition"
               >
@@ -200,12 +217,15 @@ export function Footer() {
                 className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:shadow-lg hover:shadow-primary/20 transition"
               >
                 <Facebook size={18} />
-              </a>
+              </a> */}
               <a
-                href="#"
+                href="https://www.tiktok.com/@bhunnyspa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Bunny Massage Spa on TikTok"
                 className="p-3 rounded-full bg-white/5 hover:bg-white/10 hover:shadow-lg hover:shadow-primary/20 transition"
               >
-                <Phone size={18} />
+                <Music2 size={18} />
               </a>
             </div>
           </div>
@@ -218,9 +238,9 @@ export function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col justify-between items-center text-center gap-4">
+        {/* <div className="mt-12 pt-6 border-t border-white/10 flex flex-col justify-between items-center text-center gap-4">
           <p className="text-sm text-white/60">
-            {/* All rights reserved. &copy; {new Date().getFullYear()} Bunny Massage Spa. */}
+            All rights reserved. &copy; {new Date().getFullYear()} Bunny Massage Spa.
             www.bunnymassagespa.com
           </p>
           <div className="flex flex-col items-center gap-1">
@@ -239,13 +259,13 @@ export function Footer() {
                 </span>
             </p>
           </div>
-          {/* <button
+          <button
             onClick={toggleTheme}
             className="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-sm text-white transition shadow-md hover:shadow-lg hover:shadow-primary/20"
           >
             {theme === "light" ? "Dark Mode" : "Light Mode"}
-          </button> */}
-        </div>
+          </button>
+        </div> */}
       </div>
     </footer>
   );

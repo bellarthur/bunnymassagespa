@@ -269,11 +269,11 @@ function RippleCard() {
                 </div>
               </div>
               <div className="mt-4 border-t border-white/10 pt-4">
-                <div className="text-lg font-semibold text-white">
-                  Accra - East Legon
-                </div>
+                  <div className="text-lg font-semibold text-white">
+                    Accra - Ashley Botwe
+                  </div>
                 <div className="mt-1 text-sm text-white/80 leading-5">
-                  Aluguntugui Street, East Legon
+                  Little Roses, Ashley Botwe
                 </div>
               </div>
             </div>
@@ -343,9 +343,9 @@ function RippleCard() {
           </div>
 
           <div className="bg-white/10 border border-white/10 rounded-xl p-3">
-            <div className="text-sm font-medium text-white">Accra - East Legon</div>
+            <div className="text-sm font-medium text-white">Accra - Ashley Botwe</div>
             <div className="text-xs text-white/75 mt-1 leading-5">
-              Aluguntugui Street, East Legon.
+              Little Roses, Ashley Botwe.
             </div>
           </div>
 

@@ -22,6 +22,7 @@ const FEATURED_SERVICES = [
 
 export function LocationLandingPage({ locationKey }: { locationKey: SpaLocationKey }) {
   const location = SPA_LOCATIONS[locationKey]
+  const locationPhone = locationKey === "accra" ? SPA_CONTACT.accraPhone : SPA_CONTACT.phone
   const locationUrl = new URL(location.path, SITE_URL).toString()
   const jsonLd = {
     "@context": "https://schema.org",
@@ -32,7 +33,7 @@ export function LocationLandingPage({ locationKey }: { locationKey: SpaLocationK
     parentOrganization: { "@id": new URL("/#organization", SITE_URL).toString() },
     image: `${SITE_URL}/media/massagespa-pouring-oil.avif`,
     description: location.description,
-    telephone: SPA_CONTACT.phone,
+    telephone: locationPhone,
     email: SPA_CONTACT.email,
     priceRange: "₵300-₵2200",
     address: {
@@ -82,7 +83,7 @@ export function LocationLandingPage({ locationKey }: { locationKey: SpaLocationK
                 rel="noreferrer"
                 className="mt-4 inline-block font-medium text-primary underline underline-offset-4"
               >
-                Open the Kumasi location in Google Maps
+                Open the {location.city} location in Google Maps
               </a>
             )}
           </div>
@@ -98,16 +99,16 @@ export function LocationLandingPage({ locationKey }: { locationKey: SpaLocationK
               Request an appointment
             </Link>
             <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              <a href={`tel:${SPA_CONTACT.phone}`} className="underline underline-offset-4">
-                Call Bunny Massage Spa
+              <a href={`tel:${locationPhone}`} className="underline underline-offset-4">
+                Call {location.city} branch
               </a>
               <a
-                href={`https://wa.me/233247932681?text=${encodeURIComponent(`Hello, I would like to book an appointment in ${location.city}.`)}`}
+                href={`https://wa.me/${locationPhone.replace("+", "")}?text=${encodeURIComponent(`Hello, I would like to book an appointment in ${location.city}.`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="underline underline-offset-4"
               >
-                Ask on WhatsApp
+                WhatsApp {location.city} branch
               </a>
             </div>
           </div>

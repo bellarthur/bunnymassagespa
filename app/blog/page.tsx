@@ -16,7 +16,7 @@ const POSTS = [
     href: "/blog/first-massage-appointment-accra",
     title: "Your First Massage Appointment in Accra: Booking and Preparing",
     description:
-      "A practical guide to booking, choosing in-studio or outcall, finding the East Legon address, and sharing your preferences.",
+      "A practical guide to booking, choosing in-studio or outcall, finding the Ashley Botwe studio, and sharing your preferences.",
     image: "/health-spa-afro-woman-relaxing-in-spa-with-closed-eyes.jpg",
     alt: "A guest relaxing during a spa visit",
     city: "Accra",

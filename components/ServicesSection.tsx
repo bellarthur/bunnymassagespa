@@ -82,16 +82,7 @@ const SERVICES = [
     image: "media/head-foot-massage.png",
     alt: "Therapist providing head and foot massage",
   },
-  // {
-  //   name: "Body Scrub",
-  //   price: "300",
-  //   duration: "60 mins",
-  //   description:
-  //     "Gentle exfoliation to remove dull skin and leave your body smooth, refreshed, and glowing.",
-  //   image: "media/body-scrub-massage.jpg",
-  //   alt: "Body scrub preparation in a spa setting",
-  // },
-    {
+  {
     name: "Pedicures/Manicures",
     price: "300",
     duration: "60 mins",
@@ -99,6 +90,14 @@ const SERVICES = [
       "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
     image: "media/pedicure-menicure.webp",
     alt: "Spa setup for pedicure and manicure service",
+  },
+  {
+    name: "Waxing",
+    price: "300",
+    duration: "By appointment",
+    description: "Professional waxing services available by appointment.",
+    image: "/media/waxing.jpeg",
+    alt: "Spa treatment setting",
   },
 ]
 
@@ -113,7 +112,7 @@ const SERVICE_SLUGS: { [key: string]: string } = {
   "Full Combination": "full-combination",
   "Couple Massage": "couples",
   "Pedicures/Manicures": "pedicures-manicures",
-  // "Body Scrub": "body-scrub",
+  Waxing: "waxing",
   "Head & Foot Massage": "head-foot",
 }
 

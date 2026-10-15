@@ -15,9 +15,9 @@ const OTHER_SERVICES = [
   },
   {
     id: 2,
-    name: "Body Scrub",
-    image: "/media/body-scrub-massage.jpg",
-    link: "/services/body-scrub",
+    name: "Waxing",
+    image: "/media/waxing.jpeg",
+    link: "/services/waxing",
   },
   {
     id: 3,

@@ -109,16 +109,26 @@ export default function RootLayout({
                 "Appointment-only massage and spa services in Accra and Kumasi, Ghana.",
               telephone: "+233247932681",
               email: "Bhunnyspa@gmail.com",
+              sameAs: ["https://www.tiktok.com/@bhunnyspa"],
               areaServed: [
                 { "@type": "City", name: "Accra" },
                 { "@type": "City", name: "Kumasi" },
               ],
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+233247932681",
-                contactType: "reservations",
-                availableLanguage: ["English"],
-              },
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  telephone: "+233247932681",
+                  contactType: "reservations",
+                  availableLanguage: ["English"],
+                },
+                {
+                  "@type": "ContactPoint",
+                  telephone: "+233596202033",
+                  contactType: "Accra branch office",
+                  areaServed: { "@type": "City", name: "Accra" },
+                  availableLanguage: ["English"],
+                },
+              ],
             }),
           }}
         />

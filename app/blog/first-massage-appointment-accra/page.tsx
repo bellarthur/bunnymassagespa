@@ -4,7 +4,7 @@ import { articleMetadata } from "@/lib/seo"
 
 const title = "Your First Massage Appointment in Accra: Booking and Preparing"
 const description =
-  "Learn how to request a massage appointment in Accra, choose in-studio or outcall, find the East Legon address, and share your preferences."
+  "Learn how to request a massage appointment in Accra, choose in-studio or outcall, find the Ashley Botwe studio, and share your preferences."
 
 export const metadata = articleMetadata(
   title,
@@ -65,9 +65,9 @@ export default function FirstMassageAppointmentAccraPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold">3. Confirm the East Legon directions</h2>
+            <h2 className="text-2xl font-semibold">3. Confirm the Ashley Botwe directions</h2>
             <p className="mt-3 text-muted-foreground">
-              The Accra studio address is Aluguntugui Street, East Legon. A dedicated Google Maps pin is not available yet, so contact Bunny Massage Spa to confirm directions before travelling. Confirm the appointment time and studio arrangement as well.
+              The Accra studio is at Little Roses, Ashley Botwe. Open the Accra location page for the Google Maps pin, and confirm your appointment time and studio arrangement before travelling.
             </p>
             <Link href="/locations/accra" className="mt-3 inline-block font-medium text-primary underline underline-offset-4">
               Accra location details

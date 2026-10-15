@@ -9,9 +9,9 @@ import { useEffect, useState } from "react"
 const OTHER_SERVICES = [
   {
     id: 1,
-    name: "Body Scrub",
-    image: "/media/body-scrub-massage.jpg",
-    link: "/services/body-scrub",
+    name: "Waxing",
+    image: "/media/waxing.jpeg",
+    link: "/services/waxing",
   },
   {
     id: 2,
@@ -68,7 +68,7 @@ export default function PedicuresManicuresPage() {
 
       <section className="mt-6">
         <h2 className="text-2xl font-semibold">Details</h2>
-        <p className="mt-2">Price: ₵500</p>
+        <p className="mt-2">Price: ₵300</p>
         <p className="mt-2">
           This session includes nail shaping, cuticle care, and a relaxing finish for both hands and feet.
           It is ideal when you want polished results and self-care in one visit.

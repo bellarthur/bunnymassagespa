@@ -281,7 +281,7 @@ function RippleCard() {
         />
         <div>
           <div className="text-lg font-semibold text-white">Pedicures/manicures</div>
-          <div className="text-sm text-white/80">₵500</div>
+          <div className="text-sm text-white/80">₵300</div>
         </div>
       </div>
       <div className="mt-4">
@@ -1273,7 +1273,7 @@ export function BookingSection() {
                         <option value="swedish">Swedish Massage</option>
                         <option value="couples">Couples Massage</option>
                         <option value="pedicures-manicures">Pedicures/Manicures</option>
-                        {/* <option value="body-scrub">Body Scrub</option> */}
+                        <option value="waxing">Waxing</option>
                         <option value="head-foot">Head & Foot Massage</option>
                       </select>
                       {errors.service && (
@@ -1530,7 +1530,7 @@ export function Footer() {
               <li className="grid grid-cols-[auto_1fr] items-start gap-2">
                 <MapPin size={16} className="text-primary/80" />
                 <span>
-                  Accra: Aluguntugui Street, East Legon.
+                  Accra: Little Roses, Ashley Botwe.
                   <br />
                   Kumasi: Behind Brotherman Spot, by Roses Academy, close to the Pentecost Church.
                 </span>
@@ -1685,7 +1685,7 @@ export function FAQSection() {
     {
       question: "What are your service areas?",
       answer:
-        "We have appointment-only studio locations in Accra at Aluguntugui Street, East Legon, and in Kumasi behind Brotherman Spot, by Roses Academy, close to the Pentecost Church. Outcall sessions are also available in Accra and Kumasi.",
+        "We have appointment-only studio locations in Accra at Little Roses, Ashley Botwe, and in Kumasi behind Brotherman Spot, by Roses Academy, close to the Pentecost Church. Outcall sessions are also available in Accra and Kumasi.",
     },
   ]
 

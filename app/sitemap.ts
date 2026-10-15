@@ -20,6 +20,7 @@ const ROUTES = [
   "/services/couples",
   "/services/head-foot",
   "/services/pedicures-manicures",
+  "/services/waxing",
   "/services/swedish-nuru",
 ]
 
