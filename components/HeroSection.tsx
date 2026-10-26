@@ -98,14 +98,6 @@ export default function HeroSection() {
               className={`flex flex-col mt-6 text-4xl md:text-6xl font-extrabold leading-tight text-white relative ${shimmer ? "animate-textShimmer" : ""
                 }`}
             >
-              {/* <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0 * 0.2, type: "spring", stiffness: 80 }}
-                className="inline-block mr-2 font-[var(--font-playfair)]"
-              >
-                Walk
-              </motion.span> */}
 
               <motion.span
                 initial={{ opacity: 0, y: 20 }}
@@ -126,12 +118,6 @@ export default function HeroSection() {
                 Bunny Spa
               </motion.span>
             </h1>
-
-
-            {/* <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0">
-              Enjoy a calm in-spa experience with massage and skincare treatments designed for deep relaxation. 
-              Walk-ins are welcomed in spirit, but every session must be reserved in advance.
-            </p> */}
 
             <p className="text-sm md:text-base text-white/75 max-w-2xl mx-auto lg:mx-0">
               Professional massage and spa appointments in Accra and Kumasi. Reserve your preferred time and therapist.
@@ -164,12 +150,33 @@ export default function HeroSection() {
 function RippleCard() {
   const cardRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
-  const [showMap, setShowMap] = useState(false)
+  const [showMap, setShowMap] = useState<"kumasi" | "accra" | null>(null)
+  const [isDesktop, setIsDesktop] = useState(false)
 
-  // ✅ Your actual location data
-  const mapLink = "https://maps.app.goo.gl/MojD4XRZE5h4seg88"
-  const lat = 6.688069980444034
-  const lng = -1.6447169506043786
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
+    checkDesktop()
+    window.addEventListener("resize", checkDesktop)
+    return () => window.removeEventListener("resize", checkDesktop)
+  }, [])
+
+  // ✅ Location data
+  const locations = {
+    kumasi: {
+      title: "Kumasi - Patasi",
+      address: "Behind Brotherman Spot, by Roses Academy, near Pentecost Church.",
+      shortAddress: "Behind Brotherman Spot\nBy Roses Academy. Near Pentecost Church",
+      mapLink: "https://maps.app.goo.gl/MojD4XRZE5h4seg88",
+      embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4968.814400654436!2d-1.6477141148573033!3d6.687960103990439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa686f60bc0b167b9%3A0x84e08f1e0388bee9!2sBunny%20Massage-Home-%26-Spa%20Experience!5e1!3m2!1sen!2sgh!4v1793010232482!5m2!1sen!2sgh",
+    },
+    accra: {
+      title: "Accra - Ashley Botwe",
+      address: "Little Roses, Ashley Botwe.",
+      shortAddress: "Little Roses, Ashley Botwe",
+      mapLink: "https://maps.app.goo.gl/sample-accra-bunny-spa",
+      embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4978.2458761775915!2d-0.13351161489355046!3d5.6856801176411675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9ba9e4b068bd%3A0x938c51097167a6c2!2sBhunny%20Spa%20Accra!5e1!3m2!1sen!2sgh!4v1793011206410!5m2!1sen!2sgh",
+    },
+  }
 
   const createRipple = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const card = cardRef.current
@@ -206,6 +213,8 @@ function RippleCard() {
 
   const resetTilt = () => setTilt({ x: 0, y: 0 })
 
+  const actionLabel = isDesktop ? "Click to see map" : "Tap to see map"
+
   return (
     <motion.div
       ref={cardRef}
@@ -230,12 +239,12 @@ function RippleCard() {
             </div>
           </div>
 
-          {/* Preview Card */}
+          {/* Kumasi Location Card */}
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              setShowMap(true)
+              setShowMap("kumasi")
             }}
             className="relative w-full overflow-hidden rounded-xl border border-white/15 bg-black/20 text-left"
           >
@@ -248,116 +257,109 @@ function RippleCard() {
                     <MapPin className="w-10 h-10 text-pink-200" />
                   </div>
                   <div className="mt-1 text-xs text-white/70">
-                      Tap for Kumasi map
-                    </div>
-
+                    {actionLabel}
+                  </div>
                 </div>
 
                 <div>
                   <div className="text-lg font-semibold text-white">
-                    Kumasi - Patasi
+                    {locations.kumasi.title}
                   </div>
 
-                  <div className="mt-1 text-sm text-white/80 leading-5">
-                    Behind Brotherman Spot<br />
-                    By Roses Academy. Near Pentecost Church
+                  <div className="mt-1 text-sm text-white/80 leading-5 whitespace-pre-line">
+                    {locations.kumasi.shortAddress}
                   </div>
-
-                  {/* <div className="mt-2 text-xs text-white/70">
-                    Tap to view map
-                  </div> */}
-                </div>
-              </div>
-              <div className="mt-4 border-t border-white/10 pt-4">
-                  <div className="text-lg font-semibold text-white">
-                    Accra - Ashley Botwe
-                  </div>
-                <div className="mt-1 text-sm text-white/80 leading-5">
-                  Little Roses, Ashley Botwe
                 </div>
               </div>
             </div>
           </button>
 
-          {/* Actions */}
-          {/* <div className="grid grid-cols-2 gap-3">
-            <a
-              href={mapLink}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 text-center text-sm text-white/90 hover:bg-white/15 transition"
-            >
-              Open in Maps
-            </a>
+          {/* Accra Location Card - same layout */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowMap("accra")
+            }}
+            className="relative w-full overflow-hidden rounded-xl border border-white/15 bg-black/20 text-left"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.18),transparent_25%),radial-gradient(circle_at_80%_80%,rgba(255,192,203,0.12),transparent_20%)]" />
 
-            <a
-              href="/appointment"
-              onClick={(e) => e.stopPropagation()}
-              className="rounded-xl bg-pink-200/90 text-black px-3 py-2 text-center text-sm font-medium hover:bg-pink-200 transition"
-            >
-              Book Visit
-            </a>
-          </div> */}
+            <div className="relative p-4">
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center cursor-pointer">
+                    <MapPin className="w-10 h-10 text-pink-200" />
+                  </div>
+                  <div className="mt-1 text-xs text-white/70">
+                    {actionLabel}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-lg font-semibold text-white">
+                    {locations.accra.title}
+                  </div>
+
+                  <div className="mt-1 text-sm text-white/80 leading-5 whitespace-pre-line">
+                    {locations.accra.shortAddress}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
         </div>
       ) : (
         <div className="space-y-3">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <div>
-              {/* <div className="text-sm px-3 py-1 rounded-full bg-white/10 text-white/90 w-max">
-                Find Us Here
-              </div> */}
-              {/* <div className="mt-2 text-sm text-white/85">
-                Kumasi, Ghana
-              </div> */}
-            </div>
-
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                setShowMap(false)
+                setShowMap(null)
               }}
-              className="text-xs text-white/70 hover:text-white"
+              className="flex items-center text-xs text-white/70 hover:text-white"
             >
-              Back
+              <ChevronLeft className="w-4 h-4 inline-block mr-1" />
+              <span>Back</span>
             </button>
-          </div>
-
-          {/* Embedded Map using coordinates */}
-          <div className="overflow-hidden rounded-xl border border-white/15">
-            <iframe
-              title="Bunny Spa location"
-              src={`https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
-              className="w-full h-64 border-0"
-              loading="lazy"
-            />
-          </div>
-
-          {/* Address */}
-          <div className="bg-white/10 border border-white/10 rounded-xl p-3">
-            <div className="text-sm font-medium text-white">Kumasi - Patasi</div>
-            <div className="text-xs text-white/75 mt-1 leading-5">
-              Behind Brotherman Spot, by Roses Academy, near Pentecost Church.
+            <div className="text-xs text-white/70 flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5" />
+              {showMap === "kumasi" ? "Kumasi" : "Accra"}
             </div>
           </div>
 
+          {/* Embedded Map */}
+          <div className="overflow-hidden rounded-xl border border-white/15">
+            <iframe
+              src={locations[showMap].embed}
+              width="100%"
+              height="350"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title={`${locations[showMap].title} Map`}
+            />
+          </div>
+
+          {/* Address for selected branch */}
           <div className="bg-white/10 border border-white/10 rounded-xl p-3">
-            <div className="text-sm font-medium text-white">Accra - Ashley Botwe</div>
+            <div className="text-sm font-medium text-white">{locations[showMap].title}</div>
             <div className="text-xs text-white/75 mt-1 leading-5">
-              Little Roses, Ashley Botwe.
+              {locations[showMap].address}
             </div>
           </div>
 
           {/* CTA */}
-          <a
-            href={mapLink}
+          {/* <a
+            href={locations[showMap].mapLink}
             target="_blank"
             rel="noreferrer"
             className="block text-center text-sm text-white/90 underline"
           >
             Open in Google Maps →
-          </a>
+          </a> */}
         </div>
       )}
 
@@ -372,441 +374,3 @@ function RippleCard() {
     </motion.div>
   )
 }
-
-// function RippleCard() {
-//   const cardRef = useRef<HTMLDivElement>(null)
-//   const [tilt, setTilt] = useState({ x: 0, y: 0 })
-//   const [showMap, setShowMap] = useState(false)
-
-//   const mapLink = "https://maps.app.goo.gl/MojD4XRZE5h4seg88"
-
-//   const createRipple = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-//     const card = cardRef.current
-//     if (!card) return
-
-//     const ripple = document.createElement("span")
-//     const rect = card.getBoundingClientRect()
-//     const size = Math.max(rect.width, rect.height)
-//     const x = e.clientX - rect.left - size / 2
-//     const y = e.clientY - rect.top - size / 2
-
-//     ripple.style.position = "absolute"
-//     ripple.style.borderRadius = "50%"
-//     ripple.style.pointerEvents = "none"
-//     ripple.style.width = ripple.style.height = `${size}px`
-//     ripple.style.left = `${x}px`
-//     ripple.style.top = `${y}px`
-//     ripple.style.background = "rgba(255,255,255,0.18)"
-//     ripple.style.transform = "scale(0)"
-//     ripple.style.animation = "ripple 0.8s ease-out forwards"
-
-//     card.appendChild(ripple)
-//     ripple.addEventListener("animationend", () => ripple.remove())
-//   }
-
-//   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-//     const card = cardRef.current
-//     if (!card) return
-//     const rect = card.getBoundingClientRect()
-//     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10
-//     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10
-//     setTilt({ x, y })
-//   }
-
-//   const resetTilt = () => setTilt({ x: 0, y: 0 })
-
-//   return (
-//     <motion.div
-//       ref={cardRef}
-//       onClick={createRipple}
-//       onMouseMove={handleMouseMove}
-//       onMouseLeave={resetTilt}
-//       animate={{ rotateX: tilt.y, rotateY: tilt.x }}
-//       whileTap={{ scale: 0.97 }}
-//       transition={{ type: "spring", stiffness: 120, damping: 15 }}
-//       className="relative w-full max-w-md overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-xl cursor-pointer select-none"
-//     >
-//       {!showMap ? (
-//         <div className="space-y-4">
-//           {/* Header */}
-//           <div className="flex items-center justify-between">
-//             <div className="text-sm px-3 py-1 rounded-full bg-white/10 text-white/90">
-//               New Location
-//             </div>
-//             <div className="text-xs text-white/70 flex items-center gap-1">
-//               <MapPin className="w-3.5 h-3.5" />
-//               Kumasi
-//             </div>
-//           </div>
-
-//           {/* Preview Card */}
-//           <button
-//             type="button"
-//             onClick={(e) => {
-//               e.stopPropagation()
-//               setShowMap(true)
-//             }}
-//             className="relative w-full overflow-hidden rounded-xl border border-white/15 bg-black/20 text-left"
-//           >
-//             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.18),transparent_25%),radial-gradient(circle_at_80%_80%,rgba(255,192,203,0.12),transparent_20%)]" />
-            
-//             <div className="relative p-4">
-//               <div className="flex items-start gap-4">
-//                 <div className="shrink-0 w-24 h-24 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
-//                   <MapPin className="w-10 h-10 text-pink-200" />
-//                 </div>
-
-//                 <div>
-//                   <div className="text-lg font-semibold text-white">
-//                     Bunny Spa — New Location
-//                   </div>
-//                   <div className="mt-1 text-sm text-white/80 leading-5">
-//                     Behind Brotherman Spot<br />
-//                     By Roses Academy<br />
-//                     Close to Pentecost Church
-//                   </div>
-//                   <div className="mt-3 text-xs text-white/70">
-//                     Tap to view map
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </button>
-
-//           {/* Actions */}
-//           <div className="grid grid-cols-2 gap-3">
-//             <a
-//               href={mapLink}
-//               target="_blank"
-//               rel="noreferrer"
-//               onClick={(e) => e.stopPropagation()}
-//               className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 text-center text-sm text-white/90 hover:bg-white/15 transition"
-//             >
-//               Open in Maps
-//             </a>
-
-//             <a
-//               href="/appointment"
-//               onClick={(e) => e.stopPropagation()}
-//               className="rounded-xl bg-pink-200/90 text-black px-3 py-2 text-center text-sm font-medium hover:bg-pink-200 transition"
-//             >
-//               Book Visit
-//             </a>
-//           </div>
-//         </div>
-//       ) : (
-//         <div className="space-y-3">
-//           {/* Header */}
-//           <div className="flex items-center justify-between">
-//             <div className="text-sm px-3 py-1 rounded-full bg-white/10 text-white/90">
-//               Find Us Here
-//             </div>
-
-//             <button
-//               onClick={(e) => {
-//                 e.stopPropagation()
-//                 setShowMap(false)
-//               }}
-//               className="text-xs text-white/70 hover:text-white"
-//             >
-//               Back
-//             </button>
-//           </div>
-
-//           {/* Embedded Map */}
-//           <div className="overflow-hidden rounded-xl border border-white/15 bg-black/20">
-//             <iframe
-//               src={mapLink.replace("https://maps.app.goo.gl/", "https://www.google.com/maps?q=") + "&output=embed"}
-//               className="w-full h-64 border-0"
-//               loading="lazy"
-//             />
-//           </div>
-
-//           {/* Address */}
-//           <div className="rounded-xl bg-white/10 border border-white/10 p-3">
-//             <div className="text-sm font-medium text-white">Bunny Spa</div>
-//             <div className="text-xs text-white/75 mt-1">
-//               Kumasi — Behind Brotherman Spot, by Roses Academy, close to Pentecost Church
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       <style jsx>{`
-//         @keyframes ripple {
-//           to {
-//             transform: scale(2.5);
-//             opacity: 0;
-//           }
-//         }
-//       `}</style>
-//     </motion.div>
-//   )
-// }
-
-
-// function RippleCard() {
-//   const cardRef = useRef<HTMLDivElement>(null)
-//   const [tilt, setTilt] = useState({ x: 0, y: 0 })
-//   const [showMap, setShowMap] = useState(false)
-
-//   const locationLabel =
-//     "Kumasi, Ghana — Behind Brotherman Spot, by Roses Academy, close to the Pentecost Church"
-
-//   const mapsQuery = encodeURIComponent(locationLabel)
-
-//   const createRipple = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-//     const card = cardRef.current
-//     if (!card) return
-
-//     const ripple = document.createElement("span")
-//     const rect = card.getBoundingClientRect()
-//     const size = Math.max(rect.width, rect.height)
-//     const x = e.clientX - rect.left - size / 2
-//     const y = e.clientY - rect.top - size / 2
-
-//     ripple.style.position = "absolute"
-//     ripple.style.borderRadius = "50%"
-//     ripple.style.pointerEvents = "none"
-//     ripple.style.width = ripple.style.height = `${size}px`
-//     ripple.style.left = `${x}px`
-//     ripple.style.top = `${y}px`
-//     ripple.style.background = "rgba(255,255,255,0.18)"
-//     ripple.style.transform = "scale(0)"
-//     ripple.style.animation = "ripple 0.8s ease-out forwards"
-
-//     card.appendChild(ripple)
-//     ripple.addEventListener("animationend", () => ripple.remove())
-//   }
-
-//   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-//     const card = cardRef.current
-//     if (!card) return
-//     const rect = card.getBoundingClientRect()
-//     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10
-//     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10
-//     setTilt({ x, y })
-//   }
-
-//   const resetTilt = () => setTilt({ x: 0, y: 0 })
-
-//   return (
-//     <motion.div
-//       ref={cardRef}
-//       onClick={createRipple}
-//       onMouseMove={handleMouseMove}
-//       onMouseLeave={resetTilt}
-//       animate={{ rotateX: tilt.y, rotateY: tilt.x }}
-//       whileTap={{ scale: 0.97 }}
-//       transition={{ type: "spring", stiffness: 120, damping: 15 }}
-//       className="relative w-full max-w-md overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-xl cursor-pointer select-none"
-//     >
-//       {!showMap ? (
-//         <div className="space-y-4">
-//           <div className="flex items-center justify-between">
-//             <div className="text-sm px-3 py-1 rounded-full bg-white/10 text-white/90">
-//               New Location
-//             </div>
-//             <div className="text-xs text-white/70 flex items-center gap-1">
-//               <MapPin className="w-3.5 h-3.5" />
-//               Kumasi
-//             </div>
-//           </div>
-
-//           <button
-//             type="button"
-//             onClick={(e) => {
-//               e.stopPropagation()
-//               setShowMap(true)
-//             }}
-//             className="relative w-full overflow-hidden rounded-xl border border-white/15 bg-black/20 text-left"
-//           >
-//             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.18),transparent_25%),radial-gradient(circle_at_80%_80%,rgba(255,192,203,0.12),transparent_20%)]" />
-//             <div className="relative p-4">
-//               <div className="flex items-start gap-4">
-//                 <div className="shrink-0 w-24 h-24 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
-//                   <MapPin className="w-10 h-10 text-pink-200" />
-//                 </div>
-
-//                 <div className="min-w-0">
-//                   <div className="text-lg font-semibold text-white leading-tight">
-//                     Bunny Spa — New Location
-//                   </div>
-//                   <div className="mt-1 text-sm text-white/80 leading-5">
-//                     Behind Brotherman Spot<br />
-//                     By Roses Academy<br />
-//                     Close to the Pentecost Church
-//                   </div>
-//                   <div className="mt-3 text-xs text-white/70">
-//                     Tap to view map
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </button>
-
-//           <div className="grid grid-cols-2 gap-3">
-//             <a
-//               href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
-//               target="_blank"
-//               rel="noreferrer"
-//               onClick={(e) => e.stopPropagation()}
-//               className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 text-center text-sm text-white/90 hover:bg-white/15 transition"
-//             >
-//               Open in Maps
-//             </a>
-
-//             <a
-//               href="/appointment"
-//               onClick={(e) => e.stopPropagation()}
-//               className="rounded-xl bg-pink-200/90 text-black px-3 py-2 text-center text-sm font-medium hover:bg-pink-200 transition"
-//             >
-//               Book Visit
-//             </a>
-//           </div>
-//         </div>
-//       ) : (
-//         <div className="space-y-3">
-//           <div className="flex items-center justify-between gap-3">
-//             <div>
-//               <div className="text-sm px-3 py-1 rounded-full bg-white/10 text-white/90 w-max">
-//                 Find Us Here
-//               </div>
-//               <div className="mt-2 text-sm text-white/85">
-//                 Kumasi, Ghana
-//               </div>
-//             </div>
-
-//             <button
-//               type="button"
-//               onClick={(e) => {
-//                 e.stopPropagation()
-//                 setShowMap(false)
-//               }}
-//               className="text-xs text-white/70 hover:text-white transition"
-//             >
-//               Back
-//             </button>
-//           </div>
-
-//           <div className="overflow-hidden rounded-xl border border-white/15 bg-black/20">
-//             <iframe
-//               title="Bunny Spa location map"
-//               src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
-//               className="w-full h-64 border-0"
-//               loading="lazy"
-//               referrerPolicy="no-referrer-when-downgrade"
-//             />
-//           </div>
-
-//           <div className="rounded-xl bg-white/8 border border-white/10 p-3">
-//             <div className="text-sm font-medium text-white">Bunny Spa</div>
-//             <div className="mt-1 text-xs leading-5 text-white/75">
-//               Behind Brotherman Spot, by Roses Academy, close to the Pentecost Church.
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       <style jsx>{`
-//         @keyframes ripple {
-//           to {
-//             transform: scale(2.5);
-//             opacity: 0;
-//           }
-//         }
-//       `}</style>
-//     </motion.div>
-//   )
-// }
-
-// function RippleCard() {
-//   const cardRef = useRef<HTMLDivElement>(null)
-//   const [tilt, setTilt] = useState({ x: 0, y: 0 })
-
-//   const createRipple = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-//     const card = cardRef.current
-//     if (!card) return
-
-//     const ripple = document.createElement("span")
-//     const rect = card.getBoundingClientRect()
-//     const size = Math.max(rect.width, rect.height)
-//     const x = e.clientX - rect.left - size / 2
-//     const y = e.clientY - rect.top - size / 2
-
-//     ripple.style.position = "absolute"
-//     ripple.style.borderRadius = "50%"
-//     ripple.style.pointerEvents = "none"
-//     ripple.style.width = ripple.style.height = `${size}px`
-//     ripple.style.left = `${x}px`
-//     ripple.style.top = `${y}px`
-//     ripple.style.background = "rgba(255,255,255,0.25)"
-//     ripple.style.transform = "scale(0)"
-//     ripple.style.animation = "ripple 0.8s ease-out forwards"
-
-//     card.appendChild(ripple)
-//     ripple.addEventListener("animationend", () => ripple.remove())
-//   }
-
-//   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-//     const card = cardRef.current
-//     if (!card) return
-//     const rect = card.getBoundingClientRect()
-//     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10
-//     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10
-//     setTilt({ x, y })
-//   }
-
-//   const resetTilt = () => setTilt({ x: 0, y: 0 })
-
-//   return (
-//     <motion.div
-//       ref={cardRef}
-//       onClick={createRipple}
-//       onMouseMove={handleMouseMove}
-//       onMouseLeave={resetTilt}
-//       animate={{ rotateX: tilt.y, rotateY: tilt.x }}
-//       whileTap={{ scale: 0.97 }} // soft compression on mobile/tap
-//       transition={{ type: "spring", stiffness: 120, damping: 15 }}
-//       className="relative w-full max-w-md overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl cursor-pointer select-none"
-//     >
-//       <div className="text-sm mb-3 bg-background px-2 rounded-3xl w-max">New</div>
-//       <div className="flex items-center gap-4">
-//         <img
-//           src="/media/pedicure-menicure.webp"
-//           alt="Pedicures/manicures preview"
-//           className="w-24 h-24 object-cover rounded-xl pointer-events-none select-none"
-//         />
-//         <div>
-//           <div className="text-lg font-semibold text-white">Pedicures/manicures</div>
-//           <div className="text-sm text-white/80">₵300</div>
-//         </div>
-//       </div>
-//       <div className="mt-4">
-//         <p className="text-sm text-white/80">
-//           Complete hand and foot care designed to keep your nails healthy, neat, and beautifully finished.
-//         </p>
-//       </div>
-
-//       <style jsx>{`
-//         @keyframes ripple {
-//           to {
-//             transform: scale(2.5);
-//             opacity: 0;
-//           }
-//         }
-//         @media (max-width: 768px) {
-//           @keyframes ripple {
-//             to {
-//               transform: scale(2.5);
-//               opacity: 0;
-//             }
-//           }
-//           span[style*="animation"] {
-//             animation: ripple 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
-//           }
-//         }
-//       `}</style>
-//     </motion.div>
-//   )
-// }

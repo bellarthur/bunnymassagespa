@@ -10,7 +10,7 @@ const SERVICES = [
     duration: "1 hour",
     description:
       "Firm pressure to release deep-seated muscle knots and tension for long-lasting relief.",
-    image: "media/deep-tissue.webp",
+    image: "/media/deep-tissue.webp",
     alt: "Close-up deep tissue massage",
   },
   {
@@ -19,7 +19,7 @@ const SERVICES = [
     duration: "1 hour",
     description:
       "Relaxing long strokes and kneading that soothe muscles and help circulation.",
-    image: "media/swedish-massage.jpg",
+    image: "/media/swedish-massage.jpg",
     alt: "Relaxing Swedish massage with oil",
   },
   {
@@ -28,7 +28,7 @@ const SERVICES = [
     duration: "40 mins",
     description:
       "Traditional stretching and pressure techniques to relieve tension and restore mobility.",
-    image: "media/thai-massage-photo.jpg",
+    image: "/media/thai-massage-photo.jpg",
     alt: "Therapist performing Thai massage",
   },
   {
@@ -36,7 +36,7 @@ const SERVICES = [
     price: "2200",
     duration: "1 hr 30 mins",
     description: "A synchronized massage experience performed by two skilled therapists (four hands) for ultimate relaxation. Available with your choice of selected masssage styles.",
-    image: "media/VIP-Four-Hands-Full-Combination.webp.jpg",
+    image: "/media/VIP-Four-Hands-Full-Combination.webp.jpg",
     alt: "VIP Four(4) Hands Full Combination massage",
   },
   {
@@ -45,7 +45,7 @@ const SERVICES = [
     duration: "1 hr 30 mins",
     description:
       "Luxurious skin-to-skin experience using premium gel for total relaxation.",
-    image: "media/nuru-massage.jpg",
+    image: "/media/nuru-massage.jpg",
     alt: "Spa setup for Nuru massage",
   },
   {
@@ -53,16 +53,16 @@ const SERVICES = [
     price: "1100",
     duration: "1 hr 30 mins",
     description: "An intimate massage crafted to calm the senses and restore balance.",
-    image: "media/sensual-massage.jpg",
+    image: "/media/sensual-massage.jpg",
     alt: "Dimly-lit sensual massage setting",
   },
-  { name: "Erotic Massage", price: "1000", duration: "1 hr 30 mins", description: "A focused experience designed for pleasure and deep relaxation.", image: "media/erotic-massage.avif", alt: "Candles and warm lighting around massage table", },
+  { name: "Erotic Massage", price: "1000", duration: "1 hr 30 mins", description: "A focused experience designed for pleasure and deep relaxation.", image: "/media/erotic-massage.avif", alt: "Candles and warm lighting around massage table", },
   {
     name: "Full Combination",
     price: "1500",
     duration: "1 hr 30 mins",
     description: "Premium combination of techniques for complete rejuvenation.",
-    image: "media/sweedish+nuru.jpg",
+    image: "/media/sweedish+nuru.jpg",
     alt: "Therapist combining massage techniques",
   },
   {
@@ -70,7 +70,7 @@ const SERVICES = [
     price: "1700",
     duration: "1 hr 30 mins",
     description: "Side-by-side relaxation for two — reconnect and unwind together.",
-    image: "media/couple-massage.jpg",
+    image: "/media/couple-massage.jpg",
     alt: "Couple receiving side-by-side massages",
   },
   {
@@ -79,7 +79,7 @@ const SERVICES = [
     duration: "New",
     description:
       "A relaxing treatment focusing on the head and feet for overall wellness.",
-    image: "media/head-foot-massage.png",
+    image: "/media/head-foot-massage.png",
     alt: "Therapist providing head and foot massage",
   },
   {
@@ -88,7 +88,7 @@ const SERVICES = [
     duration: "60 mins",
     description:
       "Nail and cuticle care with soothing finishing touches for polished hands and feet.",
-    image: "media/pedicure-menicure.webp",
+    image: "/media/pedicure-menicure.webp",
     alt: "Spa setup for pedicure and manicure service",
   },
   {

@@ -11,7 +11,7 @@ const OTHER_SERVICES = [
   {
     id: 1,
     name: "Nuru Massage",
-    image: "media/nuru-massage.jpg",
+    image: "/media/nuru-massage.jpg",
     link: "/services/nuru",
   },
   {

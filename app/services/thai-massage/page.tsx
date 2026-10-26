@@ -17,13 +17,13 @@ const OTHER_SERVICES = [
   {
     id: 2,
     name: "Nuru Massage",
-    image: "media/nuru-massage.jpg",
+    image: "/media/nuru-massage.jpg",
     link: "/services/nuru",
   },
   {
     id: 3,
     name: "Deep Tissue Massage",
-    image: "media/deep-tissue.webp",
+    image: "/media/deep-tissue.webp",
     link: "/services/deep-tissue",
   },
 ]

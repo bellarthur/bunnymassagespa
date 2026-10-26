@@ -22,7 +22,7 @@ const OTHER_SERVICES = [
   {
     id: 3,
     name: "Couple Massage",
-    image: "media/couple-massage.jpg",
+    image: "/media/couple-massage.jpg",
     link: "/services/couples",
   },
 ]
